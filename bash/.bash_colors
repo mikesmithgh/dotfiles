@@ -1,0 +1,114 @@
+#!/bin/bash
+
+#get color (style part color)
+get_color() {
+  if [ -z ${1+x} ]; then
+    echo 'Missing parameter'
+    return 1
+  else
+    case "$1" in
+      txt)
+        local style=0
+        ;;
+      bld)
+        local style=1
+        ;;
+      drk)
+        local style=2
+        ;;
+      drkbld)
+        local style=3
+        ;;
+      und)
+        local style=4
+        ;;
+      blink)
+        local style=5
+        ;;
+      rst)
+        echo "\033[0m" 
+        return 0
+        ;;
+      *)
+        echo "Invalid style"
+        return 1
+        ;;
+    esac
+  fi
+  if [ -z ${2+x} ]; then
+    echo 'Missing parameter'
+    return 1
+  else
+    case "$2" in
+      fo)
+        local part=3 
+        ;;
+      ba)
+        local part=4 
+        ;;
+      hifo)
+        local part=9 
+        ;;
+      hiba)
+        local part=10 
+        ;;
+      *)
+        echo "Invalid part"
+        return 1
+        ;;
+      esac
+  fi
+  if [ -z ${3+x} ]; then
+    echo 'Missing parameter'
+    return 1
+  else
+    case "$3" in
+      blk)
+        local color=0
+        ;;
+      red)
+        local color=1
+      ;;
+      grn)
+        local color=2
+      ;;
+      ylw)
+        local color=3
+      ;;
+      blu)
+        local color=4
+      ;;
+      pur)
+        local color=5
+      ;;
+      cyn)
+        local color=6
+      ;;
+      wht)
+        local color=7
+      ;;
+      *)
+        echo "Invalid color"
+        return 1
+        ;;
+      esac
+  fi
+  echo "\033[${style};${part}${color}m"
+}
+
+# list all colors
+list_colors() {
+  local styles=(txt bld drk drkbld und blink)
+  local parts=(fo ba hifo hiba)
+  local colors=(blk red grn ylw blu pur cyn wht)
+  for style in ${styles[@]}; do
+    for part in ${parts[@]}; do
+      for color in ${colors[@]}; do
+        echo -e  "  $(get_color ${style} ${part} ${color})\c"
+        echo -e "${style} ${part} ${color} \c"
+        echo -e "$(get_color rst)\c)"
+        echo "  ${style} ${part} ${color}"
+      done
+    done
+  done
+}
