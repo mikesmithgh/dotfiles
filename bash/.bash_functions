@@ -2,63 +2,56 @@
 
 # get git branch info
 _git_info() {
-  local colorize=true # boolean condition to colorize prompt
-  if [ ! -z ${1+x} ]; then
-    colorize=$1
+  local green="\033[2;92m"
+  local purple="\033[2;95m"
+  local red="\033[2;91m"
+  local white="\033[2;97m"
+  local yellow="\033[0;33m"
+
+  local gitSymbol=""
+  local gitColor="$white"
+
+  local pendingChanges
+  pendingChanges="$(git status --porcelain 2>/dev/null)"
+  if (( $? )) ; then
+    return 1
   fi
+  pendingChanges="$(echo $pendingChanges | wc -w)"
 
-  if [ "$(type -t __git_ps1)" = "function" ] && [ -n "$(__git_ps1)" ] ; then
-    local green=""
-    local red=""
-    local yellow=""
-    local purple=""
-    local white=""
+  local commitCounts
+  commitCounts=($(git rev-list --left-right --count ...@{u} 2>/dev/null))
 
-    if $colorize && [ "$(type -t get_color)" = "function" ] ; then
-      green="$(get_color drk fo grn)"
-      red="$(get_color drk fo red)"
-      yellow="$(get_color drk fo ylw)"
-      purple="$(get_color drk fo pur)"
-      white="$(get_color txt fo wht)"
-    fi
-
-    local gitSymbol=""
-    local gitColor="$white"
-    local pendingCommitCount="$(git status -s | wc -l)"
-    local hasUpstream="$(git rev-parse @{u} 2>/dev/null | wc -l)"
-
-    if (( ! $pendingCommitCount )) ; then
+  if (( $? )) ; then
+    gitColor="$purple"
+  else
+    if (( ! $pendingChanges )) ; then
       gitColor="$green"
     fi
 
-    if (( $hasUpstream )) ; then
-      local aheadCommitCount="$(git rev-list @{u}.. 2>/dev/null | wc -l)"
-      local behindCommitCount="$(git rev-list ..@{u} 2>/dev/null | wc -l)"
-
-      if (( $aheadCommitCount )) ; then
-        gitColor="$yellow"
-        gitSymbol=" ↑[$aheadCommitCount]"
-      fi
-
-      if (( $behindCommitCount )) ; then
-        gitColor="$yellow"
-        gitSymbol=" ↓[$behindCommitCount]"
-      fi
-
-      if (( $aheadCommitCount && $behindCommitCount )) ; then
-        gitSymbol=" ↕ ↑[$aheadCommitCount] ↓[$behindCommitCount]"
-      fi
-
-    else
-      gitColor="$purple"
+    if (( ${commitCounts[0]} )) ; then
+      gitColor="$yellow"
+      gitSymbol="↑[${commitCounts[0]}]"
     fi
 
-    if (( $pendingCommitCount )) ; then
-      gitColor="$red"
-      gitSymbol=" *$gitSymbol"
+    if (( ${commitCounts[1]} )) ; then
+      gitColor="$yellow"
+      gitSymbol="↓[${commitCounts[1]}]"
     fi
 
-    echo "$gitColor$(__git_ps1)$gitSymbol"
+    if (( ${commitCounts[0]} && ${commitCounts[1]} )) ; then
+      gitSymbol="↕ ↑[${commitCounts[0]}] ↓[${commitCounts[1]}]"
+    fi
+  fi
+
+  if (( $pendingChanges )) ; then
+    gitColor="$red"
+    gitSymbol="*$gitSymbol"
+  fi
+
+  if $1 ; then
+    echo "$gitColor(%s) $gitSymbol"
+  else
+    echo "(%s) $gitSymbol"
   fi
 }
 
@@ -71,29 +64,18 @@ _set_title () {
   if [[ "$HOME" == ${dir:0:${#HOME}} ]] ; then
     dir="~${dir:${#HOME}}"
   fi
-  if [ "$(type -t __git_ps1)" = "function" ] && [ -n "$(__git_ps1)" ] ; then
-    dir="${dir}$(_git_info false)"
-  fi
 
   echo -ne "\033]0;$dir\007"
 }
 
 # get PS1 prompt configuration
 _get_ps1() {
-  local colorize=true # boolean condition to colorize prompt
-  if [ ! -z ${1+x} ]; then
-    colorize=$1
+  if $1 ; then
+    local dirColor="\033[0;36m"
+    local psColor="\033[0;92m"
+    local textColor="\033[0m"
+    __git_ps1 "\n\[$dirColor\]{\w} " "\n\[$psColor\][\u@\h] \[$dirColor\]\\$ \[$textColor\]" "$(_git_info $1)"
+  else  
+    __git_ps1 "\n{\w} " "\n[\u@\h] \\$ " "$(_git_info $1)"
   fi
-
-  local dirColor=""
-  local psColor=""
-  local textColor=""
-  local gitInfo=""
-
-  if $colorize && [ "$(type -t get_color)" = "function" ] ; then
-    dirColor="$(get_color txt fo cyn)"
-    psColor="$(get_color txt hifo grn)"
-    textColor="$(get_color rst)"
-  fi
-  echo "\n\[$dirColor\]{\w}$(_git_info)\n\[$psColor\][\u@\h] \[$dirColor\]\\$ \[$textColor\]"
 }

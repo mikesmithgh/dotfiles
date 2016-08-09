@@ -22,7 +22,10 @@ export MYPATH="${HOME}/bin"
 if [[ ${PATH} != ${MYPATH}* ]] ; then
   export PATH="${MYPATH}:${PATH}" # prepend my path to path
 fi
-export PROMPT_COMMAND='_set_title; export PS1="$(_get_ps1)"' # execute every time before bash displays prompt
+
+if [ "$(type -t _set_title)" = "function" ] && [ "$(type -t _get_ps1)" = "function" ] ; then
+  export PROMPT_COMMAND='_set_title; _get_ps1 true' # execute every time before bash displays prompt
+fi
 
 # alias commands
 alias g='git'

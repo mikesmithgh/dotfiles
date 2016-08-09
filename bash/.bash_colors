@@ -107,8 +107,9 @@ list_colors() {
         echo -e  "  $(get_color ${style} ${part} ${color})\c"
         echo -e "${style} ${part} ${color} \c"
         echo -e "$(get_color rst)\c)"
-        echo "  ${style} ${part} ${color}"
+        echo "  ${style} ${part} ${color} - $(get_color ${style} ${part} ${color})"
       done
     done
   done
+  echo "  rst - $(get_color rst))"
 }
