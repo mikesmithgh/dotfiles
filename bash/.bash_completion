@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# source git bash completion
+if [ -f "/usr/share/bash-completion/completions/git" ] ; then
+  source /usr/share/bash-completion/completions/git
+fi
+
 # add 'git' auto completion to 'g'
 if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "function" ]; then
   __git_complete g __git_main
