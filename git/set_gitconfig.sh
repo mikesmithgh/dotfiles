@@ -33,5 +33,5 @@ git config --global alias.mlv '! git lv --author="$(git config --get user.name)"
 git config --global alias.mrb '! git rb | grep "$(git config --get user.name)"' 
 git config --global alias.mt mergetool
 git config --global alias.p pull
-git config --global alias.rb '! git for-each-ref --format="%(color:cyan)%(authordate:format:\"%m/%d/%Y %I:%M %p\")    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)" --sort=authordate refs/remotes'
+git config --global alias.rb '! git for-each-ref --format="%(color:cyan)%(authordate:format:%m/%d/%Y %I:%M %p)    %(align:25,left)%(color:yellow)%(authorname)%(end) %(color:reset)%(refname:strip=3)" --sort=authordate refs/remotes'
 git config --global alias.st status
