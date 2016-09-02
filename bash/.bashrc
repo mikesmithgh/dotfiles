@@ -22,6 +22,9 @@ export MYPATH="${HOME}/bin"
 if [[ ${PATH} != ${MYPATH}* ]] ; then
   export PATH="${MYPATH}:${PATH}" # prepend my path to path
 fi
+export LESS='IRS'
+export EDITOR='vim'
+export VISUAL='vim'
 
 if [ "$(type -t _set_title)" = "function" ] && [ "$(type -t _get_ps1)" = "function" ] ; then
   export PROMPT_COMMAND='_set_title; _get_ps1 true' # execute every time before bash displays prompt
