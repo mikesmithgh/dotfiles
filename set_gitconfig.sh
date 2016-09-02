@@ -10,6 +10,7 @@ git config --global difftool.prompt false
 git config --global mergetool.prompt false
 git config --global log.date 'format:%m/%d/%Y %I:%M %p'
 git config --global color.status.untracked magenta 
+git config --global remote.origin.prune true
 git config --global pretty.quick '%C(#5896A3 bold)%h %C(cyan nobold)%ad %C(#D8CB91)%an %C(#856A85)%s'
 git config --global pretty.quicktabular '%C(#5896A3 bold)%<(8)%h %C(cyan nobold)%<(20)%ad %C(#D8CB91)%<(19)%an %C(#856A85)%s'
 git config --global pretty.moretabular '%C(#CD8931 nobold)Commit: %C(#5896A3 bold)%H%n%C(#CD8931 nobold)Parent: %C(#5896A3 bold)%p%n%C(#D8CB91 bold)Author: %C(nobold)%an %C(#9FCB91)<%ae>%n%C(#D8CB91 bold)Date:   %C(cyan nobold)%ad%n%n%C(#856A85)%w(100,4,4)%s%n%n%C(reset)%w(100,4,4)%b'
