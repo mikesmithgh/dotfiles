@@ -7,6 +7,7 @@ if [ ! -z $2 ] ; then
 fi  
 git config --global core.excludesfile ~/.gitignore
 git config --global core.autocrlf true
+git config --global remote.origin.prune true
 git config --global push.default current
 git config --global diff.tool vimdiff 
 git config --global merge.tool vimdiff 
