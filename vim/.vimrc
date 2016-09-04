@@ -72,6 +72,11 @@ imap jj <Esc>
 " change leader key from \ to ,
 let mapleader=","
 
+" toggle highlight 
+nmap <Leader>/ :set hls! <cr>
+" highlight then enter search mode
+nnoremap / :set hls<cr>/
+
 " do not let read only files to be  modified
 " autocmd BufRead * let &modifiable = !&readonly
 
