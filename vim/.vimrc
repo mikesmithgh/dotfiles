@@ -72,10 +72,16 @@ imap jj <Esc>
 " change leader key from \ to ,
 let mapleader=","
 
+
 " toggle highlight 
 nmap <Leader>/ :set hls! <cr>
 " highlight then enter search mode
 nnoremap / :set hls<cr>/
+
+" map search and command keys to always use history
+nnoremap : q:i
+nnoremap / q/i
+nnoremap ? q?i
 
 " do not let read only files to be  modified
 " autocmd BufRead * let &modifiable = !&readonly
