@@ -38,14 +38,7 @@ Plugin 'maksimr/vim-jsbeautify'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" non-plugin config after this line
 
 syntax enable
 set t_Co=256
@@ -72,7 +65,6 @@ imap jj <Esc>
 " change leader key from \ to ,
 let mapleader=","
 
-
 " toggle highlight 
 nmap <Leader>/ :set hls! <cr>
 " highlight then enter search mode
@@ -83,11 +75,11 @@ nnoremap : q:i
 nnoremap / q/i
 nnoremap ? q?i
 
-" do not let read only files to be  modified
+" disable modifiable for read only files
 " autocmd BufRead * let &modifiable = !&readonly
 
 " NERDTree 
-" map ctl+n to toggler nerd tree sidebar
+" map ctl+n to toggle nerd tree sidebar
 map <C-n> :NERDTreeToggle<CR>
 
 " CtrlP
