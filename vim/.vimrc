@@ -70,6 +70,14 @@ nmap <Leader>/ :set hls! <cr>
 " highlight then enter search mode
 nnoremap / :set hls<cr>/
 
+if bufwinnr(1)
+  " resize vertical split window
+  noremap <silent> <C-J> :vertical resize -5<CR>
+  noremap <silent> <C-K> :vertical resize +5<CR>
+  " resize horzontal split window
+  noremap <silent> <C-H> :resize -5<CR>
+  noremap <silent> <C-L> :resize +5<CR>
+endif
 
 " disable modifiable for read only files
 " autocmd BufRead * let &modifiable = !&readonly
