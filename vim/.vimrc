@@ -70,10 +70,6 @@ nmap <Leader>/ :set hls! <cr>
 " highlight then enter search mode
 nnoremap / :set hls<cr>/
 
-" map search and command keys to always use history
-nnoremap : q:i
-nnoremap / q/i
-nnoremap ? q?i
 
 " disable modifiable for read only files
 " autocmd BufRead * let &modifiable = !&readonly
