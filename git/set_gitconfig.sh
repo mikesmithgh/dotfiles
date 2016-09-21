@@ -24,6 +24,7 @@ git config --global alias.cbr 'symbolic-ref --short HEAD'
 git config --global alias.ci commit
 git config --global alias.cl '! git --no-pager log'
 git config --global alias.co checkout
+git config --global alias.deleteprev 'branch -d @{-1}'
 git config --global alias.dt difftool
 git config --global alias.f fetch
 git config --global alias.graph 'log --graph --format=distinguishedoneline'
@@ -40,3 +41,4 @@ git config --global alias.mt mergetool
 git config --global alias.p pull
 git config --global alias.rb '! git for-each-ref --format="%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(align:28,left)%(color:150)%(authorname)%(end) %(color:reset)%(refname:strip=3)" --sort=authordate refs/remotes'
 git config --global alias.st status
+git config --global alias.stashall '! git add . && git stash'
