@@ -1,0 +1,120 @@
+[{
+        "keys": ["ctrl+alt+p"],
+        "command": "prompt_select_workspace"
+    }, {
+        "keys": ["ctrl+alt+shift+p"],
+        "command": "close_workspace"
+    }, {
+        "keys": ["alt+shift+c"],
+        "command": "tfs_checkout"
+    },
+    // vim map jj to esc
+    {
+        "keys": ["j", "j"],
+        "command": "_enter_normal_mode",
+        "args": {
+            "mode": "mode_insert"
+        },
+        "context": [{
+            "key": "setting.command_mode",
+            "operand": false
+        }]
+    },
+    // sidebar map h to left arrow
+    {
+        "keys": ["h"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": false
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // sidebar map j to down arrow
+    {
+        "keys": ["j"],
+        "command": "move",
+        "args": {
+            "by": "lines",
+            "forward": true
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // sidebar map k to up arrow
+    {
+        "keys": ["k"],
+        "command": "move",
+        "args": {
+            "by": "lines",
+            "forward": false
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // sidebar map l to right arrow
+    {
+        "keys": ["l"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": true
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // command palette map ctrl+j to down arrow
+    {
+        "keys": ["ctrl+j"],
+        "command": "move",
+        "args": { "by": "lines", "forward": true },
+        "context": [{ "key": "overlay_visible", "operator": "equal", "operand": true }]
+    },
+    // command palette map ctrl+k to up arrow
+    {
+        "keys": ["ctrl+k"],
+        "command": "move",
+        "args": { "by": "lines", "forward": false },
+        "context": [{ "key": "overlay_visible", "operator": "equal", "operand": true }]
+    }, {
+        "keys": ["alt+."],
+        "command": "chain",
+        "args": {
+            "commands": [
+                ["reveal_in_side_bar"],
+                ["focus_side_bar"]
+            ]
+        }
+    }, {
+        "keys": ["shift+space"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": true
+        }
+    }, {
+        "keys": ["ctrl+shift+space"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": false
+        }
+    }, {
+        "keys": ["alt+shift+up"],
+        "command": "select_lines",
+        "args": { "forward": false }
+    }, {
+        "keys": ["alt+shift+down"],
+        "command": "select_lines",
+        "args": { "forward": true }
+    },
+]
