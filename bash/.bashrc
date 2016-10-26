@@ -22,7 +22,7 @@ export MYPATH="${HOME}/bin"
 if [[ ${PATH} != ${MYPATH}* ]] ; then
   export PATH="${MYPATH}:${PATH}" # prepend my path to path
 fi
-export LESS='CIRS' # clear screen, ignore case, raw control character (for color), chop long lines
+export LESS='IRSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
 export EDITOR='vim'
 export VISUAL='vim'
 
