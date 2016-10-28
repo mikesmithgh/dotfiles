@@ -69,6 +69,30 @@
             "operand": "sidebar_tree"
         }]
     },
+    // sidebar map gg to home
+    {
+        "keys": ["g", "g"],
+        "command": "move_to",
+        "args": {
+            "to": "bol"
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // sidebar map G to home
+    {
+        "keys": ["G"],
+        "command": "move_to",
+        "args": {
+            "to": "eol"
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
     // command palette map ctrl+j to down arrow
     {
         "keys": ["ctrl+j"],
