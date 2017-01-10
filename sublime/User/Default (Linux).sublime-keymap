@@ -1,11 +1,15 @@
-[{
+[
+    // prompt workspace
+    {
         "keys": ["ctrl+alt+p"],
         "command": "prompt_select_workspace"
-    }, {
+    }, 
+    // close workspace
+    {
         "keys": ["ctrl+alt+shift+p"],
         "command": "close_workspace"
     },
-    // vim map jj to esc
+    // vim - map jj to esc
     {
         "keys": ["j", "j"],
         "command": "_enter_normal_mode",
@@ -69,6 +73,183 @@
             "operand": "sidebar_tree"
         }]
     },
+    // sidebar map gg to home
+    {
+        "keys": ["g", "g"],
+        "command": "move_to",
+        "args": {
+            "to": "bol"
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    },
+    // sidebar map G to home
+    {
+        "keys": ["G"],
+        "command": "move_to",
+        "args": {
+            "to": "eol"
+        },
+        "context": [{
+            "key": "control",
+            "operand": "sidebar_tree"
+        }]
+    }, 
+    // reveal and focus sidebar
+    {
+        "keys": ["alt+."],
+        "command": "chain",
+        "args": {
+            "commands": [
+                ["reveal_in_side_bar"],
+                ["focus_side_bar"],
+                ["reveal_in_side_bar"]
+            ]
+        }
+    }, 
+    // move forward 1 character in normal mode
+    {
+        "keys": ["shift+space"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": true
+        }
+    }, 
+    // move backward 1 character in normal mode
+    {
+        "keys": ["ctrl+shift+space"],
+        "command": "move",
+        "args": {
+            "by": "characters",
+            "forward": false
+        }
+    }, 
+    // select lines up (in case on a windows box and graphics hotkeys override ctrl+alt+direction)
+    {
+        "keys": ["alt+shift+up"],
+        "command": "select_lines",
+        "args": { "forward": false }
+    }, 
+    // select lines down (in case on a windows box and graphics hotkeys override ctrl+alt+direction)
+    {
+        "keys": ["alt+shift+down"],
+        "command": "select_lines",
+        "args": { "forward": true }
+    },
+    // Origami - travel to pane
+    {
+        "keys": ["ctrl+k", "k"],
+        "command": "travel_to_pane",
+        "args": { "direction": "up" }
+    }, {
+        "keys": ["ctrl+k", "l"],
+        "command": "travel_to_pane",
+        "args": { "direction": "right" }
+    }, {
+        "keys": ["ctrl+k", "j"],
+        "command": "travel_to_pane",
+        "args": { "direction": "down" }
+    }, {
+        "keys": ["ctrl+k", "h"],
+        "command": "travel_to_pane",
+        "args": { "direction": "left" }
+    },
+    // Origami - carry file to pane
+    {
+        "keys": ["ctrl+k", "K"],
+        "command": "carry_file_to_pane",
+        "args": { "direction": "up" }
+    }, {
+        "keys": ["ctrl+k", "L"],
+        "command": "carry_file_to_pane",
+        "args": { "direction": "right" }
+    }, {
+        "keys": ["ctrl+k", "J"],
+        "command": "carry_file_to_pane",
+        "args": { "direction": "down" }
+    }, {
+        "keys": ["ctrl+k", "H"],
+        "command": "carry_file_to_pane",
+        "args": { "direction": "left" }
+    },
+    // Origami - pull file from pane
+    {
+        "keys": ["ctrl+k", "alt+k"],
+        "command": "pull_file_from_pane",
+        "args": { "direction": "up" }
+    }, {
+        "keys": ["ctrl+k", "alt+l"],
+        "command": "pull_file_from_pane",
+        "args": { "direction": "right" }
+    }, {
+        "keys": ["ctrl+k", "alt+j"],
+        "command": "pull_file_from_pane",
+        "args": { "direction": "down" }
+    }, {
+        "keys": ["ctrl+k", "alt+h"],
+        "command": "pull_file_from_pane",
+        "args": { "direction": "left" }
+    },
+    // Origami - create pane
+    {
+        "keys": ["ctrl+k", "ctrl+k"],
+        "command": "create_pane",
+        "args": { "direction": "up", "give_focus": true }
+    }, {
+        "keys": ["ctrl+k", "ctrl+l"],
+        "command": "create_pane",
+        "args": { "direction": "right", "give_focus": true }
+    }, {
+        "keys": ["ctrl+k", "ctrl+j"],
+        "command": "create_pane",
+        "args": { "direction": "down", "give_focus": true }
+    }, {
+        "keys": ["ctrl+k", "ctrl+h"],
+        "command": "create_pane",
+        "args": { "direction": "left", "give_focus": true }
+    },
+    // Origami - destroy pane 
+    {
+        "keys": ["ctrl+k", "ctrl+alt+k"],
+        "command": "destroy_pane",
+        "args": { "direction": "up" }
+    }, {
+        "keys": ["ctrl+k", "ctrl+alt+l"],
+        "command": "destroy_pane",
+        "args": { "direction": "right" }
+    }, {
+        "keys": ["ctrl+k", "ctrl+alt+j"],
+        "command": "destroy_pane",
+        "args": { "direction": "down" }
+    }, {
+        "keys": ["ctrl+k", "ctrl+alt+h"],
+        "command": "destroy_pane",
+        "args": { "direction": "left" }
+    },
+    // destroy current pane
+    {
+        "keys": ["ctrl+k", "w"],
+        "command": "destroy_pane",
+        "args": { "direction": "self" }
+    },
+    // show 1 pane
+    {
+        "keys": ["ctrl+k", "ctrl+w"],
+        "command": "set_layout",
+        "args": {
+            "cols": [0.0, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [
+                [0, 0, 1, 1]
+            ]
+        }
+    },
+    // ctrl[+shift] tab to cycle current tabs
+    { "keys": ["ctrl+tab"], "command": "next_view" },
+    { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
     // command palette map ctrl+j to down arrow
     {
         "keys": ["ctrl+j"],
@@ -82,36 +263,11 @@
         "command": "move",
         "args": { "by": "lines", "forward": false },
         "context": [{ "key": "overlay_visible", "operator": "equal", "operand": true }]
-    }, {
-        "keys": ["alt+."],
-        "command": "chain",
-        "args": {
-            "commands": [
-                ["reveal_in_side_bar"],
-                ["focus_side_bar"]
-            ]
-        }
-    }, {
-        "keys": ["shift+space"],
-        "command": "move",
-        "args": {
-            "by": "characters",
-            "forward": true
-        }
-    }, {
-        "keys": ["ctrl+shift+space"],
-        "command": "move",
-        "args": {
-            "by": "characters",
-            "forward": false
-        }
-    }, {
-        "keys": ["alt+shift+up"],
-        "command": "select_lines",
-        "args": { "forward": false }
-    }, {
-        "keys": ["alt+shift+down"],
-        "command": "select_lines",
-        "args": { "forward": true }
     },
+    // PanePane - vimlike key bindings
+    { "keys": ["ctrl+alt+j"], "command": "pane_pane_resize", "args": { "dimension": "width", "resize": "decrease" } },
+    { "keys": ["ctrl+alt+k"], "command": "pane_pane_resize", "args": { "dimension": "width", "resize": "increase" } },
+    { "keys": ["ctrl+alt+h"], "command": "pane_pane_resize", "args": { "dimension": "height", "resize": "decrease" } },
+    // potential key conflict, recommendation: reassign Lock screen from ctrl+alt+L to Super+L 
+    { "keys": ["ctrl+alt+l"], "command": "pane_pane_resize", "args": { "dimension": "height", "resize": "increase" } } 
 ]
