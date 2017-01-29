@@ -34,6 +34,8 @@ fi
 alias g='git'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias slimbladeleft="xinput set-button-map 'Kensington Kensington Slimblade Trackball' 3 2 1 5 4 6 7 8 9 10 11 12"
+alias slimbladeright="xinput set-button-map 'Kensington Kensington Slimblade Trackball' 1 2 3 4 5 6 7 8 9 10 11 12"
 alias vi='vim'
 
 # unset variables
