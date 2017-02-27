@@ -36,9 +36,15 @@ git config --global alias.ml '! git l --format=distinguishedoneline --author="$(
 git config --global alias.mll '! git ll --author="$(git config --get user.name)"'
 git config --global alias.mllv '! git llv --author="$(git config --get user.name)"'
 git config --global alias.mlv '! git lv --format=distinguishedoneline --author="$(git config --get user.name)"'
+git config --global alias.mlmessage '! git l --format="%s" --author="$(git config --get user.name)"'
 git config --global alias.mrb '! git for-each-ref --format="%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(color:150)%(authorname)  %(color:reset)%(refname:strip=3)" --sort=authordate refs/remotes | grep "$(git config --get user.name)"' 
 git config --global alias.mt mergetool
 git config --global alias.p pull
 git config --global alias.rb '! git for-each-ref --format="%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(align:28,left)%(color:150)%(authorname)%(end) %(color:reset)%(refname:strip=3)" --sort=authordate refs/remotes'
 git config --global alias.st status
 git config --global alias.stashall '! git add . && git stash'
+git config --global alias.unset 'branch --unset-upstream'
+git config --global alias.wip '! git add . && git commit -a -m "WIP - do not push"'
+git config --global alias.cipr '! git commit -e -m "$(git mlmessage -100 | egrep -m 1 -o "^[^PR].*#[0-9]{6}")"'
+#TODO script cibr
+#cibr = ! sh -c 'git commit -e -m \"$(echo "$@ \\#"\"$(git cbr | egrep -m 1 -o "[0-9]{6}$")\")\"' -
