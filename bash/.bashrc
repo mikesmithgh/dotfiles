@@ -25,10 +25,7 @@ fi
 export LESS='IRSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
 export EDITOR='vim'
 export VISUAL='vim'
-
-if [ "$(type -t _set_title)" = "function" ] && [ "$(type -t _get_ps1)" = "function" ] ; then
-  export PROMPT_COMMAND='_set_title; _get_ps1 true' # execute every time before bash displays prompt
-fi
+export PROMPT_COMMAND='_set_title;' # execute every time before bash displays prompt
 
 # alias commands
 alias g='git'
