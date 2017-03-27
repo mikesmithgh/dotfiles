@@ -1,0 +1,63 @@
+#!/bin/bash
+
+pending_changes="$(git status --porcelain 2>/dev/null)"
+if (( $? )) ; then
+  # not in a valid git repo
+  exit 1
+fi
+pending_changes="$(echo $pending_changes | wc -w)"
+
+# colors
+green="\033[2;92m"
+purple="\033[2;95m"
+red="\033[2;91m"
+white="\033[2;97m"
+yellow="\033[0;33m"
+
+# get git branch info
+git_symbol=""
+git_color="$white"
+commit_counts=($(git rev-list --left-right --count ...@{u} 2>/dev/null))
+if (( $? )) ; then
+  git_color="$purple"
+else
+  if (( ! $pending_changes )) ; then
+    git_color="$green"
+  fi
+
+  if (( ${commit_counts[0]} )) ; then
+    git_color="$yellow"
+    git_symbol="↑[${commit_counts[0]}]"
+  fi
+
+  if (( ${commit_counts[1]} )) ; then
+    git_color="$yellow"
+    git_symbol="↓[${commit_counts[1]}]"
+  fi
+
+  if (( ${commit_counts[0]} && ${commit_counts[1]} )) ; then
+    git_symbol="↕ ↑[${commit_counts[0]}] ↓[${commit_counts[1]}]"
+  fi
+fi
+
+if (( $pending_changes )) ; then
+  git_color="$red"
+  git_symbol="*$git_symbol"
+fi
+
+if [[ $1 && $1 == "--color" ]] ; then
+  echo -n "$git_color"
+fi
+echo "(%s) $git_symbol"
+
+# unset colors
+unset green
+unset purple
+unset red
+unset white
+unset yellow
+
+unset pending_changes
+unset git_symbol
+unset git_color
+unset commit_counts
