@@ -1,49 +1,80 @@
-" install vundle: git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-set nocompatible              " be iMproved, required
-filetype off                  " required
+"-------------------
+"-- plugin config --
+"-------------------
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+"specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+"nerdtree sidebar
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle'] }
+" nerdcommenter
+Plug 'scrooloose/nerdcommenter'
+" ctrlp fuzzy search
+Plug 'ctrlpvim/ctrlp.vim'
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Others
+Plug 'majutsushi/tagbar'
 
-" Fugitive GIT plugin
-Plugin 'tpope/vim-fugitive'
+" Java development
+Plug 'artur-shaik/vim-javacomplete2'
+Plug 'ajh17/Spacegray.vim'
 
-" GIT gutter
-Plugin 'airblade/vim-gitgutter'
+" fugitive git plugin
+Plug 'tpope/vim-fugitive'
+" gitgutter
+Plug 'airblade/vim-gitgutter'
 
-" NERDTree sidebar
-Bundle 'scrooloose/nerdtree'
+" color schemes
+" Plug 'freeo/vim-kalisi'
+" Plug 'mhartington/oceanic-next'
+" Plug 'zandrmartin/vim-distill'
+" Plug 'adelarsq/vim-grimmjow'
+Plug 'morhetz/gruvbox'
+" Plug 'rakr/vim-one'
+" Plug 'Reewr/vim-monokai-phoenix'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'chriskempson/base16-vim'
+"
 
-" NERDCommenter
-Plugin 'scrooloose/nerdcommenter'
+" Linter
+" Plug 'w0rp/ale'
 
-" Syntax Checker
-Plugin 'scrooloose/syntastic'
+" airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" CtrlP Fuzzy Search
-Plugin 'ctrlpvim/ctrlp.vim'
+" initialize plugin systems
+call plug#end()
 
-" Vim Airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 
-" JSBeautify
-Plugin 'maksimr/vim-jsbeautify'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" non-plugin config after this line
-
+"----------------
+"-- vim config --
+"----------------
 syntax enable
 set t_Co=256
+set termguicolors
+
+let g:gruvbox_bold = 1
+let g:gruvbox_italic = 1
+let g:gruvbox_underline = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_termcolors = 256
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_hls_cursor = 'purple'
+let g:gruvbox_number_column = 'bg0'
+let g:gruvbox_sign_column = 'bg0'
+let g:gruvbox_color_column = 'bg1'
+let g:gruvbox_vert_split = 'bg0'
+let g:gruvbox_italicize_comments = 1
+let g:gruvbox_italicize_strings = 0
+let g:gruvbox_invert_selection  = 1
+let g:gruvbox_invert_signs = 0
+let g:gruvbox_invert_indent_guides = 0
+let g:gruvbox_invert_tabline = 0
+let g:gruvbox_improved_strings = 0
+let g:gruvbox_improved_warnings = 0
+
+colorscheme gruvbox
 set background=dark
-colorscheme distinguished
 set hlsearch
 set incsearch
 set ignorecase
@@ -57,14 +88,18 @@ set encoding=utf8
 set expandtab
 set wildmenu
 set wildmode=longest:full,full
-set mouse=a " Enable mouse use in all modes
+" enable mouse use in all modes
+set mouse=a
+set completeopt=longest,menuone
 
+
+"------------------
+"-- vim mappings --
+"------------------
 " map jj to Esc
 imap jj <Esc>
-
 " change leader key from \ to ,
-let mapleader=","
-
+let mapleader=','
 " toggle highlight 
 nmap <Leader>/ :set hls! <cr>
 " highlight then enter search mode
@@ -72,61 +107,85 @@ nnoremap / :set hls<cr>/
 
 if bufwinnr(1)
   " resize vertical split window
-  noremap <silent> <C-J> :vertical resize -5<CR>
-  noremap <silent> <C-K> :vertical resize +5<CR>
+  noremap <silent> <C-H> :vertical resize -5<CR>
+  noremap <silent> <C-L> :vertical resize +5<CR>
   " resize horzontal split window
-  noremap <silent> <C-H> :resize -5<CR>
-  noremap <silent> <C-L> :resize +5<CR>
+  noremap <silent> <C-J> :resize -5<CR>
+  noremap <silent> <C-K> :resize +5<CR>
 endif
 
-" disable modifiable for read only files
-" autocmd BufRead * let &modifiable = !&readonly
+" nnoremap : q:i
+" nnoremap / q/i
+" nnoremap ? q?i
 
-" NERDTree 
-" map ctl+n to toggle nerd tree sidebar
-map <C-n> :NERDTreeToggle<CR>
 
-" CtrlP
+"-----------
+"-- ctrlp --
+"-----------
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp' " Set cache directory
-let g:ctrlp_working_path_mode = 0               " Search from current directory instead of project root
-let g:ctrlp_clear_cache_on_exit = 0             " Do not clear cache between sessions
-" Use ag to search if installed to improve performance
+" set cache directory
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp' 
+" search from current directory instead of project root
+let g:ctrlp_working_path_mode = 0               
+" do not clear cache between sessions
+let g:ctrlp_clear_cache_on_exit = 0             
+" use ag to search if installed to improve performance
 if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-" VIM airline
+
+"--------------
+"-- nerdtree --
+"--------------
+" map ctl+n to toggle nerd tree sidebar
+map <C-n> :NERDTreeToggle<CR>
+" start up, call nerd tree when no args provided
+" if 0 == argc()
+  " au VimEnter * NERDTree | wincmd p
+" end
+
+
+"-------------------
+"-- nerdcommenter --
+"-------------------
+" add space before comment
+let g:NERDSpaceDelims = 1
+" disable auto insert comment leader after <Enter> in insert mode
+au FileType * set fo-=r
+
+"""""""""""""""""""""""""
+""""    deoplete     """"
+"""""""""""""""""""""""""
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#omni_patterns = {}
+let g:deoplete#omni_patterns.java = '[^. *\t]\.\w*'
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = []
+let g:deoplete#file#enable_buffer_path = 1
+
+
+"""""""""""""""""""""""""
+""""  Java Complete  """"
+"""""""""""""""""""""""""
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
+" airline
+let g:airline_powerline_fonts = 1                " enable powerline fonts
 let g:airline#extensions#tabline#enabled = 1     " enable airline by default
 let g:airline#extensions#tabline#fnamemod = ':t' " only display file name instead of file path
 set laststatus=2                                 " always show status line
 set noshowmode                                   " disable show mode in favor of airline status line
-
-" NERDCommenter
-let g:NERDSpaceDelims = 1 " add space before comment
-au FileType * set fo-=r   " disable auto insert comment leader after <Enter> in insert mode
-
 " Fugitive add branch name to status line
 set statusline+=%{fugitive#statusline()}
-
-" Syntastic
-let g:syntastic_javascript_checkers = ['eslint'] " javascript eslinter
-
-" add linter info to status line
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1 " populate the location list with errors from linters
-let g:syntastic_auto_loc_list = 0            " do not automatically open location list
-let g:syntastic_check_on_open = 0            " do not check for errors on open to improve performance
-let g:syntastic_check_on_wq = 0              " do not check for errors when saving to improve performance
-let g:syntastic_loc_list_height = 3          " height of location list
-
-" JSBeautify
-map <c-f> :call JsBeautify()<cr>
 
 " GIT Gutter
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
+
+" Black bg
+autocmd ColorScheme * highlight Normal ctermbg=Black
+" autocmd ColorScheme * highlight NonText ctermbg=Black
+autocmd ColorScheme * highlight Normal guibg=Black
+" autocmd ColorScheme * highlight NonText guibg=Black
