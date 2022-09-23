@@ -283,7 +283,7 @@ au BufNewFile ~/Documents/notes/wiki/diary/*.md :silent 0r !~/.vim/bin/generate-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-airline configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" assumption font-hack-nerd-font installed, see https://github.com/ryanoasis/nerd-fonts
+" assumption font-hack-nerd-font installed, see https://github.com/ryanoasis/nerd-fonts#option-4-homebrew-fonts
 let g:airline_powerline_fonts = 1                " enable powerline fonts
 let g:airline#extensions#tabline#enabled = 1     " enable airline by default
 let g:airline#extensions#tabline#fnamemod = ':t' " only display file name instead of file path
