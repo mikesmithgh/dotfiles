@@ -263,6 +263,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " map ctl+n to toggle nerd tree sidebar
 map <C-n> :NERDTreeToggle<CR>
+" show hidden files
+let NERDTreeShowHidden=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
