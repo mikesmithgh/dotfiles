@@ -15,3 +15,8 @@ break_chained_methods = false
 e4x = false
 wrap_line_length = 0
 insert_final_newline = true
+
+[COMMIT_EDITMSG]
+max_line_length = 50
+trim_trailing_whitespace = true
+

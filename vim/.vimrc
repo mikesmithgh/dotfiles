@@ -6,8 +6,9 @@
 "    -> VIM user interface
 "    -> Colors and Fonts
 "    -> Text, tab and indent related
+"    -> gruvbox configuration
 "    -> Status line
-"    -> grubbox configuration
+"    -> Spell checking
 "    -> ctrlp.vim configuration
 "    -> The NERD Tree commenter configuration
 "    -> NERD commenter configuration
@@ -39,8 +40,8 @@ Plug 'tpope/vim-fugitive'
 " vim-gitgutter https://github.com/airblade/vim-gitgutter
 Plug 'airblade/vim-gitgutter'
 
-" gruvbox https://github.com/morhetz/gruvbox
-Plug 'morhetz/gruvbox'
+" gruvbox https://github.com/mikesmithgh/gruvbox, fork of morhetz/gruvbox
+Plug 'mikesmithgh/gruvbox', { 'branch': 'feat-palette-overrides' }
 
 " Asynchronous Lint Engine https://github.com/dense-analysis/ale
 Plug 'dense-analysis/ale'
@@ -53,6 +54,8 @@ Plug 'vim-airline/vim-airline-themes'
 
 " VimWiki https://github.com/vimwiki/vimwiki
 Plug 'vimwiki/vimwiki'
+
+Plug 'editorconfig/editorconfig-vim'
 
 " initialize plugin systems
 call plug#end()
@@ -73,8 +76,9 @@ set mouse=a
 filetype plugin on
 filetype indent on
 
-" change leader key from \ to ,
-let mapleader=','
+" change leader key from \ to space
+nnoremap <SPACE> <Nop>
+let mapleader=' '
 
 " map jj to Esc
 imap jj <Esc>
@@ -106,6 +110,9 @@ set scrolloff=7
 
 " Ignore case when searching
 set ignorecase
+
+" Case sensitive when searching with at least one uppcase letter
+set smartcase
 
 " Highlight search results
 set hlsearch
@@ -153,14 +160,53 @@ set listchars=eol:↲,tab:▸\ ,trail:·,extends:»,precedes:«,space:·
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => gruvbox configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" gruvbox options should be defined before setting colorscheme, see: https://github.com/morhetz/gruvbox/wiki/Configuration#options
+let g:gruvbox_bold = 1
+" italic must be enabled before setting colorscheme, see issue: https://github.com/morhetz/gruvbox/wiki/Terminal-specific#1-italics-is-disabled
+let g:gruvbox_italic = 1
+let g:gruvbox_transparent_bg = 0
+let g:gruvbox_underline = 1
+let g:gruvbox_undercurl = 1
+let g:gruvbox_termcolors = 256
+" gruvbox color palette: https://github.com/morhetz/gruvbox/blob/master/colors/gruvbox.vim#L86
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_hls_cursor = 'bright_purple'
+let g:gruvbox_number_column = 'black1'
+let g:gruvbox_sign_column = 'black2'
+let g:gruvbox_color_column = 'black1'
+let g:gruvbox_vert_split = 'black3'
+let g:gruvbox_italicize_comments = 1
+let g:gruvbox_italicize_strings = 0
+let g:gruvbox_invert_selection  = 0
+let g:gruvbox_invert_signs = 0
+let g:gruvbox_invert_indent_guides = 0
+let g:gruvbox_invert_tabline = 0
+let g:gruvbox_improved_strings = 0
+let g:gruvbox_improved_warnings = 0
+let g:gruvbox_palette_overrides = {
+      \ 'black': ['#000000', 0],
+      \ 'black1': ['#070707', 0],
+      \ 'black2': ['#0d0d0d', 0],
+      \ 'black3': ['#1a1a1a', 0]
+\}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable undercurl
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
 " Enable syntax highlighting
 syntax enable
 
 " Enable 256 colors palette
 set t_Co=256
 
+" Enables 24-bit color, i.e., 8*8*8=512 instead of 8-bit 256 color, see issue: https://github.com/morhetz/gruvbox/wiki/Terminal-specific#2-colors-are-off
 set termguicolors
 
 if has ('gui_running')
@@ -176,6 +222,7 @@ endtry
 " Black background
 autocmd ColorScheme * highlight Normal ctermbg=Black
 autocmd ColorScheme * highlight Normal guibg=Black
+" Set background to dark after colorscheme is set to reload appropriate highlighting
 set background=dark
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -218,27 +265,16 @@ set statusline+=%{fugitive#statusline()}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => grubbox configuration
+" => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:gruvbox_bold = 1
-let g:gruvbox_italic = 1
-let g:gruvbox_underline = 1
-let g:gruvbox_undercurl = 1
-let g:gruvbox_termcolors = 256
-let g:gruvbox_contrast_dark = 'hard'
-let g:gruvbox_hls_cursor = 'purple'
-let g:gruvbox_number_column = 'bg0'
-let g:gruvbox_sign_column = 'bg0'
-let g:gruvbox_color_column = 'bg1'
-let g:gruvbox_vert_split = 'bg0'
-let g:gruvbox_italicize_comments = 1
-let g:gruvbox_italicize_strings = 0
-let g:gruvbox_invert_selection  = 1
-let g:gruvbox_invert_signs = 0
-let g:gruvbox_invert_indent_guides = 0
-let g:gruvbox_invert_tabline = 0
-let g:gruvbox_improved_strings = 0
-let g:gruvbox_improved_warnings = 0
+" Pressing <leader>ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -306,6 +342,6 @@ let g:gitgutter_eager = 0
 " => Asynchronous Lint Engine configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_fixers = {
-\   'yaml': ['yamlfix'],
+  \ 'yaml': ['yamlfix'],
 \}
 
