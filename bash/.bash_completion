@@ -1,11 +1,33 @@
 #!/bin/bash
+# set -x
 
 # source git bash completion
-if [ -f "/usr/share/bash-completion/completions/git" ] ; then
-  source /usr/share/bash-completion/completions/git
-fi
+export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
+[[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+
+# aws
+complete -C 'aws_completer' aws
 
 # add 'git' auto completion to 'g'
 if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "function" ]; then
   __git_complete g __git_main
 fi
+
+_ssh() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts=$(grep '^Host' ~/.ssh/config | grep -v '[?*]' | cut -d ' ' -f 2-)
+
+    COMPREPLY=( $(compgen -W "$opts" -- ${cur}) )
+    return 0
+}
+
+complete -F _ssh ssh
+complete -F __start_kubectl k
+
+
+# kubectl completion
+source <(kubectl completion bash)

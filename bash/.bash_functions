@@ -79,3 +79,39 @@ _get_ps1() {
     __git_ps1 "\n{\w} " "\n[\u@\h] \\$ " "$(_git_info $1)"
   fi
 }
+
+_kube_ps1() {
+  if [ -f ~/.kube/config ]; then  
+    # Get current context
+    local context=$(cat ~/.kube/config | grep "current-context:" | sed "s/current-context: //")
+    
+    if [ -n "$context" ]; then
+      echo " ⎈ ${context}"
+    fi
+  fi
+}
+
+_py_ps1() {
+  if [ -n "${VIRTUAL_ENV}" ]; then  
+    # Get current venv
+    local basedir="$(basename ${VIRTUAL_ENV})"
+    local parentdir="$(basename $(dirname ${VIRTUAL_ENV}))"
+    
+    echo "  ${parentdir}/${basedir}"
+  fi
+}
+
+_bgps_ps1()
+{
+  # does not work, work in progress
+  local iterm_mark='\[$(iterm2_prompt_mark)\]'
+  local txt_fo_cyn='\[\033[0;36m\]'
+  local rst='\[\033[0m\]'
+  local drkbld_fo_ylw='\[\033[3;33m\]'
+  local blink_hifo_blu='\[\033[5;94m\]'
+  local txt_hifo_grn='\[\033[0;92m\]'
+  local txt_hifo_red='\[\033[0;91m\]'
+  # echo "\n${iterm_mark}${txt_fo_cyn} \w${rst}${drkbld_fo_ylw}$(_py_ps1)${rst}${blink_hifo_blu}$(_kube_ps1)%s\n$((${EUID})) && echo ${txt_hifo_grn} || echo ${txt_hifo_red}) \u@\h ${txt_fo_cyn}\$ "
+  echo "\n${iterm_mark}${txt_fo_cyn} \w ${rst}${drkbld_fo_ylw}$(_py_ps1)${rst}${blink_hifo_blu}$(_kube_ps1)%s\n$((${EUID})) && echo ${txt_hifo_grn} || echo ${txt_hifo_red}) \u@\h ${txt_fo_cyn}\$ "
+}
+
