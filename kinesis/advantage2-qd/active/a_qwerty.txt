@@ -1,0 +1,44 @@
+[caps]>[kpshift]
+[kp-caps]>[kpshift]
+
+* left thumb cluster
+[bspace]>[bspace]
+[delete]>[delete]
+[lctrl]>[lctrl]
+[lalt]>[lalt]
+[home]>[lwin]
+[end]>[escape]
+
+* kp left thumb cluster
+[kp-bspace]>[kp-bspace]
+[kp-delete]>[kp-delete]
+[kp-lctrl]>[kp-lctrl]
+[kp-lalt]>[kp-lalt]
+[kp-home]>[kp-lwin]
+
+* right thumb cluster
+[space]>[space]
+[enter]>[enter]
+[rctrl]>[rctrl]
+[rwin]>[ralt]
+[pup]>[rwin]
+[pdown]>[escape]
+
+* kp right thumb cluster
+[kp-space]>[kp-space]
+[kp-enter]>[kp-enter]
+[kp-rctrl]>[kp-rctrl]
+[rwin]>[kp-ralt]
+[kp-pup]>[kp-rwin]
+[kp-pdown]>[kp-escape]
+
+[up]>[down]
+[down]>[up]
+
+[kp-h]>[kp-left]
+[kp4]>[kp-down]
+[kp5]>[kp-up]
+[kp6]>[kp-right]
+
+[intl-\]>[hyper]
+
