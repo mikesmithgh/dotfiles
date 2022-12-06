@@ -2,7 +2,7 @@
 
 Applescript to open a file with iTerm2 and vim.
 
-[iTermVim](itermvim.png)
+![iTermVim](itermvim.png)
 
 Run to associate filetypes
 ```
