@@ -6,14 +6,21 @@
 [core]
   excludesfile = /Users/mike/.gitignore
   autocrlf = input
-  editor = vim
+  editor = nvim
 [diff]
-  tool = vimdiff
+  tool = nvimdiff
 [merge]
-  tool = vimdiff
+  tool = nvimdiff
 [difftool]
   prompt = false
   trustExitCode = true
+; [difftool.vimdiff]
+  ; cmd = "vim -c \"Gcd\" -c \"Git difftool -y $REMOTE\""
+    ; cmd = "echo $@; env"
+[diff]
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [mergetool]
   prompt = false
   trustExitCode = true
@@ -28,17 +35,18 @@
   untracked = magenta
 [pretty]
   distinguishedoneline = %C(66 bold)%h  %C(173 nobold)%ad  %C(150 nobold)%an  %C(reset)%s
-  distinguishedonelinetab = %C(66 bold)%<(8)%h %C(173 nobold)%<(20)%ad %C(150 nobold)%<(19)%an %C(reset)%s
+;   distinguishedonelinetab = %C(66 bold)%<(8)%h %C(173 nobold)%<(20)%ad %C(150 nobold)%<(19)%an %C(reset)%s
+  distinguishedonelinetab = "%C(#83a598 bold)%h %C(#fe8019 nobold)%ad %C(#b5cea8 nobold)%an %C(reset)%s"
   distinguishedmediumtab = %C(173 nobold)commit %C(66 bold)%H%n%C(173 nobold)Merge: %C(66 bold)%p%n%C(186 bold)Author: %C(143 nobold)%an %Creset<%C(150)%ae%Creset>%n%C(186 bold)Date:   %C(143 nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
 [alias]
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
   br = branch -vv
   cbr = symbolic-ref --short HEAD
-  ci = ! GIT_EDITOR='vim -c \":Git! log | normal K\"' git commit -v
+  ci = ! GIT_EDITOR='nvim -c \":Git! log | normal K\"' git commit -v
   cl = ! git --no-pager log
   co = checkout
   deleteprev = branch -d @{-1}
-  dt = "! args=$@; shift $#; vim -c \"Gcd\" -c \"Git difftool -y $args\""
+  dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
   ;f = "! git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git ls-remote upstream --exit_code 2>/dev/null && [ -z \"$options\" ] && options='-v --multiple upstream' || options=\"$options upstream\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
   f = "! args=$@; shift $#; git ls-remote mike --exit code 2>/dev/null && repos='mike'; git ls-remote upstream --exit_code 2>/dev/null && repos=\"upstream $repos\"; ! [ -z \"$repos\" ] && options=\"-v --multiple $repos\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; ! [ -z \"$args\" ] && git fetch $args"
   ; fworking = "! shift $#; git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
