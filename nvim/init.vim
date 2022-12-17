@@ -1,108 +1,5 @@
 lua require('init')
 
-""" TODO: work in progress migrating to lua
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Sections:
-"    -> vim-plug configuration
-"    -> General
-"    -> VIMUserInterface
-"    -> Colors and Fonts
-"    -> TextRelated
-"    -> gruvbox configuration
-"    -> Status line
-"    -> Spell checking
-"    -> ctrlp.vim configuration
-"    -> The NERD Tree commenter configuration
-"    -> NERDCommenterConfiguration
-"    -> VimWiki configuration
-"    -> vim-airline configuration
-"    -> vim-gitgutter configuration
-"    -> Asynchronous Lint Engine configuration
-"    -> Filetype configuration
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-plugin configuration https://github.com/junegunn/vim-plug
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" specify a directory for plugins
-call plug#begin('~/.config/nvim/plugged')
-
-" Project Drawer
-" Plug 'https://github.com/scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeToggle', 'NERDTreeFind'] }
-
-" Code commenter
-Plug 'https://github.com/preservim/nerdcommenter'
-
-" Git integration
-Plug 'https://github.com/tpope/vim-fugitive'
-
-" Git browser integration
-Plug 'https://github.com/tpope/vim-rhubarb'
-
-" Git diff in sign column
-Plug 'https://github.com/airblade/vim-gitgutter'
-
-" Theme, fork of morhetz/gruvbox
-" Still using for airline, I manually deleted colors except for autoload dir
-" Plug 'https://github.com/mikesmithgh/gruvbox', { 'branch': 'feat-palette-overrides' }
-
-" Not sure if I use this besides yaml?
-" Asynchronous Lint Engine https://github.com/dense-analysis/ale
-" Plug 'dense-analysis/ale'
-
-" statusline and tabline
-" Plug 'https://github.com/vim-airline/vim-airline'
-" I might switch to https://github.com/itchyny/lightline.vim
-
-" VimWiki https://github.com/vimwiki/vimwiki
-Plug 'vimwiki/vimwiki'
-
-" I haven't been using this
-" EditorConfig Vim Plugin
-" Plug 'editorconfig/editorconfig-vim'
-
-" Improved keybindings
-Plug 'tpope/vim-unimpaired'
-
-" Improved repeatable commands
-Plug 'tpope/vim-repeat'
-
-" Disable hybrid line numbers for non-active buffers
-Plug 'https://github.com/jeffkreeftmeijer/vim-numbertoggle'
-
-" Improved parenthesis matching
-Plug 'https://github.com/adelarsq/vim-matchit'
-
-" Fuzzy Finder
-Plug 'https://github.com/junegunn/fzf'
-
-" Fuzzy Finder vim commands
-Plug 'https://github.com/junegunn/fzf.vim'
-
-" Code completion and LSP support
-Plug 'https://github.com/neoclide/coc.nvim', {'branch': 'release'}
-
-" https://github.com/:uiiaoo/java-syntax.vim
-" Plug 'https://github.com/uiiaoo/java-syntax.vim', { 'for': 'java' }
-
-" Kinesis Advantage configuration syntax highlighting
-Plug 'https://github.com/arjenl/vim-kinesis'
-
-" Pointless plugin
-" Plug 'https://github.com/mikesmithgh/ugbi', { 'branch': 'main' }
-
-" Misc
-" Plug 'powerman/vim-plugin-AnsiEsc'
-" Plug 'chrisbra/Colorizer'
-Plug 'ludovicchabant/vim-gutentags'
-
-" initialize plugin systems
-call plug#end()
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -266,44 +163,6 @@ set completeopt=longest,menuone
 set listchars=eol:↲,tab:▸\ ,trail:·,extends:»,precedes:«,space:·
 
 
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " => gruvbox configuration
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " gruvbox options should be defined before setting colorscheme, see: https://github.com/morhetz/gruvbox/wiki/Configuration#options
-" let g:gruvbox_bold = 1
-" " italic must be enabled before setting colorscheme, see issue: https://github.com/morhetz/gruvbox/wiki/Terminal-specific#1-italics-is-disabled
-" let g:gruvbox_italic = 1
-" let g:gruvbox_transparent_bg = 0
-" let g:gruvbox_underline = 1
-" let g:gruvbox_undercurl = 1
-" let g:gruvbox_inverse = 1
-" let g:gruvbox_termcolors = 256
-" " gruvbox color palette: https://github.com/morhetz/gruvbox/blob/master/colors/gruvbox.vim#L86
-" let g:gruvbox_contrast_dark = 'hard'
-" let g:gruvbox_hls_cursor = 'bright_purple'
-" let g:gruvbox_number_column = 'black1'
-" let g:gruvbox_sign_column = 'black2'
-" let g:gruvbox_color_column = 'black1'
-" let g:gruvbox_vert_split = 'black3'
-" let g:gruvbox_italicize_comments = 1
-" let g:gruvbox_italicize_strings = 0
-" let g:gruvbox_invert_selection  = 0
-" let g:gruvbox_invert_signs = 0
-" let g:gruvbox_invert_indent_guides = 0
-" let g:gruvbox_invert_tabline = 0
-" let g:gruvbox_improved_strings = 0
-" let g:gruvbox_improved_warnings = 0
-" let g:gruvbox_palette_overrides = {
-"             \ 'black': ['#000000', 0],
-"             \ 'black1': ['#070707', 0],
-"             \ 'black2': ['#0d0d0d', 0],
-"             \ 'black3': ['#1a1a1a', 0],
-"             \ 'bright_green': ['#b5cea8', 142],
-"             \ 'bright_yellow': ['#f0d961', 214],
-"             \ 'light1': ['#c7c7c7', 223]
-"             \}
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -334,8 +193,8 @@ endif
 "     autocmd ColorScheme * highlight Normal guibg=#070707
 " augroup end
 
-colorscheme gruvbox
-set background=dark
+" colorscheme gruvbox
+" set background=dark
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -423,7 +282,7 @@ map <leader>s? z=
 " nnoremap <C-n>q :cclose<CR>
 " nnoremap <C-n><C-l> :lopen<CR>
 " nnoremap <C-n>l :lclose<CR>
-nnoremap <C-n> <Nop>
+" nnoremap <C-n> <Nop>
 nnoremap <C-n>n :NvimTreeToggle<CR>
 nnoremap <expr> <C-n><C-n> &filetype == 'NvimTree' ? '<C-w><C-p>' : ':silent NvimTreeFindFile \| NvimTreeFocus<CR>'
 nnoremap <C-n><C-q> :copen<CR>
@@ -506,15 +365,16 @@ let g:gitgutter_eager = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Filetype configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup FileTypeConfigs
-    autocmd!
-    autocmd BufNewFile,BufRead ~/.aws/config setlocal filetype=toml
-    autocmd BufNewFile,BufRead ~/.aws/credentials setlocal filetype=toml
-    autocmd BufNewFile,BufRead *.pipeline if search('^---\|\s\+\w\+:\s*', 'nW') | setlocal filetype=yaml | else | setlocal filetype=json | endif
+"augroup FileTypeConfigs
+    "autocmd!
+    " autocmd BufNewFile,BufRead ~/.aws/config setlocal filetype=toml
+    " autocmd BufNewFile,BufRead ~/.aws/credentials setlocal filetype=toml
+    " autocmd BufNewFile,BufRead *.pipeline if search('^---\|\s\+\w\+:\s*', 'nW') | setlocal filetype=yaml | else | setlocal filetype=json | endif
     " for fc commands
-    autocmd BufNewFile,BufRead bash-fc.* silent! !rm %
-    autocmd FileChangedShell bash-fc.* 5echowindow "To execute the command you must write the buffer contents."
-augroup end
+    " autocmd BufNewFile,BufRead bash-fc.* silent! !rm %
+    " autocmd FileChangedShell bash-fc.* 5echowindow "To execute the command you must write the buffer contents."
+    " lua vim.api.nvim_echo({{"To execute the command you must write the buffer contents.", "WarningMsg"}}, true, {})
+"augroup end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -607,7 +467,7 @@ endif
 " command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 " command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-" autocmd User AirlineAfterInit let g:airline_section_b .= '%{getcwd()}'
+autocmd User AirlineAfterInit let g:airline_section_b .= '%{getcwd()}'
 " let g:airline_section_c .= '%t'
 
 " show message for any line change, this help see the register info
@@ -626,41 +486,41 @@ endfunction
 " inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 " inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
-inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
-inoremap <expr> <Cr> coc#pum#visible() ? coc#pum#confirm() : "\<Cr>"
+" ******************* inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
+" ******************* inoremap <expr> <Cr> coc#pum#visible() ? coc#pum#confirm() : "\<Cr>"
 
 " set autochdir
 set tags=tags;$HOME
 
-set hidden
+" set hidden
 
 " nnoremap <Leader>w <C-w>
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" ******************* inoremap <silent><expr> <c-space> coc#refresh()
 
 " GoTo code navigation.
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" ******************* nmap <silent> gy <Plug>(coc-type-definition)
+" ******************* nmap <silent> gi <Plug>(coc-implementation)
+" ******************* nmap <silent> gr <Plug>(coc-references)
 
 " https://github.com/neoclide/coc.nvim/issues/1445
-function! s:GoToDefinition()
-    try
+" function! s:GoToDefinition()
+"     try
+" 
+"         if CocAction('jumpDefinition')
+"             return v:true
+"         endif
+"     catch 
+"     endtry
+" 
+"     let ret = execute("silent! normal! \<C-]>")
+"     if ret =~ "Error"
+"         call searchdecl(expand('<cword>'))
+"     endif
+" endfunction
 
-        if CocAction('jumpDefinition')
-            return v:true
-        endif
-    catch 
-    endtry
-
-    let ret = execute("silent! normal! \<C-]>")
-    if ret =~ "Error"
-        call searchdecl(expand('<cword>'))
-    endif
-endfunction
-
-nmap <silent> gd :call <SID>GoToDefinition()<CR>
+" ******************* nmap <silent> gd :call <SID>GoToDefinition()<CR>
 
 " augroup DiffUndoFold
 "     autocmd!    

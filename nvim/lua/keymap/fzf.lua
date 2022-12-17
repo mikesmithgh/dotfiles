@@ -15,11 +15,6 @@ local function fzf_lgrep_curbuf()
     fzf.lgrep_curbuf({ rg_opts = rg_opts })
 end
 
-vim.keymap.set('n', 's', '<nop>') 
--- TODO: map ss, S, SS 
--- vim.keymap.set('n', 'S', '<nop>') 
-
-
 vim.keymap.set('n', 's<leader>', require("fzf-lua.cmd").load_command)
 vim.keymap.set('n', 'sf', fzf_files)
 vim.keymap.set('n', 'sg', fzf_live_grep)
