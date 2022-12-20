@@ -125,6 +125,16 @@ return packer.startup(function(use)
       { 'rafamadriz/friendly-snippets' },
     }
   }
+  -- java jdtls language server is setup independently
+  -- see ~/.config/nvim/ftplugin/java.lua for configuration
+  use('mfussenegger/nvim-jdtls')
+
+  use {
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup()
+    end
+  }
 
   if packer_bootstrap then
     require("packer").sync()

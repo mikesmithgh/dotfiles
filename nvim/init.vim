@@ -3,17 +3,17 @@ lua require('init')
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
+" set nocompatible
 
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
 
 " Sets how many lines of history VIM has to remember
-set history=500
+" set history=500
 
 " enable mouse use in all modes
-set mouse=a
+" set mouse=a
 
 
 " " change leader key from \ to space
@@ -73,12 +73,12 @@ nnoremap <leader>P "+P<CR>
 " todo zy and zp mappings
 
 " Automatically reload file if an external change is detected
-set autoread
+" set autoread
 
 " Persistent undo
 " default nvim directory
-set undodir=~/.local/state/nvim/undo
-set undofile
+" set undodir=~/.local/state/nvim/undo
+" set undofile
 
 cmap w!! w !sudo tee > /dev/null %
 
@@ -87,11 +87,11 @@ cmap w!! w !sudo tee > /dev/null %
 " => VIMUserInterface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-set scroll=5
-augroup scroll
-    autocmd!    
-    autocmd BufNewFile,BufRead * set scroll=5
-augroup end
+" set scroll=5
+" augroup scroll
+"     autocmd!    
+"     autocmd BufNewFile,BufRead * set scroll=5
+" augroup end
 
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
@@ -105,37 +105,37 @@ vnoremap <C-k> 5k
 vnoremap <C-l> 3l
 
 " Set 7 lines visible above/below the cursor
-set scrolloff=7
+" set scrolloff=7
 
 " Ignore case when searching
-set ignorecase
-
-" Case sensitive when searching with at least one uppcase letter
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch
-
-" Always show current position
-set ruler
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-" set timeoutlen=500 "" TODO check if I want this or not
-
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
+" set ignorecase
+" set whichwrap+=<,>,h,l
+" 
+" " Case sensitive when searching with at least one uppcase letter
+" set smartcase
+" 
+" " Highlight search results
+" set hlsearch
+" 
+" " Makes search act like search in modern browsers
+" set incsearch
+" 
+" " Always show current position
+" set ruler
+" 
+" " Configure backspace so it acts as it should act
+" set backspace=eol,start,indent
+" 
+" " No annoying sound on errors
+" set noerrorbells
+" set novisualbell
+" set t_vb=
+" " set timeoutlen=500 "" TODO check if I want this or not
+" 
+" " Properly disable sound on errors on MacVim
+" if has("gui_macvim")
+"     autocmd GUIEnter * set vb t_vb=
+" endif
 
 " Show matching brackets when text indicator is over them
 set showmatch
@@ -167,22 +167,22 @@ set listchars=eol:↲,tab:▸\ ,trail:·,extends:»,precedes:«,space:·
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable undercurl
-let &t_Cs = "\e[4:3m" " start
-let &t_Ce = "\e[4:0m" " end
+" let &t_Cs = "\e[4:3m" " start
+" let &t_Ce = "\e[4:0m" " end
 
 " Enable syntax highlighting
 syntax enable
 
 " Enable 256 colors palette
-set t_Co=256
+" set t_Co=256
 
 " Enables 24-bit color, i.e., 8*8*8=512 instead of 8-bit 256 color, see issue: https://github.com/morhetz/gruvbox/wiki/Terminal-specific#2-colors-are-off
 set termguicolors
 
-if has ('gui_running')
-    set guioptions-=L
-    set guifont=Hack\ Nerd\ Font:h16
-endif
+" if has ('gui_running')
+"     set guioptions-=L
+"     set guifont=Hack\ Nerd\ Font:h16
+" endif
 
 " Details on why highlight commands should be in an augroup:
 " - https://gist.github.com/romainl/379904f91fa40533175dfaec4c833f2f
@@ -467,16 +467,16 @@ endif
 " command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 " command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 
-autocmd User AirlineAfterInit let g:airline_section_b .= '%{getcwd()}'
+" autocmd User AirlineAfterInit let g:airline_section_b .= '%{getcwd()}'
 " let g:airline_section_c .= '%t'
 
 " show message for any line change, this help see the register info
 set report=0
 " use <tab> for trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! CheckBackspace() abort
+"     let col = col('.') - 1
+"     return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " inoremap <silent><expr> <Tab>
 " \ coc#pum#visible() ? coc#pum#next(1) :
@@ -490,7 +490,7 @@ endfunction
 " ******************* inoremap <expr> <Cr> coc#pum#visible() ? coc#pum#confirm() : "\<Cr>"
 
 " set autochdir
-set tags=tags;$HOME
+" set tags=tags;$HOME
 
 " set hidden
 
