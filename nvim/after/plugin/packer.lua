@@ -128,6 +128,7 @@ return packer.startup(function(use)
   -- java jdtls language server is setup independently
   -- see ~/.config/nvim/ftplugin/java.lua for configuration
   use('mfussenegger/nvim-jdtls')
+  use('mfussenegger/nvim-dap') -- debug adapter protocol 
 
   use {
     "folke/zen-mode.nvim",
