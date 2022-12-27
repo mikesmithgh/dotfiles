@@ -5,15 +5,18 @@ local palette_overrides = {
   black1 = "#070707",
   black2 = "#0d0d0d",
   black3 = "#1a1a1a",
-  bright_green = "#b5cea8",
-  bright_yellow = "#f0d961",
+  bright_green = "#a7c080",
+  bright_yellow = "#dbbc7f",
+  bright_red = "#ff6961",
   light1 = "#c7c7c7",
   mint = "#a9d5c4",
   dim_light1 = "#a0a0a0",
+  bright_orange = "#f6c177",
+  tint_of_red = "#b7a7b7"
 }
 palette_overrides["dark0_hard"] = palette_overrides.black1
-for k,v in pairs(palette_overrides) do 
-  colors[k] = v 
+for k,v in pairs(palette_overrides) do
+  colors[k] = v
 end
 
 -- highlight overrides
@@ -25,7 +28,10 @@ local highlight_groups_overrides = {
   SignColumn = { bg = colors.black2 },
   ColorColumn = { bg = colors.black1 },
   VertSplit = { fg = colors.black3, bg = colors.bg0 },
+  Function = { link = "GruvboxGreen" }, -- disable bold
 }
+highlight_groups_overrides['@string'] = { fg = colors.tint_of_red }
+
 
 local config = {
   undercurl = true,

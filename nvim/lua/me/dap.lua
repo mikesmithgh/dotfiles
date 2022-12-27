@@ -16,11 +16,11 @@ end
 
 
 local function reload()
-  local m = require('me')
+--   local m = require('me')
   require('dap.repl').close()
-  m.reload('dap', true)
-  m.reload('me.dap').setup()
-  m.reload('jdtls.dap').setup_dap({hotcodereplace = 'auto'})
+--   m.reload('dap', true)
+  require('me.dap').setup()
+  require('jdtls.dap').setup_dap({hotcodereplace = 'auto'})
   vim.cmd('set ft=' .. vim.bo.filetype)
   require('dap').set_log_level(log_level)
 end

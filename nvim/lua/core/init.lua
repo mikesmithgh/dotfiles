@@ -1,37 +1,31 @@
 vim.api.nvim_create_augroup("BashFixCommandPreventExecuteWithoutSave", { clear = true })
-vim.api.nvim_create_augroup("FileTypeTOML", { clear = true })
-vim.api.nvim_create_augroup("FileTypeJSONOrYAML", { clear = true })
+vim.api.nvim_create_augroup("Unhighlight", { clear = true })
 
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = "BashFixCommandPreventExecuteWithoutSave",
-  pattern = {"bash-fc.*"},
+  pattern = { "bash-fc.*" },
   callback = function()
     vim.cmd('silent! !rm %')
   end
 })
 
-vim.api.nvim_create_autocmd({"FileChangedShell"}, {
+vim.api.nvim_create_autocmd({ "FileChangedShell" }, {
   group = "BashFixCommandPreventExecuteWithoutSave",
-  pattern = {"bash-fc.*"},
+  pattern = { "bash-fc.*" },
   callback = function()
-    vim.api.nvim_echo({{"To execute the command you must write the buffer contents.", "WarningMsg"}}, true, {})
+    vim.api.nvim_echo({ { "To execute the command you must write the buffer contents.", "WarningMsg" } }, true, {})
   end
 })
 
--- -- may no longer be needed
--- vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
---   group = "FileTypeTOML",
---   pattern = { vim.fn.expand("~") .. "/.aws/config", vim.fn.expand("~") .. "/.aws/credentials" },
---   callback = function()
---     vim.cmd('setlocal filetype=confini')
---   end
--- })
-
-vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
-  group = "FileTypeJSONOrYAML",
-  pattern = { "*.pipeline" },
+vim.api.nvim_create_autocmd({ "CursorHold", "InsertEnter", "TextChanged" }, {
+  group = "Unhighlight",
+  pattern = { "*" },
   callback = function()
-    -- TODO: rewrite in lua
-    vim.cmd('if search(\'^---\\|\\s\\+\\w\\+:\\s*\', \'nW\') | setlocal filetype=yaml | else | setlocal filetype=json | endif')
+    vim.opt_local.hlsearch = false
   end
 })
+
+vim.api.nvim_create_user_command('DiffOrig', function()
+  -- TODO: make this not gross
+  vim.cmd('let temp_ft=&ft | vert new | setlocal shortmess=a | set noswapfile | setlocal bufhidden=wipe | setlocal buftype=nofile | r ++edit # | silent 0d_ | let &ft=temp_ft | setlocal nomodifiable | diffthis | wincmd p | diffthis')
+end, {})

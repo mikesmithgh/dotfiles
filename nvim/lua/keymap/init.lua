@@ -8,6 +8,10 @@ vim.keymap.set('n', 's', '<nop>') -- used by kemap.fzf
 vim.keymap.set('n', '<c-n>', '<nop>') -- used by NvimTree still in init.vim
 
 -- TODO: more pseudo leaders
+
+-- TODO: ctrl enter, shift enter https://stackoverflow.com/questions/16359878/how-to-map-shift-enter/42461580#42461580
+
+
 vim.keymap.set('n', 'S', function() vim.api.nvim_echo({{"~ TODO: map S as pseudo leader ~", "Comment"}}, false, {}) end)
 -- vim.keymap.set('n', '<bs>', function() vim.api.nvim_echo({{"~ TODO: map <bs> as pseudo leader ~", "Comment"}}, false, {}) end)
 -- vim.keymap.set('n', '<cr>', function() vim.api.nvim_echo({{"~ TODO: map <cr> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
@@ -54,14 +58,14 @@ vim.keymap.set('n', '<c-w>', function() vim.api.nvim_echo({{"~ use <bs> instead 
 vim.keymap.set('n', '<bs>', '<c-w>') vim.keymap.set('n', '<bs><bs>', '<c-w><c-w>')
 
 -- toggle
-vim.keymap.set('n', '<leader>t/', ':set hlsearch! <cr>') 
-vim.keymap.set('n', '<leader>tl', ':set list! <cr>') 
+-- vim.keymap.set('n', '<leader>t/', ':set hlsearch! <cr>') 
+-- vim.keymap.set('n', '<leader>tl', ':set list! <cr>') 
 vim.keymap.set('n', '/', ':set hlsearch<cr>/')
-vim.keymap.set('n', '?', ':set hlsearch<cr>?') 
-vim.keymap.set('n', '*', ':set hlsearch<cr>*') 
-vim.keymap.set('n', '#', ':set hlsearch<cr>#') 
-vim.keymap.set('n', 'g*', ':set hlsearch<cr>g*') 
-vim.keymap.set('n', 'g#', ':set hlsearch<cr>g#') 
+vim.keymap.set('n', '?', ':set hlsearch<cr>?')
+vim.keymap.set('n', '*', ':set hlsearch<cr>*')
+vim.keymap.set('n', '#', ':set hlsearch<cr>#')
+vim.keymap.set('n', 'g*', ':set hlsearch<cr>g*')
+vim.keymap.set('n', 'g#', ':set hlsearch<cr>g#')
 
 -- esc insert mode
 vim.keymap.set('i', 'jk', '<esc>') 
@@ -69,15 +73,77 @@ vim.keymap.set('i', 'jk', '<esc>')
 -- black hole register "_
 vim.keymap.set('n', 'x', '"_x') 
 
--- tasty keymaps from https://github.com/ThePrimeagen/init.lua/blob/bc8324fa1c31bd1bc81fb8a5dde684dffd324f84/lua/theprimeagen/remap.lua
+-- tasty keymaps modified from https://github.com/ThePrimeagen/init.lua/blob/bc8324fa1c31bd1bc81fb8a5dde684dffd324f84/lua/theprimeagen/remap.lua
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-o>", "<C-o>zz")
+vim.keymap.set("n", "<C-i>", "<C-i>zz")
+vim.keymap.set("n", "<C-t>", "<C-t>zz")
+vim.keymap.set("n", "<C-]>", "<C-]>zz")
+vim.keymap.set("n", "]c", "]czz")
+vim.keymap.set("n", "[c", "[czz")
+vim.keymap.set("n", "do", "do]czz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "<a-n>", 'j0nzzzv')
+vim.keymap.set("n", "<a-s-n>", '0Nzzzv')
 
 -- Show all diagnostics on current line in floating window
-vim.api.nvim_set_keymap('n', '<Leader>d', ':lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n',  ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', {})
+vim.api.nvim_set_keymap('n',  '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', {})
+
+-- yanks and puts
+vim.api.nvim_set_keymap('v', '<leader>Y', '"+Y', {})
+vim.api.nvim_set_keymap('v', '<leader>y', '"+y', {})
+vim.api.nvim_set_keymap('v', '<leader>p', '"+p', {})
+vim.api.nvim_set_keymap('v', '<leader>P', '"+P', {})
+
+vim.api.nvim_set_keymap('n', '<leader>Y', '"+y$', {})
+vim.api.nvim_set_keymap('n', '<leader>y', '"+y', {})
+vim.api.nvim_set_keymap('n', '<leader>yy', '"+yy', {})
+vim.api.nvim_set_keymap('n', '<leader>p', '"+p<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>P', '"+P<CR>', {})
+
+-- todo zy and zp mappings
+
+vim.api.nvim_set_keymap('c', 'w!!', 'w !sudo tee > /dev/null %', {})
+
+
+vim.api.nvim_set_keymap('n', '<C-e>', '5<C-e>', {})
+vim.api.nvim_set_keymap('n', '<C-y>', '5<C-y>', {})
+vim.api.nvim_set_keymap('n', '<C-h>', '3h', {})
+vim.api.nvim_set_keymap('n', '<C-j>', '5j', {})
+vim.api.nvim_set_keymap('n', '<C-k>', '5k', {})
+vim.api.nvim_set_keymap('n', '<C-l>', '3l', {})
+vim.api.nvim_set_keymap('v', '<C-h>', '3h', {})
+vim.api.nvim_set_keymap('v', '<C-j>', '5j', {})
+vim.api.nvim_set_keymap('v', '<C-k>', '5k', {})
+vim.api.nvim_set_keymap('v', '<C-l>', '3l', {})
+
+-- Don't use Q for Ex mode, use it for formatting.  Except for Select mode.
+vim.keymap.set("n", "Q", "gq")
+
+-- TODO: convert to more lua
+vim.api.nvim_set_keymap('n', '<a-left>', ':vertical resize -5<cr>', { silent = true })
+vim.api.nvim_set_keymap('n', '<a-right>', ':vertical resize +5<cr>', { silent = true })
+vim.api.nvim_set_keymap('n', '<a-up>', ':resize +5<cr>', { silent = true })
+vim.api.nvim_set_keymap('n', '<a-down>', ':resize -5<cr>', { silent = true })
+
+vim.api.nvim_set_keymap('n', '<c-n>n', ':NvimTreeToggle<CR>', {})
+vim.keymap.set('n', '<C-n><C-n>', function()
+  -- TODO: improve in lua 
+  if vim.opt.filetype:get() == 'NvimTree' then
+    vim.cmd('wincmd p')
+  else
+    vim.cmd('NvimTreeFindFile | NvimTreeFocus')
+  end
+end, {})
+vim.api.nvim_set_keymap('n', '<c-n><C-q>', ':copen<CR>', {})
+vim.api.nvim_set_keymap('n', '<c-n>q', ':cclose<CR>', {})
+vim.api.nvim_set_keymap('n', '<c-n><C-l>', ':lopen<CR>', {})
+vim.api.nvim_set_keymap('n', '<c-n>l', ':lclose<CR>', {})
 
 -- TODO: make this return a table
 require("keymap.fzf")

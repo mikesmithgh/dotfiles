@@ -4,6 +4,13 @@
 -- e.g, brew install jdtls
 local jdtls = require('jdtls')
 
+-- my preferred tab config for java
+-- vim.opt.set_local.shiftwidth = 4
+-- vim.opt.set_local.tabstop = 4
+-- vim.opt.set_local.softtabstop = 4
+
+-- below is lsp and dap stuff
+
 local root_markers = { 'gradlew', '.git', 'mvnw' }
 local root_dir = require('jdtls.setup').find_root(root_markers)
 local home = os.getenv('HOME')
@@ -61,8 +68,8 @@ local config = {
       },
       sources = {
         organizeImports = {
-          starThreshold = 9999;
-          staticStarThreshold = 9999;
+          starThreshold = 6;
+          staticStarThreshold = 6;
         },
       },
     },
@@ -78,16 +85,16 @@ local config = {
 -- end
 
 local on_attach = function(client, bufnr)
-  print("starty")
+--   print("starty")
   -- ok I officially have no idea what is going on here
   -- copied from https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations
   require 'jdtls.setup'.add_commands()
-  print("party1")
+--   print("party1")
 --   require 'jdtls'.setup_dap()
   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
-  print("party2")
+--   print("party2")
 --   require 'lsp-status'.register_progress()
-  print("party3")
+--   print("party3")
 --   require 'compe'.setup {
 --     enabled = true;
 --     autocomplete = true;
@@ -115,7 +122,7 @@ local on_attach = function(client, bufnr)
 --       treesitter = true;
 --     };
 --   }
-  print("party4")
+--   print("party4")
 
 --   require 'lspkind'.init()
 --   require 'lspsaga'.init_lsp_saga()
@@ -146,21 +153,21 @@ local on_attach = function(client, bufnr)
 --       ]], true)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  print("party5")
+--   print("party5")
 
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  print("party6")
+--   print("party6")
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-  print("party7")
+--   print("party7")
 
   -- Mappings.
   local opts = { noremap = true, silent = true }
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.defnition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -168,8 +175,6 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references() && vim.cmd("copen")<CR>', opts)
   buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   -- Java specific
   buf_set_keymap("n", "<leader>di", "<Cmd>lua require'jdtls'.organize_imports()<CR>", opts)
@@ -181,18 +186,18 @@ local on_attach = function(client, bufnr)
 
   buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  print("party hardy")
-  vim.api.nvim_exec([[
-          hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-          hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-          hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-          augroup lsp_document_highlight
-            autocmd!
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-          augroup END
-      ]], false)
-  print("yay")
+--   print("party hardy")
+--   vim.api.nvim_exec([[
+--           hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+--           hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+--           hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+--           augroup lsp_document_highlight
+--             autocmd!
+--             autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+--             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+--           augroup END
+--       ]], false)
+--   print("yay")
 
 end
 
@@ -260,7 +265,7 @@ vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java
 --   vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar", 1), "\n"),
 -- }
 
-print(bundles)
+-- print(bundles)
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;

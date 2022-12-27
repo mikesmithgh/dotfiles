@@ -71,8 +71,8 @@ return packer.startup(function(use)
   -- kinesis advantage syntax highlighting
   use("https://github.com/arjenl/vim-kinesis")
 
-  -- code commenter
-  use('https://github.com/preservim/nerdcommenter')
+--   -- code commenter
+--   use('https://github.com/preservim/nerdcommenter')
 
   -- git integration
   use('https://github.com/tpope/vim-fugitive')
@@ -83,8 +83,11 @@ return packer.startup(function(use)
   -- git diff in sign column
   use('https://github.com/airblade/vim-gitgutter')
 
-  -- vimWiki https://github.com/vimwiki/vimwiki
-  use('vimwiki/vimwiki')
+  -- install without yarn or npm
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
 
   -- improved keybindings
   use('tpope/vim-unimpaired')
@@ -130,12 +133,9 @@ return packer.startup(function(use)
   use('mfussenegger/nvim-jdtls')
   use('mfussenegger/nvim-dap') -- debug adapter protocol 
 
-  use {
-    "folke/zen-mode.nvim",
-    config = function()
-      require("zen-mode").setup()
-    end
-  }
+  use 'norcalli/nvim-colorizer.lua'
+
+  use ('numToStr/Comment.nvim')
 
   if packer_bootstrap then
     require("packer").sync()
