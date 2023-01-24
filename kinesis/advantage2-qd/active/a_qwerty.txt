@@ -22,7 +22,8 @@
 [rctrl]>[rctrl]
 [rwin]>[ralt]
 [pup]>[rwin]
-[pdown]>[escape]
+* vim ctrl-w
+{pdown}>{speed9}{-rctrl}{w}{+rctrl}
 
 * kp right thumb cluster
 [kp-space]>[kp-space]
@@ -30,12 +31,17 @@
 [kp-rctrl]>[kp-rctrl]
 [rwin]>[kp-ralt]
 [kp-pup]>[kp-rwin]
-[kp-pdown]>[kp-escape]
+* vim ctrl-w
+{kp-pdown}>{speed9}{-rctrl}{w}{+rctrl}
 
-[up]>[down]
-[down]>[up]
+[up]>[obrack]
+[down]>[cbrack]
+{obrack}>{speed9}{-lshift}{9}{+lshift}
+{cbrack}>{speed9}{-lshift}{0}{+lshift}
+{lshift}{obrack}>{speed9}{-lshift}{,}{+lshift}
+{lshift}{cbrack}>{speed9}{-lshift}{.}{+lshift}
 
-[kp-h]>[kp-left]
+[kp-H]>[kp-left]
 [kp4]>[kp-down]
 [kp5]>[kp-up]
 [kp6]>[kp-right]
