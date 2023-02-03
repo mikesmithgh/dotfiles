@@ -84,6 +84,18 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["baleia.nvim"] = {
+    config = { "\27LJ\2\nA\0\0\5\2\4\0\t-\0\0\0009\0\0\0006\2\1\0009\2\2\0029\2\3\2-\4\1\0B\2\2\0A\0\0\1K\0\1\0\0¿\1¿\nbufnr\afn\bvim\tonceõ\1\0\0\5\2\n\0\21-\0\0\0009\0\0\0006\2\1\0009\2\2\0029\2\3\2-\4\1\0B\2\2\0A\0\0\0016\0\1\0009\0\4\0'\1\6\0=\1\5\0006\0\1\0009\0\4\0'\1\b\0=\1\a\0006\0\1\0009\0\4\0+\1\1\0=\1\t\0K\0\1\0\0¿\1¿\rswapfile\twipe\14bufhidden\vnofile\fbuftype\abo\nbufnr\afn\bvim\tonceÅ\1\0\0\a\0\5\0\0146\0\0\0009\0\1\0009\0\2\0B\0\1\0029\0\3\0006\1\0\0009\1\1\0019\1\4\1)\3\0\0\18\4\0\0)\5\0\0)\6ˇˇB\1\5\1K\0\1\0\29nvim_buf_clear_namespace\17BaleiaColors\24nvim_get_namespaces\bapi\bvim˚\1\1\0\a\0\r\0 6\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0026\1\3\0009\1\4\0019\1\5\1B\1\1\0026\2\3\0009\2\4\0029\2\6\2'\4\a\0003\5\b\0004\6\0\0B\2\4\0016\2\3\0009\2\4\0029\2\6\2'\4\t\0003\5\n\0004\6\0\0B\2\4\0016\2\3\0009\2\4\0029\2\6\2'\4\v\0003\5\f\0004\6\0\0B\2\4\0012\0\0ÄK\0\1\0\0\16BaleiaClear\0\15BaleiaLess\0\19BaleiaColorize\29nvim_create_user_command\25nvim_get_current_buf\bapi\bvim\nsetup\vbaleia\frequire\0" },
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/baleia.nvim",
+    url = "https://github.com/m00qek/baleia.nvim"
+  },
+  ["barbar.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/barbar.nvim",
+    url = "https://github.com/romgrk/barbar.nvim",
+    wants = { "nvim-web-devicons" }
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -109,6 +121,16 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  conjure = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/conjure",
+    url = "https://github.com/Olical/conjure"
+  },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/diffview.nvim",
+    url = "https://github.com/sindrets/diffview.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -119,10 +141,21 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/fzf-lua",
     url = "https://github.com/ibhagwan/fzf-lua"
   },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
+  },
   ["gruvbox.nvim"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
     url = "https://github.com/ellisonleao/gruvbox.nvim"
+  },
+  gruvsquirrel = {
+    config = { "\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17gruvsquirrel\frequire\0" },
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/gruvsquirrel",
+    url = "/Users/mike/gitrepos/gruvsquirrel"
   },
   harpoon = {
     loaded = true,
@@ -149,10 +182,31 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
   },
+  ["mason-nvim-dap.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/mason-nvim-dap.nvim",
+    url = "https://github.com/jayp0521/mason-nvim-dap.nvim"
+  },
   ["mason.nvim"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
+  },
+  ["neodev.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
+  },
+  ["null-ls.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/null-ls.nvim",
+    url = "https://github.com/jose-elias-alvarez/null-ls.nvim"
+  },
+  ["nvim-autopairs"] = {
+    config = { "\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0" },
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
+    url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -169,6 +223,26 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
+  ["nvim-dap-go"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
+    url = "https://github.com/leoluz/nvim-dap-go"
+  },
+  ["nvim-dap-python"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-dap-python",
+    url = "https://github.com/mfussenegger/nvim-dap-python"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text",
+    url = "https://github.com/theHamsta/nvim-dap-virtual-text"
+  },
   ["nvim-jdtls"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-jdtls",
@@ -178,6 +252,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-surround"] = {
+    config = { "\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0" },
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/nvim-surround",
+    url = "https://github.com/kylechui/nvim-surround"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -209,6 +289,11 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["toggleterm.nvim"] = {
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
+    url = "https://github.com/akinsho/toggleterm.nvim"
+  },
   undotree = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/undotree",
@@ -219,15 +304,17 @@ _G.packer_plugins = {
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
-  ["vim-gitgutter"] = {
-    loaded = true,
-    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/vim-gitgutter",
-    url = "https://github.com/airblade/vim-gitgutter"
-  },
   ["vim-kinesis"] = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/vim-kinesis",
     url = "https://github.com/arjenl/vim-kinesis"
+  },
+  ["vim-matchup"] = {
+    after_files = { "/Users/mike/.local/share/nvim/site/pack/packer/opt/vim-matchup/after/plugin/matchit.vim" },
+    loaded = true,
+    needs_bufread = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/opt/vim-matchup",
+    url = "https://github.com/andymass/vim-matchup"
   },
   ["vim-numbertoggle"] = {
     loaded = true,
@@ -248,10 +335,43 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/mike/.local/share/nvim/site/pack/packer/start/vim-unimpaired",
     url = "https://github.com/tpope/vim-unimpaired"
+  },
+  ["zen-mode.nvim"] = {
+    config = { "\27LJ\2\nÖ\1\0\0\5\0\a\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\5\0005\3\3\0004\4\0\0=\4\4\3=\3\6\2B\0\2\1K\0\1\0\vwindow\1\0\0\foptions\1\0\3\rbackdrop\4ÊÃô≥\6ÊÃπˇ\3\nwidth\3¥\1\vheight\3\1\nsetup\rzen-mode\frequire\0" },
+    loaded = true,
+    path = "/Users/mike/.local/share/nvim/site/pack/packer/start/zen-mode.nvim",
+    url = "https://github.com/folke/zen-mode.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Setup for: vim-matchup
+time([[Setup for vim-matchup]], true)
+try_loadstring("\27LJ\2\nN\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\0\1\vmethod\npopup!matchup_matchparen_offscreen\6g\bvim\0", "setup", "vim-matchup")
+time([[Setup for vim-matchup]], false)
+time([[packadd for vim-matchup]], true)
+vim.cmd [[packadd vim-matchup]]
+time([[packadd for vim-matchup]], false)
+-- Config for: nvim-surround
+time([[Config for nvim-surround]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
+time([[Config for nvim-surround]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
+time([[Config for nvim-autopairs]], false)
+-- Config for: zen-mode.nvim
+time([[Config for zen-mode.nvim]], true)
+try_loadstring("\27LJ\2\nÖ\1\0\0\5\0\a\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\5\0005\3\3\0004\4\0\0=\4\4\3=\3\6\2B\0\2\1K\0\1\0\vwindow\1\0\0\foptions\1\0\3\rbackdrop\4ÊÃô≥\6ÊÃπˇ\3\nwidth\3¥\1\vheight\3\1\nsetup\rzen-mode\frequire\0", "config", "zen-mode.nvim")
+time([[Config for zen-mode.nvim]], false)
+-- Config for: baleia.nvim
+time([[Config for baleia.nvim]], true)
+try_loadstring("\27LJ\2\nA\0\0\5\2\4\0\t-\0\0\0009\0\0\0006\2\1\0009\2\2\0029\2\3\2-\4\1\0B\2\2\0A\0\0\1K\0\1\0\0¿\1¿\nbufnr\afn\bvim\tonceõ\1\0\0\5\2\n\0\21-\0\0\0009\0\0\0006\2\1\0009\2\2\0029\2\3\2-\4\1\0B\2\2\0A\0\0\0016\0\1\0009\0\4\0'\1\6\0=\1\5\0006\0\1\0009\0\4\0'\1\b\0=\1\a\0006\0\1\0009\0\4\0+\1\1\0=\1\t\0K\0\1\0\0¿\1¿\rswapfile\twipe\14bufhidden\vnofile\fbuftype\abo\nbufnr\afn\bvim\tonceÅ\1\0\0\a\0\5\0\0146\0\0\0009\0\1\0009\0\2\0B\0\1\0029\0\3\0006\1\0\0009\1\1\0019\1\4\1)\3\0\0\18\4\0\0)\5\0\0)\6ˇˇB\1\5\1K\0\1\0\29nvim_buf_clear_namespace\17BaleiaColors\24nvim_get_namespaces\bapi\bvim˚\1\1\0\a\0\r\0 6\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0026\1\3\0009\1\4\0019\1\5\1B\1\1\0026\2\3\0009\2\4\0029\2\6\2'\4\a\0003\5\b\0004\6\0\0B\2\4\0016\2\3\0009\2\4\0029\2\6\2'\4\t\0003\5\n\0004\6\0\0B\2\4\0016\2\3\0009\2\4\0029\2\6\2'\4\v\0003\5\f\0004\6\0\0B\2\4\0012\0\0ÄK\0\1\0\0\16BaleiaClear\0\15BaleiaLess\0\19BaleiaColorize\29nvim_create_user_command\25nvim_get_current_buf\bapi\bvim\nsetup\vbaleia\frequire\0", "config", "baleia.nvim")
+time([[Config for baleia.nvim]], false)
+-- Config for: gruvsquirrel
+time([[Config for gruvsquirrel]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17gruvsquirrel\frequire\0", "config", "gruvsquirrel")
+time([[Config for gruvsquirrel]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

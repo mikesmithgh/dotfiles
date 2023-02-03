@@ -5,3 +5,4 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
     vim.cmd('if search(\'^---\\|\\s\\+\\w\\+:\\s*\', \'nW\') | setlocal filetype=yaml | else | setlocal filetype=json | endif')
   end
 })
+

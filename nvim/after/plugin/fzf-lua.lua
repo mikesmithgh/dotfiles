@@ -157,11 +157,11 @@ require('fzf-lua').setup {
     -- set to `false` to remove a flag
     -- set to '' for a non-value flag
     -- for raw args use `fzf_args` instead
-    ['--ansi']   = '',
-    ['--info']   = 'inline',
-    ['--height'] = '100%',
-    ['--layout'] = 'reverse',
-    ['--border'] = 'none',
+    ['--ansi']    = '',
+    ['--info']    = 'inline',
+    ['--height']  = '100%',
+    ['--layout']  = 'reverse',
+    ['--border']  = 'none',
   },
   -- fzf '--color=' options (optional)
   --[[ fzf_colors = {
@@ -229,6 +229,9 @@ require('fzf-lua').setup {
   },
   -- provider setup
   files               = {
+    fzf_opts     = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/files-history.txt',
+    },
     -- previewer      = "bat",          -- uncomment to override previewer
     -- (name from 'previewers' table)
     -- set to 'false' to disable
@@ -347,6 +350,9 @@ require('fzf-lua').setup {
     },
   },
   grep                = {
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/grep-history.txt',
+    },
     prompt         = 'Rg❯ ',
     input_prompt   = 'Grep For❯ ',
     multiprocess   = true, -- run command in a separate process
@@ -377,24 +383,33 @@ require('fzf-lua').setup {
     actions        = {
       -- actions inherit from 'actions.files' and merge
       -- this action toggles between 'grep' and 'live_grep'
-      ["ctrl-g"] = { actions.grep_lgrep }
+      ["ctrl-g"] = { actions.grep_lgrep },
     },
     no_header      = false, -- hide grep|cwd header?
     no_header_i    = false, -- hide interactive header?
   },
   args                = {
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/args-history.txt',
+    },
     prompt     = 'Args❯ ',
     files_only = true,
     -- actions inherit from 'actions.files' and merge
     actions    = { ["ctrl-x"] = { actions.arg_del, actions.resume } }
   },
   oldfiles            = {
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/oldfiles-history.txt',
+    },
     prompt                  = 'History❯ ',
     cwd_only                = false,
     stat_file               = true, -- verify files exist on disk
     include_current_session = false, -- include bufs from current session
   },
   buffers             = {
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/buffers-history.txt',
+    },
     prompt        = 'Buffers❯ ',
     file_icons    = true, -- show file icons?
     color_icons   = true, -- colorize file|git icons
@@ -423,6 +438,7 @@ require('fzf-lua').setup {
       -- hide tabnr
       ['--delimiter'] = "'[\\):]'",
       ["--with-nth"]  = '2..',
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/tabs-history.txt',
     },
   },
   lines               = {
@@ -436,6 +452,7 @@ require('fzf-lua').setup {
       ['--delimiter'] = "'[\\]:]'",
       ["--nth"]       = '2..',
       ["--tiebreak"]  = 'index',
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/lines-history.txt',
     },
     -- actions inherit from 'actions.buffers' and merge
     actions         = {
@@ -454,6 +471,7 @@ require('fzf-lua').setup {
       ['--delimiter'] = "'[\\]:]'",
       ["--with-nth"]  = '2..',
       ["--tiebreak"]  = 'index',
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/blines-history.txt',
     },
     -- actions inherit from 'actions.buffers' and merge
     actions         = {
@@ -479,6 +497,9 @@ require('fzf-lua').setup {
     },
     no_header    = false, -- hide grep|cwd header?
     no_header_i  = false, -- hide interactive header?
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/tags-history.txt',
+    },
   },
   btags               = {
     prompt        = 'BTags❯ ',
@@ -494,6 +515,7 @@ require('fzf-lua').setup {
       ['--delimiter'] = "'[\\]:]'",
       ["--with-nth"]  = '2..',
       ["--tiebreak"]  = 'index',
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/btags-history.txt',
     },
     -- actions inherit from 'actions.files'
   },
@@ -507,10 +529,16 @@ require('fzf-lua').setup {
       -- a live_preview of the colorscheme
       -- require('feline').reset_highlights()
     end,
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/colorschemes-history.txt',
+    },
   },
   quickfix            = {
     file_icons = true,
     git_icons  = true,
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/quickfix-history.txt',
+    },
   },
   lsp                 = {
     prompt_postfix   = '❯ ', -- will be appended to the LSP label
@@ -543,7 +571,10 @@ require('fzf-lua').setup {
         height = 0.35,
         width  = 0.60,
       },
-    }
+    },
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/lsp-history.txt',
+    },
   },
   diagnostics         = {
     prompt       = 'Diagnostics❯ ',
@@ -573,6 +604,9 @@ require('fzf-lua').setup {
     -- severity_only:   keep any matching exact severity
     -- severity_limit:  keep any equal or more severe (lower)
     -- severity_bound:  keep any equal or less severe (higher)
+    fzf_opts       = {
+      ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/diagnostics-history.txt',
+    },
   },
   -- uncomment to use the old help previewer which used a
   -- minimized help window to generate the help tag preview
@@ -586,7 +620,7 @@ require('fzf-lua').setup {
   --    clear, bold, black, red, green, yellow
   --    blue, magenta, cyan, grey, dark_grey, white
   file_icon_colors    = {
-    ["sh"] = "green",
+    ["sh"] = "green", -- accepts hex codes
   },
   -- padding can help kitty term users with
   -- double-width icon rendering

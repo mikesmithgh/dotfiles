@@ -12,8 +12,13 @@ vim.keymap.set('n', '<c-n>', '<nop>') -- used by NvimTree still in init.vim
 -- TODO: ctrl enter, shift enter https://stackoverflow.com/questions/16359878/how-to-map-shift-enter/42461580#42461580
 
 
+-- TODO: check if terminal and was normal mode, if so set to normal mode
+vim.api.nvim_set_keymap('n', '<c-w><c-o>', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<c-w>o', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+
 vim.keymap.set('n', 'S', function() vim.api.nvim_echo({{"~ TODO: map S as pseudo leader ~", "Comment"}}, false, {}) end)
--- vim.keymap.set('n', '<bs>', function() vim.api.nvim_echo({{"~ TODO: map <bs> as pseudo leader ~", "Comment"}}, false, {}) end)
+vim.keymap.set('n', '<bs>', function() vim.api.nvim_echo({{"~ TODO: map <bs> as pseudo leader ~", "Comment"}}, false, {}) end)
+vim.keymap.set('n', '<s-bs>', function() vim.api.nvim_echo({{"~ TODO: map <bs> as pseudo leader ~", "Comment"}}, false, {}) end)
 -- vim.keymap.set('n', '<cr>', function() vim.api.nvim_echo({{"~ TODO: map <cr> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
 vim.keymap.set('n', '<left>', function() vim.api.nvim_echo({{"~ TODO: map <left> as pseudo leader ~", "Comment"}}, false, {}) end)
 vim.keymap.set('n', '<up>', function() vim.api.nvim_echo({{"~ TODO: map <up> as pseudo leader ~", "Comment"}}, false, {}) end)
@@ -54,8 +59,13 @@ vim.keymap.set('n', '<fn>', function() vim.api.nvim_echo({{"~ TODO: map <fn> as 
 
 
 vim.keymap.set('n', '<leader>w', function() vim.api.nvim_echo({{"~ use <bs> instead of <leader>w", "Comment"}}, false, {}) end)
-vim.keymap.set('n', '<c-w>', function() vim.api.nvim_echo({{"~ use <bs> instead of <c-w>", "Comment"}}, false, {}) end)
-vim.keymap.set('n', '<bs>', '<c-w>') vim.keymap.set('n', '<bs><bs>', '<c-w><c-w>')
+-- vim.keymap.set('n', '<c-w>', function() vim.api.nvim_echo({{"~ use <bs> instead of <c-w>", "Comment"}}, false, {}) end)
+-- vim.keymap.set('n', '<bs>', '<c-w>')
+-- vim.keymap.set('n', '<bs><bs>', '<c-w><c-w>')
+-- vim.keymap.set('n', '<bs><s-bs>', '<c-w><c-w>')
+-- vim.keymap.set('n', '<s-bs>', '<c-w>')
+-- vim.keymap.set('n', '<s-bs><s-bs>', '<c-w><c-w>')
+-- vim.keymap.set('n', '<s-bs><bs>', '<c-w><c-w>')
 
 -- toggle
 -- vim.keymap.set('n', '<leader>t/', ':set hlsearch! <cr>') 
@@ -145,6 +155,61 @@ vim.api.nvim_set_keymap('n', '<c-n>q', ':cclose<CR>', {})
 vim.api.nvim_set_keymap('n', '<c-n><C-l>', ':lopen<CR>', {})
 vim.api.nvim_set_keymap('n', '<c-n>l', ':lclose<CR>', {})
 
+-- TODO: keep this until it conflicts
+vim.keymap.set("t", "<esc>", '<c-\\><c-n>')
+
+vim.keymap.set('t', '<c-w>', '<c-\\><c-n><c-w>')
+vim.api.nvim_set_keymap('t', '<c-w><c-o>', '<c-\\><c-n><cmd>ZenMode<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('t', '<c-w>o', '<c-\\><c-n><cmd>ZenMode<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('i', '<c-w>', '<esc><c-w>')
+
+-- assumption sidepane on left TODO: turn into function
+vim.keymap.set({'n', 'i', 't'}, '<c-w>k', function()
+  -- if vim.opt.filetype:get() == 'toggleterm' then
+    vim.cmd('wincmd k')
+    if vim.opt.filetype:get() == 'NvimTree' then
+      vim.cmd('wincmd l')
+    end
+  -- else
+    -- vim.cmd('wincmd k')
+  -- end
+end, {})
+
+-- assumption sidepane on left TODO: turn into function
+vim.keymap.set({'n', 'i', 't'}, '<c-w>j', function()
+  -- if vim.opt.filetype:get() == 'toggleterm' then
+    vim.cmd('wincmd j')
+    if vim.opt.filetype:get() == 'NvimTree' then
+      vim.cmd('wincmd l')
+    end
+  -- else
+    -- vim.cmd('wincmd k')
+  -- end
+end, {})
+
+
+--- Enable completion triggered by <c-x><c-o>
+
+-- Mappings.
+-- See `:help vim.lsp.*` for documentation on any of the below functions
+local bufopts = { noremap=true, silent=true }
+vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, bufopts)
+vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, bufopts)
+vim.keymap.set('n', '<leader>lk', vim.lsp.buf.hover, bufopts)
+vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, bufopts)
+vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, bufopts)
+vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, bufopts)
+vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, bufopts)
+vim.keymap.set('n', '<leader>lwl', function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end, bufopts)
+vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
+vim.keymap.set('n', '<leader>lR', vim.lsp.buf.rename, bufopts)
+vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, bufopts)
+vim.keymap.set('n', '<leader>lr', vim.lsp.buf.references, bufopts)
+vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+-- vim.keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
 -- TODO: make this return a table
 require("keymap.fzf")
-

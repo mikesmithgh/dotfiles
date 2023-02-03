@@ -40,6 +40,11 @@ function! s:Map(...) abort
 endfunction
 " --- above copied from https://github.com/tpope/vim-unimpaired/blob/master/plugin/unimpaired.vim
 
+" clobber cursorcolumn TODO: remap if I want it
+unmap <Plug>(unimpaired-disable)t
+unmap <Plug>(unimpaired-enable)t
+unmap <Plug>(unimpaired-toggle)t
+
 " unmap unwanted bindings
 unmap yo
 unmap yo<esc>
@@ -49,6 +54,7 @@ unmap >s
 unmap =s<esc>
 unmap <s<esc>
 unmap >s<esc>
+
 
 " map preferred bindings
 exe s:Map('n', '<leader>o', '<Plug>(unimpaired-toggle)')
@@ -65,5 +71,8 @@ exe s:Map('n', '<leader>o<Esc>', '<Nop>')
 " exe s:Map('n', '>s<Esc>', '<Nop>')
 
 call s:option_map('/', 'hlsearch', 'set')
+
+exe s:Map('n', '<leader>ot', '<cmd>ToggleTerm<cr>')
+
 
 

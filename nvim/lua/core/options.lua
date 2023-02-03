@@ -16,6 +16,15 @@ vim.opt.hidden = true
 
 vim.opt.autoread = true
 
+-- backups
+vim.opt.backup = true
+vim.opt.writebackup = true
+vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup'
+vim.opt.backupcopy = 'yes'
+vim.opt.backupext = '.bak' -- IMPORTANT: autcommand will override this
+vim.opt.backupskip:append("COMMIT_EDITMSG")
+vim.opt.patchmode = '' -- no patch mode needed, autocommand will take versioned backups
+
 vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
 vim.opt.undofile = true
 
@@ -24,7 +33,10 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = "Options",
   pattern = { "*" },
   callback = function()
-    vim.opt.scroll = 5
+    -- causes error with DiffviewOpen so swallowing the error for now
+    pcall(function()
+      vim.opt.scroll = 5
+    end)
   end
 })
 
@@ -67,6 +79,7 @@ vim.opt.wildmode = {'longest:full','full'}
 
 -- Highlight current line
 vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
 
 -- -- hide insert autocomplete messages and while scanning for completion items
 vim.tbl_extend("force", vim.opt.shortmess, { 'c', 'C' })
@@ -133,11 +146,14 @@ vim.opt.report = 0
 vim.opt.virtualedit = 'block'
 vim.opt.showcmd = true
 
+
 vim.opt.fillchars = {
   vert = '│',
   fold = '·',
   eob = '~',
   lastline = '@',
+  diff = '╱',
+  msgsep = '▅',
 }
 
 vim.g.github_enterprise_urls = {'https://bithub.brightcove.com'}
@@ -153,7 +169,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end
 })
 
--- gitgutter
-vim.g.gitgutter_realtime = 0
-vim.g.gitgutter_eager = 0
 
+vim.opt.inccommand = 'split'
+
+vim.opt.keywordprg = ':Woman'

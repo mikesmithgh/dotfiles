@@ -16,8 +16,8 @@ local my_mappings_list = {
   { key = "P", action = "parent_node" },
   --      { key = "<BS>", action = "" }, -- disable <BS> because it is mapped to <C-w>
   { key = "<Tab>", action = "preview" },
-  { key = "K", action = "first_sibling" },
-  { key = "J", action = "last_sibling" },
+  -- { key = "K", action = "first_sibling" }, -- do not need conflicts with toggle_file_info and angle brackets do this
+  -- { key = "J", action = "last_sibling" },
   { key = "C", action = "toggle_git_clean" },
   { key = "I", action = "toggle_git_ignored" },
   { key = "H", action = "toggle_dotfiles" },
@@ -49,7 +49,8 @@ local my_mappings_list = {
   { key = "E", action = "expand_all" },
   { key = "S", action = "search_node" },
   { key = ".", action = "run_file_command" },
-  { key = "<C-k>", action = "toggle_file_info" },
+  -- { key = "<C-k>", action = "toggle_file_info" },
+  { key = "K", action = "toggle_file_info" },
   { key = "g?", action = "toggle_help" },
   { key = "m", action = "toggle_mark" },
   { key = "bmv", action = "bulk_move" },

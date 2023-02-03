@@ -5,9 +5,9 @@
 local jdtls = require('jdtls')
 
 -- my preferred tab config for java
--- vim.opt.set_local.shiftwidth = 4
--- vim.opt.set_local.tabstop = 4
--- vim.opt.set_local.softtabstop = 4
+vim.opt_local.shiftwidth = 4
+vim.opt_local.tabstop = 4
+vim.opt_local.softtabstop = 4
 
 -- below is lsp and dap stuff
 
@@ -47,9 +47,9 @@ local config = {
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 
-    '-jar', '/opt/homebrew/Cellar/jdtls/1.18.0/libexec/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+    '-jar', '/opt/homebrew/opt/jdtls/libexec/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
 
-    '-configuration', '/opt/homebrew/Cellar/jdtls/1.18.0/libexec/config_mac',
+    '-configuration', '/opt/homebrew/opt/jdtls/libexec/config_mac',
 
     '-data', workspace_folder,
   },
@@ -75,26 +75,13 @@ local config = {
     },
   },
 }
--- config['on_attach'] = function(client, bufnr)
---   -- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
---   -- you make during a debug session immediately.
---   -- Remove the option if you do not want that.
---   -- You can use the `JdtHotcodeReplace` command to trigger it manually
---   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
--- 
--- end
 
 local on_attach = function(client, bufnr)
---   print("starty")
-  -- ok I officially have no idea what is going on here
   -- copied from https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations
   require 'jdtls.setup'.add_commands()
---   print("party1")
---   require 'jdtls'.setup_dap()
   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
---   print("party2")
+
 --   require 'lsp-status'.register_progress()
---   print("party3")
 --   require 'compe'.setup {
 --     enabled = true;
 --     autocomplete = true;
@@ -122,7 +109,6 @@ local on_attach = function(client, bufnr)
 --       treesitter = true;
 --     };
 --   }
---   print("party4")
 
 --   require 'lspkind'.init()
 --   require 'lspsaga'.init_lsp_saga()
@@ -153,29 +139,27 @@ local on_attach = function(client, bufnr)
 --       ]], true)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
---   print("party5")
 
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
---   print("party6")
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
---   print("party7")
 
   -- Mappings.
   local opts = { noremap = true, silent = true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.defnition()<CR>', opts)
---   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- TODO: revisit these keymaps and make consistent with LspZero
+  -- buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts) -- no implemented by jdtls
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_defnition()<CR>', opts)
+  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references() && vim.cmd("copen")<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   -- Java specific
   buf_set_keymap("n", "<leader>di", "<Cmd>lua require'jdtls'.organize_imports()<CR>", opts)
   buf_set_keymap("n", "<leader>dt", "<Cmd>lua require'jdtls'.test_class()<CR>", opts)
@@ -184,23 +168,16 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<leader>de", "<Cmd>lua require('jdtls').extract_variable()<CR>", opts)
   buf_set_keymap("v", "<leader>dm", "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", opts)
 
-  buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap("n", "<leader>cf", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
 
---   print("party hardy")
---   vim.api.nvim_exec([[
---           hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
---           hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
---           hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
---           augroup lsp_document_highlight
---             autocmd!
---             autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
---             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
---           augroup END
---       ]], false)
---   print("yay")
+  -- vim.api.nvim_create_augroup("JavaLsp", { clear = true })
+  -- vim.api.nvim_create_autocmd({ "CursorHold" }, {
+  --   group = "JavaLsp",
+  --   pattern = { "<buffer>" },
+  --   callback = vim.lsp.buf.hover
+  -- })
 
 end
-
 config['on_attach'] = on_attach
 
 
@@ -248,24 +225,19 @@ local bundles = {
   vim.fn.glob("/Users/mike/gitrepos/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1), "\n",
 }
 
-  -- git clone git@github.com:dgileadi/vscode-java-decompiler.git
+-- git clone git@github.com:dgileadi/vscode-java-decompiler.git
 vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java-decompiler/server/*.jar", 1), "\n"))
 
-  -- git clone git@github.com:microsoft/vscode-java-test.git && cd vscode-java-test/java-extension
-  -- npm install
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME='/opt/homebrew/Cellar/maven/3.8.6' npm run build-plugin
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
-
---   vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java-test/java-extension/com.microsoft.java.test.plugin/target/*.jar", 1), "\n"),
---   vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java-test/java-extension/com.microsoft.java.test.runner/target/*.jar", 1), "\n"),
+-- git clone git@github.com:microsoft/vscode-java-test.git && cd vscode-java-test/java-extension
+-- npm install
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME='/opt/homebrew/Cellar/maven/3.8.6' npm run build-plugin
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
 vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java-test/server/*.jar", 1), "\n"))
 
-  -- git clone git@github.com:testforstephen/vscode-pde.git && cd vscode-pde/pde/
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
---   vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar", 1), "\n"),
--- }
+-- git clone git@github.com:testforstephen/vscode-pde.git && cd vscode-pde/pde/
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
+vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar", 1), "\n"))
 
--- print(bundles)
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
