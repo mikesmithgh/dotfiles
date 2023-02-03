@@ -19,7 +19,7 @@ vim.opt.autoread = true
 -- backups
 vim.opt.backup = true
 vim.opt.writebackup = true
-vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup'
+vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup//' -- two trailing slashes replace all / with %
 vim.opt.backupcopy = 'yes'
 vim.opt.backupext = '.bak' -- IMPORTANT: autcommand will override this
 vim.opt.backupskip:append("COMMIT_EDITMSG")

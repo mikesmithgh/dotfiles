@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   group = "BashFixCommandPreventExecuteWithoutSave",
   pattern = { "bash-fc.*" },
   callback = function()
-    vim.cmd('silent! !rm %')
+    vim.cmd('silent! !rm <afile>')
   end
 })
 
@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd({ "FileChangedShell" }, {
   group = "BashFixCommandPreventExecuteWithoutSave",
   pattern = { "bash-fc.*" },
   callback = function()
-    vim.api.nvim_echo({ { "To execute the command you must write the buffer contents.", "WarningMsg" } }, true, {})
+    vim.api.nvim_notify("To execute the command you must write the buffer contents.", vim.log.levels.WARN, {})
   end
 })
 
@@ -32,11 +32,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
   callback = function()
     -- thank you https://gist.github.com/nepsilon/003dd7cfefc20ce1e894db9c94749755
-    local current_file_dir = vim.fn.expand("%:p:h") .. '/'
-    vim.opt.backupext = "===" .. current_file_dir:gsub("/", "%%") .. "===" .. vim.fn.strftime("%Y%m%dT%H%M%S") .. ".bak"
+    vim.opt.backupext = "." .. vim.fn.strftime("%Y%m%dT%H%M%S") .. ".bak"
   end
 })
-
 
 vim.api.nvim_create_user_command('DiffOrig', function()
   -- TODO: make this not gross
