@@ -1,8 +1,0 @@
-[up]>[down]
-[down]>[up]
-[home]>[lwin]
-[end]>[escape]
-[rwin]>[lalt]
-[pup]>[lwin]
-[pdown]>[escape]
-

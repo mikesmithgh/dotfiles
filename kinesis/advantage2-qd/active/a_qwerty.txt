@@ -1,5 +1,11 @@
+* kp shift keys
+* TODO: remap this section after testing new layout
 [caps]>[kpshift]
 [kp-caps]>[kpshift]
+[right]>[kpshift]
+[kp-right]>[kpshift]
+[up]>[kpshift]
+[kp-up]>[kpshift]
 
 * left thumb cluster
 [bspace]>[bspace]
@@ -34,17 +40,35 @@
 * vim ctrl-w
 {kp-pdown}>{speed9}{-rctrl}{w}{+rctrl}
 
-[up]>[obrack]
-[down]>[cbrack]
-{obrack}>{speed9}{-lshift}{9}{+lshift}
-{cbrack}>{speed9}{-lshift}{0}{+lshift}
-{lshift}{obrack}>{speed9}{-lshift}{,}{+lshift}
-{lshift}{cbrack}>{speed9}{-lshift}{.}{+lshift}
+* TODO: remap this section after testing new layout
+[down]>[up]
+* [up]>[obrack]
+* [down]>[cbrack]
+* {obrack}>{speed9}{-lshift}{9}{+lshift}
+* {cbrack}>{speed9}{-lshift}{0}{+lshift}
+* {lshift}{obrack}>{speed9}{-lshift}{,}{+lshift}
+* {lshift}{cbrack}>{speed9}{-lshift}{.}{+lshift}
 
+* vim-like direction arrows in kp layer
 [kp-H]>[kp-left]
 [kp4]>[kp-down]
 [kp5]>[kp-up]
 [kp6]>[kp-right]
 
+* get hypey
 [intl-\]>[hyper]
+
+* number row function keys in kp layer
+[kp-=]>[F1]
+[kp-1]>[F2]
+[kp-2]>[F3]
+[kp-3]>[F4]
+[kp-4]>[F5]
+[kp-5]>[F6]
+[kp-6]>[F7]
+[numlk]>[F8]
+[kp=]>[F9]
+[kpdiv]>[F10]
+[kpmult]>[F11]
+[kp-hyphen]>[F12]
 
