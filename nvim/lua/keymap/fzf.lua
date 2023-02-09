@@ -8,13 +8,13 @@ local function fzf_files()
 end
 
 local function fzf_live_grep()
-  local rg_opts = "--sort-files --column --line-number --no-heading --color=always --smart-case --hidden --max-columns=512 -g '!{.git,node_modules}/'"
-  fzf.live_grep({ rg_opts = rg_opts, debug = false, exec_empty_query =true, })
+  local rg_opts = "--sort-files --column --line-number --no-heading --color=never --smart-case --hidden --max-columns=512 -g '!{.git,node_modules}/'"
+  fzf.live_grep({ rg_opts = rg_opts, debug = false, exec_empty_query = true, })
 end
 
 local function fzf_lgrep_curbuf()
-  local rg_opts = "--sort-files --column --line-number --no-heading --color=always --smart-case --hidden --max-columns=512 -g '!{.git,node_modules}/'"
-  fzf.lgrep_curbuf({ rg_opts = rg_opts, debug = false, { exec_empty_query=true } })
+  local rg_opts = "--sort-files --column --line-number --no-heading --color=never --smart-case --hidden --max-columns=512 -g '!{.git,node_modules}/'"
+  fzf.lgrep_curbuf({ rg_opts = rg_opts, debug = false, { exec_empty_query = true } })
 end
 
 vim.keymap.set('n', 's<leader>', require("fzf-lua.cmd").load_command)

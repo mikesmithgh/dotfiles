@@ -61,7 +61,7 @@ vim.opt.incsearch = true
 vim.opt.ruler = true
 
 -- Configure backspace so it acts as it should act
-vim.opt.backspace = {'eol','start','indent'}
+vim.opt.backspace = { 'eol', 'start', 'indent' }
 vim.opt.whichwrap:append('<,>,h,l')
 
 
@@ -75,7 +75,7 @@ vim.opt.relativenumber = true
 
 -- Turn on the Wild menu
 vim.opt.wildmenu = true
-vim.opt.wildmode = {'longest:full','full'}
+vim.opt.wildmode = { 'longest:full', 'full' }
 
 -- Highlight current line
 vim.opt.cursorline = true
@@ -87,7 +87,7 @@ vim.tbl_extend("force", vim.opt.shortmess, { 'c', 'C' })
 vim.tbl_extend("force", vim.opt.complete, { 'kspell' })
 
 -- Improve popup completion menu
-vim.opt.completeopt = {'longest','menuone'}
+vim.opt.completeopt = { 'longest', 'menuone' }
 
 -- Whitespace characters
 vim.opt.listchars = {
@@ -106,7 +106,7 @@ vim.opt.termguicolors = true
 vim.opt.encoding = 'utf8'
 
 -- Use Unix as the standard file type
-vim.opt.fileformats = {'unix','dos','mac'}
+vim.opt.fileformats = { 'unix', 'dos', 'mac' }
 
 
 -- => TextRelated
@@ -127,9 +127,9 @@ vim.opt.softtabstop = 2
 -- Auto indent
 vim.opt.autoindent  = true
 -- Smart indent
-vim.opt.smartindent  = true
+vim.opt.smartindent = true
 -- Disable wrap lines
-vim.opt.wrap  = false
+vim.opt.wrap        = false
 
 -- => Status line
 -- Always show the status line
@@ -156,16 +156,16 @@ vim.opt.fillchars = {
   msgsep = '▅',
 }
 
-vim.g.github_enterprise_urls = {'https://bithub.brightcove.com'}
+vim.g.github_enterprise_urls = { 'https://bithub.brightcove.com' }
 
 
 -- disable auto insert of comment after <cr> or o O
-vim.opt.formatoptions = vim.opt.formatoptions - {'r', 'o',}
+vim.opt.formatoptions = vim.opt.formatoptions - { 'r', 'o', }
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = "Comments",
   pattern = { "*" },
   callback = function()
-    vim.opt.formatoptions = vim.opt.formatoptions - {'r', 'o',}
+    vim.opt.formatoptions = vim.opt.formatoptions - { 'r', 'o', }
   end
 })
 

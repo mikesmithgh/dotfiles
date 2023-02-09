@@ -2,7 +2,10 @@
 
 -- jdtls is required to be installed
 -- e.g, brew install jdtls
-local jdtls = require('jdtls')
+local status, jdtls = pcall(require, "jdtls")
+if not status then
+  return
+end
 
 -- my preferred tab config for java
 vim.opt_local.shiftwidth = 4
@@ -12,7 +15,12 @@ vim.opt_local.softtabstop = 4
 -- below is lsp and dap stuff
 
 local root_markers = { 'gradlew', '.git', 'mvnw' }
-local root_dir = require('jdtls.setup').find_root(root_markers)
+local root_dir
+status, root_dir = pcall(require, "jdtls.setup")
+if not status then
+  return
+end
+
 local home = os.getenv('HOME')
 local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 
@@ -77,66 +85,72 @@ local config = {
 }
 
 local on_attach = function(client, bufnr)
+
+  local jdtlssetup
+  status, jdtlssetup = pcall(require, "jdtls.setup")
+  if not status then
+    return
+  end
   -- copied from https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations
-  require 'jdtls.setup'.add_commands()
-  require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+  jdtlssetup.add_commands()
+  jdtls.setup_dap({ hotcodereplace = 'auto' })
 
---   require 'lsp-status'.register_progress()
---   require 'compe'.setup {
---     enabled = true;
---     autocomplete = true;
---     debug = false;
---     min_length = 1;
---     preselect = 'enable';
---     throttle_time = 80;
---     source_timeout = 200;
---     incomplete_delay = 400;
---     max_abbr_width = 100;
---     max_kind_width = 100;
---     max_menu_width = 100;
---     documentation = true;
--- 
---     source = {
---       path = true;
---       buffer = true;
---       calc = true;
---       vsnip = false;
---       nvim_lsp = true;
---       nvim_lua = true;
---       spell = true;
---       tags = true;
---       snippets_nvim = false;
---       treesitter = true;
---     };
---   }
+  --   require 'lsp-status'.register_progress()
+  --   require 'compe'.setup {
+  --     enabled = true;
+  --     autocomplete = true;
+  --     debug = false;
+  --     min_length = 1;
+  --     preselect = 'enable';
+  --     throttle_time = 80;
+  --     source_timeout = 200;
+  --     incomplete_delay = 400;
+  --     max_abbr_width = 100;
+  --     max_kind_width = 100;
+  --     max_menu_width = 100;
+  --     documentation = true;
+  --
+  --     source = {
+  --       path = true;
+  --       buffer = true;
+  --       calc = true;
+  --       vsnip = false;
+  --       nvim_lsp = true;
+  --       nvim_lua = true;
+  --       spell = true;
+  --       tags = true;
+  --       snippets_nvim = false;
+  --       treesitter = true;
+  --     };
+  --   }
 
---   require 'lspkind'.init()
---   require 'lspsaga'.init_lsp_saga()
--- 
---   -- Kommentary
---   vim.api.nvim_set_keymap("n", "<leader>/", "<plug>kommentary_line_default", {})
---   vim.api.nvim_set_keymap("v", "<leader>/", "<plug>kommentary_visual_default", {})
--- 
---   require 'formatter'.setup {
---     filetype = {
---       java = {
---         function()
---           return {
---             exe = 'java',
---             args = { '-jar', os.getenv('HOME') .. '/.local/jars/google-java-format.jar', vim.api.nvim_buf_get_name(0) },
---             stdin = true
---           }
---         end
---       }
---     }
---   }
--- 
---   vim.api.nvim_exec([[
---         augroup FormatAutogroup
---           autocmd!
---           autocmd BufWritePost *.java FormatWrite
---         augroup end
---       ]], true)
+  --   require 'lspkind'.init()
+  --   require 'lspsaga'.init_lsp_saga()
+  --
+  --   -- Kommentary
+  --   vim.api.nvim_set_keymap("n", "<leader>/", "<plug>kommentary_line_default", {})
+  --   vim.api.nvim_set_keymap("v", "<leader>/", "<plug>kommentary_visual_default", {})
+  --
+  --   require 'formatter'.setup {
+  --     filetype = {
+  --       java = {
+  --         function()
+  --           return {
+  --             exe = 'java',
+  --             args = { '-jar', os.getenv('HOME') .. '/.local/jars/google-java-format.jar', vim.api.nvim_buf_get_name(0) },
+  --             stdin = true
+  --           }
+  --         end
+  --       }
+  --     }
+  --   }
+  --
+  --   vim.api.nvim_exec([[
+  --         augroup FormatAutogroup
+  --           autocmd!
+  --           autocmd BufWritePost *.java FormatWrite
+  --         augroup end
+  --       ]], true)
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -185,25 +199,25 @@ config['on_attach'] = on_attach
 -- setup jars for debug and test runners
 -- local jar_patterns = {
 
-  -- java 19 not compatible as of 12/20/22 https://github.com/eclipse-tycho/tycho/issues/958 fails on mvnw clean install
-  -- git clone git@github.com:microsoft/java-debug.git && cd java-debug
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
+-- java 19 not compatible as of 12/20/22 https://github.com/eclipse-tycho/tycho/issues/958 fails on mvnw clean install
+-- git clone git@github.com:microsoft/java-debug.git && cd java-debug
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
 --   '/Users/mike/gitrepos/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar',
 
 --   -- git clone git@github.com:dgileadi/vscode-java-decompiler.git
 --   '/Users/mike/gitrepos/vscode-java-decompiler/server/*.jar',
 
-  -- git clone git@github.com:microsoft/vscode-java-test.git && cd vscode-java-test/java-extension
-  -- npm install
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME='/opt/homebrew/Cellar/maven/3.8.6' npm run build-plugin
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
+-- git clone git@github.com:microsoft/vscode-java-test.git && cd vscode-java-test/java-extension
+-- npm install
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME='/opt/homebrew/Cellar/maven/3.8.6' npm run build-plugin
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
 
 --   '/Users/mike/gitrepos/vscode-java-test/java-extension/com.microsoft.java.test.plugin/target/*.jar',
 --   '/Users/mike/gitrepos/vscode-java-test/java-extension/com.microsoft.java.test.runner/target/*.jar',
 --   '/Users/mike/gitrepos/vscode-java-test/server/*.jar',
 
-  -- git clone git@github.com:testforstephen/vscode-pde.git && cd vscode-pde/pde/
-  -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
+-- git clone git@github.com:testforstephen/vscode-pde.git && cd vscode-pde/pde/
+-- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
 --   '/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar'
 -- }
 
@@ -222,7 +236,8 @@ local bundles = {
   -- java 19 not compatible as of 12/20/22 https://github.com/eclipse-tycho/tycho/issues/958 fails on mvnw clean install
   -- git clone git@github.com:microsoft/java-debug.git && cd java-debug
   -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
-  vim.fn.glob("/Users/mike/gitrepos/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar", 1), "\n",
+  vim.fn.glob("/Users/mike/gitrepos/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
+    , 1), "\n",
 }
 
 -- git clone git@github.com:dgileadi/vscode-java-decompiler.git
@@ -236,7 +251,8 @@ vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-java
 
 -- git clone git@github.com:testforstephen/vscode-pde.git && cd vscode-pde/pde/
 -- JAVA_HOME="$(/usr/libexec/java_home -F -v 18)" M2_HOME="$(dirname $(dirname $(readlink -f $(which mvn))))" ./mvnw clean install
-vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar", 1), "\n"))
+vim.list_extend(bundles,
+  vim.split(vim.fn.glob("/Users/mike/gitrepos/vscode-pde/pde/org.eclipse.jdt.ls.importer.pde/target/*.jar", 1), "\n"))
 
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
