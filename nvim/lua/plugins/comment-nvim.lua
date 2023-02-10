@@ -1,11 +1,12 @@
 return {
-	'numToStr/Comment.nvim',
-	config = function()
-local status, comment = pcall(require, "comment")
-if not status then
-  return
-end
-comment.setup({
+  'numToStr/Comment.nvim',
+  enabled = true,
+  config = function()
+    local status, comment = pcall(require, "comment")
+    if not status then
+      return
+    end
+    comment.setup({
       padding = true,
       sticky = true,
       ignore = nil,
@@ -15,6 +16,6 @@ comment.setup({
       mappings = { basic = true, extra = false },
       pre_hook = nil,
       post_hook = nil,
-})
-	end
+    })
+  end
 }

@@ -1,3 +1,4 @@
+-- package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -28,7 +29,8 @@ require("lazy").setup("plugins", {
     colorscheme = { "gruvsquirrel" },
   },
 })
+
 -- TODO clean up how keymaps are organized
 require('keymap.fzf')
-require('core')
+require('core') -- TODO: something in here causing issues on startup
 require('core.options')

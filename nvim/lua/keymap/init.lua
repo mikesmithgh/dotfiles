@@ -268,6 +268,13 @@ end)
 vim.keymap.set('n', '<leader><leader>p', function()
   vim.cmd('TSPlaygroundToggle')
 end)
+vim.keymap.set('n', '<leader><leader>l', function()
+  if vim.opt.filetype:get() == 'lazy' then
+    vim.cmd('close')
+  else
+    vim.cmd('Lazy')
+  end
+end)
 
 
 -- vim.keymap.set("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")

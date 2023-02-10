@@ -18,13 +18,14 @@ vim.api.nvim_create_autocmd({ "FileChangedShell" }, {
   end
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold", "InsertEnter", "TextChanged" }, {
-  group = "Unhighlight",
-  pattern = { "*" },
-  callback = function()
-    vim.opt_local.hlsearch = false
-  end
-})
+-- TODO: revisit this due to CursorHold
+-- vim.api.nvim_create_autocmd({ "CursorHold", "InsertEnter", "TextChanged" }, {
+--   group = "Unhighlight",
+--   pattern = { "*" },
+--   callback = function()
+--     vim.opt_local.hlsearch = false
+--   end
+-- })
 
 vim.api.nvim_create_augroup("Backup", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -71,4 +72,16 @@ end, {
     -- TODO: add help completion
     return require('man').man_complete(...)
   end,
+})
+
+
+-- Auto-format *.lua files prior to saving them
+-- (async = false is the default for format)
+vim.api.nvim_create_augroup("LuaFormatSave", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  group = "LuaFormatSave",
+  pattern = { "*.lua" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end
 })

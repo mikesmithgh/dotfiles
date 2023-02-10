@@ -1,2 +1,4 @@
-
-  return { 'Olical/conjure'}
+return {
+  'Olical/conjure',
+  enabled = true,
+}

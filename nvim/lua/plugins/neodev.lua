@@ -1,2 +1,0 @@
-
-  return { "folke/neodev.nvim" }

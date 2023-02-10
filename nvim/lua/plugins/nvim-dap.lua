@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
+  enabled = true,
   config = function()
     -- copied from https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/lua/me/dap.lua
     local api = vim.api
