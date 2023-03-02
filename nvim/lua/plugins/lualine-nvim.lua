@@ -9,6 +9,32 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "ModeChanged", "Ins
     if not status then
       return true
     end
+    local noice
+    status, noice = pcall(require, "noice")
+    local noice_status = { 'filetype' }
+    if status then
+      noice_status = {
+        -- {
+        --   require("noice").api.status.message.get_hl,
+        --   cond = require("noice").api.status.message.has,
+        -- },
+        {
+          noice.api.status.command.get,
+          cond = require("noice").api.status.command.has,
+        },
+        {
+          noice.api.status.mode.get,
+          cond = require("noice").api.status.mode.has,
+          color = { fg = "#dbbc5f" },
+        },
+        -- {
+        --   require("noice").api.status.search.get,
+        --   cond = require("noice").api.status.search.has,
+        --   color = { fg = "#dbbc5f" },
+        -- },
+        { 'filetype' },
+      }
+    end
     lualine.setup {
       options = {
         icons_enabled = true,
@@ -34,7 +60,7 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "ModeChanged", "Ins
         -- lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
         -- lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_x = { 'filetype' },
+        lualine_x = noice_status,
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
       },
