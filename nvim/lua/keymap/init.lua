@@ -13,74 +13,81 @@ vim.keymap.set('n', '<c-n>', '<nop>') -- used by NvimTree still in init.vim
 
 
 -- TODO: check if terminal and was normal mode, if so set to normal mode
-vim.api.nvim_set_keymap('n', '<c-w><c-o>', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<c-w>o', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<c-w><c-o>', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<c-w>o', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'i', 't', 'v' }, '<c-w>o', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'i', 't', 'v' }, '<c-w><c-o>', '<cmd>ZenMode<cr>', { noremap = true, silent = true })
 
-vim.keymap.set('n', 'S',
-  function() vim.api.nvim_echo({ { "~ TODO: map S as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<bs>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <bs> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-bs>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <bs> as pseudo leader ~", "Comment" } }, false, {}) end)
--- vim.keymap.set('n', '<cr>', function() vim.api.nvim_echo({{"~ TODO: map <cr> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
-vim.keymap.set('n', '<left>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <left> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<up>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <up> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<right>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <right> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<down>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <down> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<del>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <del> as pseudo leader ~", "Comment" } }, false, {}) end)
--- vim.keymap.set('n', '<tab>', function() vim.api.nvim_echo({{"~ TODO: map <tab> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with <c-i>
-vim.keymap.set('n', '<s-tab>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-tab> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<home>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <home> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<end>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <end> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '+',
-  function() vim.api.nvim_echo({ { "~ TODO: map + as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '-',
-  function() vim.api.nvim_echo({ { "~ TODO: map - as pseudo leader ~", "Comment" } }, false, {}) end)
--- vim.keymap.set('n', '<c-m>', function() vim.api.nvim_echo({{"~ TODO: map <c-m> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
-vim.keymap.set('n', '<c-p>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <c-p> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<c-end>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <c-end> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<c-home>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <c-home> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-left>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-left> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-up>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-up> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-right>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-right> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-down>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-down> as pseudo leader ~", "Comment" } }, false, {}) end)
--- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
--- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
--- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
--- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
--- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
--- alt keys are up for grabs
-vim.keymap.set('n', '<a-down>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <a-down> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<a-j>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <a-j> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<c-a-j>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <c-a-j> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<s-c-j>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <s-c-j> as pseudo leader ~", "Comment" } }, false, {}) end)
 
--- fn keys
--- macos > f11 disable mission control > show desktop binding to f11
-vim.keymap.set('n', '<f11>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <f11> as pseudo leader ~", "Comment" } }, false, {}) end)
-vim.keymap.set('n', '<fn>',
-  function() vim.api.nvim_echo({ { "~ TODO: map <fn> as pseudo leader ~", "Comment" } }, false, {}) end)
--- fn globe key on mac?
+-- TODO: keys that a good candidates for remap, R, S
+
+-- revisit this in the future when you have more time to play
+--
+-- vim.keymap.set('n', 'S',
+--   function() vim.api.nvim_echo({ { "~ TODO: map S as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<bs>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <bs> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-bs>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <bs> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- -- vim.keymap.set('n', '<cr>', function() vim.api.nvim_echo({{"~ TODO: map <cr> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
+-- vim.keymap.set('n', '<left>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <left> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<up>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <up> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<right>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <right> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<down>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <down> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<del>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <del> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- -- vim.keymap.set('n', '<tab>', function() vim.api.nvim_echo({{"~ TODO: map <tab> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with <c-i>
+-- vim.keymap.set('n', '<s-tab>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-tab> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<home>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <home> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<end>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <end> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '+',
+--   function() vim.api.nvim_echo({ { "~ TODO: map + as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '-',
+--   function() vim.api.nvim_echo({ { "~ TODO: map - as pseudo leader ~", "Comment" } }, false, {}) end)
+-- -- vim.keymap.set('n', '<c-m>', function() vim.api.nvim_echo({{"~ TODO: map <c-m> as pseudo leader ~", "Comment"}}, false, {}) end) -- conflicts with enter in q: mode
+-- vim.keymap.set('n', '<c-p>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <c-p> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<c-end>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <c-end> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<c-home>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <c-home> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-left>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-left> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-up>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-up> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-right>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-right> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-down>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-down> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- -- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
+-- -- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
+-- -- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
+-- -- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
+-- -- vim.keymap.set('n', '<w>', function() vim.api.nvim_echo({{"~ TODO: map <w> as pseudo leader ~", "Comment"}}, false, {}) end)
+-- -- alt keys are up for grabs
+-- vim.keymap.set('n', '<a-down>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <a-down> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<a-j>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <a-j> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<c-a-j>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <c-a-j> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<s-c-j>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <s-c-j> as pseudo leader ~", "Comment" } }, false, {}) end)
+--
+-- -- fn keys
+-- -- macos > f11 disable mission control > show desktop binding to f11
+-- vim.keymap.set('n', '<f11>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <f11> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- vim.keymap.set('n', '<fn>',
+--   function() vim.api.nvim_echo({ { "~ TODO: map <fn> as pseudo leader ~", "Comment" } }, false, {}) end)
+-- -- fn globe key on mac?
 
 
 vim.keymap.set('n', '<leader>w',
@@ -159,7 +166,7 @@ vim.api.nvim_set_keymap('v', '<C-k>', '5k', {})
 vim.api.nvim_set_keymap('v', '<C-l>', '3l', {})
 
 -- Don't use Q for Ex mode, use it for formatting.  Except for Select mode.
-vim.keymap.set("n", "Q", "gq")
+-- vim.keymap.set("n", "Q", "gq")
 
 -- TODO: convert to more lua
 vim.api.nvim_set_keymap('n', '<a-left>', ':vertical resize -5<cr>', { silent = true })
@@ -228,9 +235,13 @@ vim.keymap.set('n', '<leader>lwl', function()
   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 end, bufopts)
 vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, bufopts)
-vim.keymap.set('n', '<leader>lR', vim.lsp.buf.rename, bufopts)
+
+-- vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, bufopts)
+-- use IncRename plugin instead of default lsp rename
+vim.keymap.set("n", "<leader>lr", ":IncRename ")
+
 vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, bufopts)
-vim.keymap.set('n', '<leader>lr', vim.lsp.buf.references, bufopts)
+vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references, bufopts)
 vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, bufopts)
 
 -- TODO: keep this until it conflicts
@@ -264,6 +275,7 @@ vim.keymap.set('n', '<leader><leader>v', function()
 end)
 vim.keymap.set('n', '<leader><leader>u', function()
   vim.cmd('UndotreeToggle')
+  vim.cmd('UndotreeFocus')
 end)
 vim.keymap.set('n', '<leader><leader>p', function()
   vim.cmd('TSPlaygroundToggle')
@@ -274,6 +286,9 @@ vim.keymap.set('n', '<leader><leader>l', function()
   else
     vim.cmd('Lazy')
   end
+end)
+vim.keymap.set('n', '<leader><leader>c', function()
+  vim.cmd('ColorizerToggle')
 end)
 
 

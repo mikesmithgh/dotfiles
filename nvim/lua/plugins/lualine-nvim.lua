@@ -7,13 +7,13 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "ModeChanged", "Ins
   callback = function()
     local status, lualine = pcall(require, "lualine")
     if not status then
-      return
+      return true
     end
     lualine.setup {
       options = {
         icons_enabled = true,
         theme = 'gruvsquirrel',
-        component_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
         disabled_filetypes = {
           statusline = {},
@@ -30,9 +30,11 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "ModeChanged", "Ins
       },
       sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_b = { 'branch' },
+        -- lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
-        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        -- lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_x = { 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
       },

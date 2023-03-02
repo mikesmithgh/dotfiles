@@ -1,5 +1,4 @@
 return {
-
   { "jayp0521/mason-nvim-dap.nvim",
     dependencies = { "williamboman/mason.nvim", "mfussenegger/nvim-dap" },
     enabled = true,
@@ -20,11 +19,4 @@ return {
       })
     end },
 
-  { "jayp0521/mason-nvim-dap.nvim",
-    enabled = true,
-    dependencies = {
-      "williamboman/mason.nvim",
-      "mfussenegger/nvim-dap"
-    }
-  },
 }

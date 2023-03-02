@@ -14,7 +14,6 @@ vim.opt_local.softtabstop = 4
 
 -- below is lsp and dap stuff
 
-local root_markers = { 'gradlew', '.git', 'mvnw' }
 local root_dir
 status, root_dir = pcall(require, "jdtls.setup")
 if not status then
@@ -61,7 +60,6 @@ local config = {
 
     '-data', workspace_folder,
   },
-
   settings = {
     java = {
       home = vim.g.jdtls.java_home,
@@ -76,16 +74,15 @@ local config = {
       },
       sources = {
         organizeImports = {
-          starThreshold = 6;
-          staticStarThreshold = 6;
+          starThreshold = 6,
+          staticStarThreshold = 6,
         },
       },
     },
   },
 }
 
-local on_attach = function(client, bufnr)
-
+local on_attach = function(_, bufnr)
   local jdtlssetup
   status, jdtlssetup = pcall(require, "jdtls.setup")
   if not status then
@@ -190,7 +187,6 @@ local on_attach = function(client, bufnr)
   --   pattern = { "<buffer>" },
   --   callback = vim.lsp.buf.hover
   -- })
-
 end
 config['on_attach'] = on_attach
 
@@ -258,8 +254,8 @@ vim.list_extend(bundles,
 local extendedClientCapabilities = jdtls.extendedClientCapabilities;
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
 config.init_options = {
-  bundles = bundles;
-  extendedClientCapabilities = extendedClientCapabilities;
+  bundles = bundles,
+  extendedClientCapabilities = extendedClientCapabilities,
 }
 
 jdtls.start_or_attach(config)

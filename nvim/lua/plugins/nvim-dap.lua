@@ -1,6 +1,7 @@
 return {
   "mfussenegger/nvim-dap",
   enabled = true,
+  lazy = true,
   config = function()
     -- copied from https://github.com/mfussenegger/dotfiles/blob/833d634251ebf3bf7e9899ed06ac710735d392da/vim/.config/nvim/lua/me/dap.lua
     local api = vim.api
@@ -17,7 +18,6 @@ return {
     end
 
     function M.setup()
-
       -- TODO: revist and improve highlights
       local signs = {
         DapBreakpoint = { text = "", texthl = "DiagnosticError", linehl = "", numhl = "" },
@@ -87,13 +87,18 @@ return {
       --   [[<ESC><CMD>lua require'dap.ui.widgets'.hover(require("dap.utils").get_visual_selection_text)<CR>]])
 
       dap.listeners.before.event_initialized["dapui_config"] = function()
+        -- TODO: clean this logic up into utility, I am using in multiple places
         local dapui
         status, dapui = pcall(require, "dapui")
         if not status then
           return
         end
-        dapui.setup()
-        vim.api.nvim_notify("::::::::: init (before)", vim.log.levels.INFO, {})
+        local dapuiwindows
+        status, dapuiwindows = pcall(require, "dapui.windows")
+        if next(dapuiwindows.layouts) == nil then
+          dapui.setup()
+        end
+        -- vim.api.nvim_notify("::::::::: init (before)", vim.log.levels.INFO, {})
       end
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -103,17 +108,17 @@ return {
           return
         end
         dapui.open()
-        vim.api.nvim_notify("::::::::: init (after)", vim.log.levels.INFO, {})
+        -- vim.api.nvim_notify("::::::::: init (after)", vim.log.levels.INFO, {})
       end
 
       dap.listeners.after.event_terminated["dapui_config"] = function()
-        vim.api.nvim_notify("::::::::: terminated", vim.log.levels.INFO, {})
+        -- vim.api.nvim_notify("::::::::: terminated", vim.log.levels.INFO, {})
       end
       dap.listeners.after.disconnected["dapui_config"] = function()
-        vim.api.nvim_notify("::::::::: disconnected", vim.log.levels.INFO, {})
+        -- vim.api.nvim_notify("::::::::: disconnected", vim.log.levels.INFO, {})
       end
       dap.listeners.after.event_exited["dapui_config"] = function()
-        vim.api.nvim_notify("::::::::: exited", vim.log.levels.INFO, {})
+        -- vim.api.nvim_notify("::::::::: exited", vim.log.levels.INFO, {})
       end
 
       -- local sidebar = widgets.sidebar(widgets.scopes)

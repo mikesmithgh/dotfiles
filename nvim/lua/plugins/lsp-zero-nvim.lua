@@ -26,14 +26,15 @@ return {
 
   },
   config = function()
-
     local status, neodev = pcall(require, "neodev")
     if not status then
+      vim.cmd.echom("error")
       return
     end
     local lsp
     status, lsp = pcall(require, "lsp-zero")
     if not status then
+      vim.cmd.echom("error")
       return
     end
     -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -44,7 +45,7 @@ return {
 
     -- lsp.preset("recommended")
     lsp.set_preferences({
-      suggest_lsp_servers = true,
+      suggest_lsp_servers = false,
       setup_servers_on_start = true,
       set_lsp_keymaps = true,
       configure_diagnostics = true,
@@ -62,7 +63,9 @@ return {
     -- lsp servers are available at the below path
     -- lua print(vim.fn.stdpath('data') .. '/site/pack/packer/start/nvim-lspconfig/lua/lspconfig/server_configurations/')
 
-    local lua_language_server = 'sumneko_lua' -- see https://github.com/sumneko/lua-language-server/wiki/Settings
+    -- local lua_language_server = 'sumneko_lua' -- see https://github.com/sumneko/lua-language-server/wiki/Settings
+    -- see https://github.com/sumneko/lua-language-server/wiki/Settings
+    local lua_language_server = 'lua_ls'
 
     -- Do not use the java language server in this config, it is setup independently
     -- local java_language_server = 'nvim-jdtls' -- https://github.com/mfussenegger/nvim-jdtls
@@ -73,6 +76,7 @@ return {
 
     lsp.ensure_installed({
       lua_language_server,
+      "luau_lsp",
     })
 
     -- lsp.nvim_workspace()

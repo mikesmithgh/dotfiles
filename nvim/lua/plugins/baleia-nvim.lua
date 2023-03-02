@@ -1,7 +1,6 @@
 return {
   "m00qek/baleia.nvim",
   enabled = true,
-  -- version = 'v1.2.0',
   config = function()
     local baleia = require("baleia").setup()
     local bufnr = vim.api.nvim_get_current_buf()
@@ -24,6 +23,5 @@ return {
         vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
       end,
       {})
-
   end,
 }

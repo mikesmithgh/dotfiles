@@ -6,7 +6,6 @@ return {
   },
   version = 'nightly', -- optional, updated every week. (see issue #1193)
   config = function()
-
     local status, nvim_tree = pcall(require, "nvim-tree")
     if not status then
       return
@@ -16,61 +15,60 @@ return {
     M.toggle = true
 
     M.setup = function()
-
       M.toggle = not M.toggle
       -- TODO super hacked together, revisit this
 
       local my_mappings_list = {
         { key = { "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
-        { key = "<C-e>", action = "edit_in_place" },
-        { key = "O", action = "edit_no_picker" },
-        { key = { "<C-]>", "<2-RightMouse>" }, action = "cd" },
-        { key = "<C-v>", action = "vsplit" },
-        { key = "<C-x>", action = "split" },
-        { key = "<C-t>", action = "tabnew" },
-        { key = "<", action = "prev_sibling" },
-        { key = ">", action = "next_sibling" },
-        { key = "P", action = "parent_node" },
+        { key = "<C-e>",                          action = "edit_in_place" },
+        { key = "O",                              action = "edit_no_picker" },
+        { key = { "<C-]>", "<2-RightMouse>" },    action = "cd" },
+        { key = "<C-v>",                          action = "vsplit" },
+        { key = "<C-x>",                          action = "split" },
+        { key = "<C-t>",                          action = "tabnew" },
+        { key = "<",                              action = "prev_sibling" },
+        { key = ">",                              action = "next_sibling" },
+        { key = "P",                              action = "parent_node" },
         --      { key = "<BS>", action = "" }, -- disable <BS> because it is mapped to <C-w>
-        { key = "<Tab>", action = "preview" },
+        { key = "<Tab>",                          action = "preview" },
         -- { key = "K", action = "first_sibling" }, -- do not need conflicts with toggle_file_info and angle brackets do this
         -- { key = "J", action = "last_sibling" },
-        { key = "C", action = "toggle_git_clean" },
-        { key = "I", action = "toggle_git_ignored" },
-        { key = "H", action = "toggle_dotfiles" },
-        { key = "B", action = "toggle_no_buffer" },
-        { key = "U", action = "toggle_custom" },
-        { key = "R", action = "refresh" },
-        { key = "a", action = "create" },
-        { key = "d", action = "remove" },
-        { key = "D", action = "trash" },
-        { key = "r", action = "rename" },
-        { key = "<C-r>", action = "full_rename" },
-        { key = "e", action = "rename_basename" },
-        { key = "x", action = "cut" },
-        { key = "c", action = "copy" },
-        { key = "p", action = "paste" },
-        { key = "y", action = "copy_name" },
-        { key = "Y", action = "copy_path" },
-        { key = "gy", action = "copy_absolute_path" },
-        { key = "[e", action = "prev_diag_item" },
-        { key = "[c", action = "prev_git_item" },
-        { key = "]e", action = "next_diag_item" },
-        { key = "]c", action = "next_git_item" },
-        { key = "-", action = "dir_up" },
+        { key = "C",                              action = "toggle_git_clean" },
+        { key = "I",                              action = "toggle_git_ignored" },
+        { key = "H",                              action = "toggle_dotfiles" },
+        { key = "B",                              action = "toggle_no_buffer" },
+        { key = "U",                              action = "toggle_custom" },
+        { key = "R",                              action = "refresh" },
+        { key = "a",                              action = "create" },
+        { key = "d",                              action = "remove" },
+        { key = "D",                              action = "trash" },
+        { key = "r",                              action = "rename" },
+        { key = "<C-r>",                          action = "full_rename" },
+        { key = "e",                              action = "rename_basename" },
+        { key = "x",                              action = "cut" },
+        { key = "c",                              action = "copy" },
+        { key = "p",                              action = "paste" },
+        { key = "y",                              action = "copy_name" },
+        { key = "Y",                              action = "copy_path" },
+        { key = "gy",                             action = "copy_absolute_path" },
+        { key = "[e",                             action = "prev_diag_item" },
+        { key = "[c",                             action = "prev_git_item" },
+        { key = "]e",                             action = "next_diag_item" },
+        { key = "]c",                             action = "next_git_item" },
+        { key = "-",                              action = "dir_up" },
         --      { key = "s", action = "system_open" }, -- disable s because it is mapped as psuedo leader
-        { key = "f", action = "live_filter" },
-        { key = "F", action = "clear_live_filter" },
-        { key = "q", action = "close" },
-        { key = "W", action = "collapse_all" },
-        { key = "E", action = "expand_all" },
-        { key = "S", action = "search_node" },
-        { key = ".", action = "run_file_command" },
+        { key = "f",                              action = "live_filter" },
+        { key = "F",                              action = "clear_live_filter" },
+        { key = "q",                              action = "close" },
+        { key = "W",                              action = "collapse_all" },
+        { key = "E",                              action = "expand_all" },
+        { key = "S",                              action = "search_node" },
+        { key = ".",                              action = "run_file_command" },
         -- { key = "<C-k>", action = "toggle_file_info" },
-        { key = "K", action = "toggle_file_info" },
-        { key = "g?", action = "toggle_help" },
-        { key = "m", action = "toggle_mark" },
-        { key = "bmv", action = "bulk_move" },
+        { key = "K",                              action = "toggle_file_info" },
+        { key = "g?",                             action = "toggle_help" },
+        { key = "m",                              action = "toggle_mark" },
+        { key = "bmv",                            action = "bulk_move" },
         --   { key = "=", action = "resize to fit contents", action_cb = resizer }
       }
       local HEIGHT_RATIO = 0.8 -- You can change this
@@ -245,11 +243,11 @@ return {
           symlink_destination = true,
         },
         hijack_directories = {
-          enable = true,
+          enable = false,
           auto_open = true,
         },
         update_focused_file = {
-          enable = true,
+          enable = false,
           update_root = false,
           ignore_list = {},
         },
@@ -286,7 +284,7 @@ return {
         },
         git = {
           enable = true,
-          ignore = true,
+          ignore = false,
           show_on_dirs = true,
           show_on_open_dirs = true,
           timeout = 400,

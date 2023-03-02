@@ -18,7 +18,7 @@ return {
         request = 'launch',
         name = 'Launch file (justMyCode = false)',
         program = '${file}',
-        console = "integratedTerminal",
+        -- console = "integratedConsole",
         justMyCode = false,
         -- pythonPath = opts.pythonPath,
       },

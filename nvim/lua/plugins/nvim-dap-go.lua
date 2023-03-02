@@ -115,7 +115,5 @@ return {
       end
       return c
     end, dap.configurations.go)
-
   end,
-
 }

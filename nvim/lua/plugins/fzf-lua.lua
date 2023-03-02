@@ -2,6 +2,9 @@ return {
   'ibhagwan/fzf-lua',
   enabled = true,
   lazy = false,
+  dependencies = {
+    'nvim-tree/nvim-web-devicons', -- optional, for file icons
+  },
   config = function()
     local status, actions = pcall(require, "fzf-lua.actions")
     if not status then
@@ -61,7 +64,7 @@ return {
               scrollborder_e = 'FloatBorder',   -- scrollbar "empty" section highlight
               scrollborder_f = 'FloatBorder',   -- scrollbar "full" section highlight
             }, ]]
-        preview    = {
+        preview   = {
           -- default     = 'bat',           -- override the default previewer?
           -- default uses the 'builtin' previewer
           border       = 'border', -- border|noborder, applies only to
@@ -96,11 +99,12 @@ return {
             foldmethod     = 'manual',
           },
         },
-        on_create  = function()
-          -- called once upon creation of the fzf main window
-          -- can be used to add custom fzf-lua mappings, e.g:
-          --   vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", "<Down>",
-          --     { silent = true, noremap = true })
+        on_create = function()
+          -- map esc to ctrl-z which is mapped to abort
+          vim.api.nvim_buf_set_keymap(0, "t", "<esc>", "<c-z>", { silent = true, noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "t", "<c-j>", "<down><down><down><down><down>",
+            { silent = true, noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "t", "<c-k>", "<up><up><up><up><up>", { silent = true, noremap = true })
         end,
       },
       keymap              = {
@@ -194,7 +198,7 @@ return {
               ["header"]      = { "fg", "Comment" },
               ["gutter"]      = { "bg", "Normal" },
           }, ]]
-      previewers          = {
+      previewers        = {
         cat = {
           cmd  = "cat",
           args = "--number",
@@ -243,7 +247,7 @@ return {
         },
       },
       -- provider setup
-      files               = {
+      files             = {
         fzf_opts     = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/files-history.txt',
         },
@@ -272,7 +276,7 @@ return {
           ["ctrl-y"]  = function(selected) print(selected[1]) end,
         }
       },
-      git                 = {
+      git               = {
         files = {
           prompt       = 'GitFiles❯ ',
           cmd          = 'git ls-files --exclude-standard',
@@ -364,7 +368,7 @@ return {
           -- ["A"]        = { icon = "+", color = "green" },
         },
       },
-      grep                = {
+      grep              = {
         fzf_opts       = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/grep-history.txt',
         },
@@ -403,7 +407,7 @@ return {
         no_header      = false, -- hide grep|cwd header?
         no_header_i    = false, -- hide interactive header?
       },
-      args                = {
+      args              = {
         fzf_opts   = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/args-history.txt',
         },
@@ -412,7 +416,7 @@ return {
         -- actions inherit from 'actions.files' and merge
         actions    = { ["ctrl-x"] = { actions.arg_del, actions.resume } }
       },
-      oldfiles            = {
+      oldfiles          = {
         fzf_opts                = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/oldfiles-history.txt',
         },
@@ -421,7 +425,7 @@ return {
         stat_file               = true, -- verify files exist on disk
         include_current_session = false, -- include bufs from current session
       },
-      buffers             = {
+      buffers           = {
         fzf_opts      = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/buffers-history.txt',
         },
@@ -438,7 +442,7 @@ return {
           ["ctrl-x"] = { actions.buf_del, actions.resume },
         }
       },
-      tabs                = {
+      tabs              = {
         prompt      = 'Tabs❯ ',
         tab_title   = "Tab",
         tab_marker  = "<<",
@@ -456,7 +460,7 @@ return {
           ['--history']   = vim.fn.stdpath("state") .. '/fzf-lua/tabs-history.txt',
         },
       },
-      lines               = {
+      lines             = {
         previewer       = "builtin", -- set to 'false' to disable
         prompt          = 'Lines❯ ',
         show_unlisted   = false, -- exclude 'help' buffers
@@ -476,7 +480,7 @@ return {
           ["alt-l"]   = actions.buf_sel_to_ll
         },
       },
-      blines              = {
+      blines            = {
         previewer       = "builtin", -- set to 'false' to disable
         prompt          = 'BLines❯ ',
         show_unlisted   = true, -- include 'help' buffers
@@ -495,7 +499,7 @@ return {
           ["alt-l"]   = actions.buf_sel_to_ll
         },
       },
-      tags                = {
+      tags              = {
         prompt       = 'Tags❯ ',
         ctags_file   = "tags",
         multiprocess = true,
@@ -516,7 +520,7 @@ return {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/tags-history.txt',
         },
       },
-      btags               = {
+      btags             = {
         prompt        = 'BTags❯ ',
         ctags_file    = "tags",
         ctags_autogen = false, -- dynamically generate ctags each call
@@ -534,7 +538,7 @@ return {
         },
         -- actions inherit from 'actions.files'
       },
-      colorschemes        = {
+      colorschemes      = {
         prompt        = 'Colorschemes❯ ',
         live_preview  = true, -- apply the colorscheme on preview?
         actions       = { ["default"] = actions.colorscheme, },
@@ -548,14 +552,14 @@ return {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/colorschemes-history.txt',
         },
       },
-      quickfix            = {
+      quickfix          = {
         file_icons = true,
         git_icons  = true,
         fzf_opts   = {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/quickfix-history.txt',
         },
       },
-      lsp                 = {
+      lsp               = {
         prompt_postfix   = '❯ ', -- will be appended to the LSP label
         -- to override use 'prompt' instead
         cwd_only         = false, -- LSP/diagnostics for cwd only?
@@ -591,7 +595,7 @@ return {
           ['--history'] = vim.fn.stdpath("state") .. '/fzf-lua/lsp-history.txt',
         },
       },
-      diagnostics         = {
+      diagnostics       = {
         prompt       = 'Diagnostics❯ ',
         cwd_only     = false,
         file_icons   = true,
@@ -639,7 +643,7 @@ return {
       -- },
       -- padding can help kitty term users with
       -- double-width icon rendering
-      file_icon_padding   = '',
+      file_icon_padding = '',
       -- uncomment if your terminal/font does not support unicode character
       -- 'EN SPACE' (U+2002), the below sets it to 'NBSP' (U+00A0) instead
       -- nbsp = '\xc2\xa0',

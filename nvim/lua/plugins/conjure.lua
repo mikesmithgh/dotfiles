@@ -1,4 +1,4 @@
 return {
   'Olical/conjure',
-  enabled = true,
+  enabled = false,
 }

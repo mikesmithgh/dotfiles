@@ -1,8 +1,8 @@
 return {
-  "akinsho/toggleterm.nvim", version = '2.*',
+  "akinsho/toggleterm.nvim",
+  version = '2.*',
   enabled = true,
   config = function()
-
     local status, toggleterm = pcall(require, "toggleterm")
     if not status then
       return

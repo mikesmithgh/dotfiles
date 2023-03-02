@@ -111,13 +111,13 @@ vim.opt.fileformats = { 'unix', 'dos', 'mac' }
 
 -- => TextRelated
 -- Use spaces instead of tabs
-vim.opt.expandtab = true
+vim.opt.expandtab   = true
 
 -- Be smart when using tabs ;)
-vim.opt.smarttab = true
+vim.opt.smarttab    = true
 
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
+vim.opt.shiftwidth  = 2
+vim.opt.tabstop     = 2
 vim.opt.softtabstop = 2
 
 -- augroup TabStops
@@ -133,10 +133,10 @@ vim.opt.wrap        = false
 
 -- => Status line
 -- Always show the status line
-vim.opt.laststatus = 2
+vim.opt.laststatus  = 2
 
 -- disable show mode in favor of airline status line
-vim.opt.showmode = false
+vim.opt.showmode    = false
 
 
 
@@ -170,6 +170,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = 'nosplit'
 
 vim.opt.keywordprg = ':Woman'
+
+vim.opt.cmdheight = 0
