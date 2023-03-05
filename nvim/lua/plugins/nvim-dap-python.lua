@@ -18,9 +18,22 @@ return {
         request = 'launch',
         name = 'Launch file (justMyCode = false)',
         program = '${file}',
-        -- console = "integratedConsole",
+        console = "integratedTerminal",
         justMyCode = false,
         -- pythonPath = opts.pythonPath,
+      },
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Launch file with arguments (justMyCode = false)',
+        program = '${file}',
+        console = "integratedTerminal",
+        justMyCode = false,
+        -- pythonPath = opts.pythonPath,
+        args = function()
+          local args_string = vim.fn.input('Arguments: ')
+          return vim.split(args_string, " +")
+        end,
       },
     }
     dappython.setup('~/.virtualenvs/debugpy/bin/python', {

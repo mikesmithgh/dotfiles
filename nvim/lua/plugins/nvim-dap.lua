@@ -62,16 +62,16 @@ return {
         dap.toggle_breakpoint(nil, nil, vim.fn.input('Log point message: '), true)
       end)
 
-      set('n', '<f5>', dap.continue) -- vscode
+      set('n', '<f5>', dap.continue)    -- vscode
 
-      set('n', '<f11>', dap.step_into) -- vscode
+      set('n', '<f11>', dap.step_into)  -- vscode
       set('n', '<s-f11>', dap.step_out) -- vscode
-      set('n', '<f23>', dap.step_out) -- vscode, same as <s-f11>
+      set('n', '<f23>', dap.step_out)   -- vscode, same as <s-f11>
 
-      set('n', '<f10>', dap.step_over) -- vscode
+      set('n', '<f10>', dap.step_over)  -- vscode
 
       set('n', '<s-f5>', dap.terminate) -- vscode
-      set('n', '<f17>', dap.terminate) -- vscode, same as <s-f5>
+      set('n', '<f17>', dap.terminate)  -- vscode, same as <s-f5>
 
       -- set('n', '<leader>dr', function() dap.repl.toggle({ height = 15 }) end)
       set('n', '<leader>dl', dap.run_last)
@@ -86,8 +86,7 @@ return {
       -- set('v', '<leader>dh',
       --   [[<ESC><CMD>lua require'dap.ui.widgets'.hover(require("dap.utils").get_visual_selection_text)<CR>]])
 
-      dap.listeners.before.event_initialized["dapui_config"] = function()
-        -- TODO: clean this logic up into utility, I am using in multiple places
+      dap.listeners.before.initialize["dapui_config"] = function()
         local dapui
         status, dapui = pcall(require, "dapui")
         if not status then
@@ -98,7 +97,6 @@ return {
         if next(dapuiwindows.layouts) == nil then
           dapui.setup()
         end
-        -- vim.api.nvim_notify("::::::::: init (before)", vim.log.levels.INFO, {})
       end
 
       dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -108,17 +106,6 @@ return {
           return
         end
         dapui.open()
-        -- vim.api.nvim_notify("::::::::: init (after)", vim.log.levels.INFO, {})
-      end
-
-      dap.listeners.after.event_terminated["dapui_config"] = function()
-        -- vim.api.nvim_notify("::::::::: terminated", vim.log.levels.INFO, {})
-      end
-      dap.listeners.after.disconnected["dapui_config"] = function()
-        -- vim.api.nvim_notify("::::::::: disconnected", vim.log.levels.INFO, {})
-      end
-      dap.listeners.after.event_exited["dapui_config"] = function()
-        -- vim.api.nvim_notify("::::::::: exited", vim.log.levels.INFO, {})
       end
 
       -- local sidebar = widgets.sidebar(widgets.scopes)
@@ -151,129 +138,56 @@ return {
           },
         }
       end, { nargs = 0 })
-      local function get_arguments() -- TODO: remove, this was copied
-        local co = coroutine.running()
-        if co then
-          return coroutine.create(function()
-            local args = {}
-            vim.ui.input({ prompt = "Args: " }, function(input)
-              args = vim.split(input or "", " ")
-            end)
-            coroutine.resume(co, args)
-          end)
-        else
-          local args = {}
-          vim.ui.input({ prompt = "Args: " }, function(input)
-            args = vim.split(input or "", " ")
-          end)
-          return args
-        end
-      end
 
-      api.nvim_create_user_command('DapLoadGoConfigurations', function()
-        -- dap.adapters.delve = {
-        --   type = "server",
-        --   host = "127.0.0.1",
-        --   port = 4040,
-        -- }
-        -- TODO: clean this up just copied defaults and added stuff for now
-        dap.configurations.go = {
-          {
-            type = "go",
-            name = "Debug",
-            request = "launch",
-            program = "${file}",
-          },
-          {
-            type = "go",
-            name = "Debug (Arguments)",
-            request = "launch",
-            program = "${file}",
-            args = get_arguments,
-          },
-          {
-            type = "go",
-            name = "Debug Package",
-            request = "launch",
-            program = "${fileDirname}",
-          },
-          {
-            type = "go",
-            name = "Attach",
-            mode = "local",
-            request = "attach",
-            processId = require("dap.utils").pick_process,
-          },
-          {
-            type = "go",
-            name = "Debug test",
-            request = "launch",
-            mode = "test",
-            program = "${file}",
-          },
-          {
-            type = "go",
-            name = "Debug test (go.mod)",
-            request = "launch",
-            mode = "test",
-            program = "./${relativeFileDirname}",
-          },
-          {
-            type = "go",
-            name = "Debug boulder-wfe2",
-            request = "launch",
-            mode = "debug",
-            args = { "--config", "/Users/mike/go/src/github.com/letsencrypt/boulder/test/config/wfe2-local.json" },
-            program = "/Users/mike/go/src/github.com/letsencrypt/boulder/cmd/boulder/main.go",
-            output = "boulder-wfe2",
-            cwd = "/Users/mike/go/src/github.com/letsencrypt/boulder",
-            -- stopOnEntry = true,
-          },
-          {
-            type = "go",
-            name = "Remote Debug boulder-wfe2",
-            request = "attach",
-            mode = "remote",
-            port = 4040,
-            debugAdapter = "dlv-dap",
-            host = "127.0.0.1",
-            substitutePath = {
-              {
-                from = "${workspaceFolder}",
-                to = "/boulder",
-              }
-            },
-          },
-          {
-            type = "go",
-            name = "Remote Debug testing",
-            request = "attach",
-            mode = "remote",
-            port = 40000,
-            debugAdapter = "dlv-dap",
-            host = "127.0.0.1",
-            -- showLog= true,
-            -- trace= "log",
-            -- logOutput= "rpc",
-            substitutePath = {
-              {
-                from = "${workspaceFolder}",
-                to = "/debuggingTutorial",
-              }
-            }
-          },
+      -- bash
+      dap.adapters.bashdb = {
+        type = 'executable',
+        command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter',
+        name = 'bashdb',
+      }
+      dap.configurations.sh = {
+        {
+          type = 'bashdb',
+          request = 'launch',
+          name = "Launch file",
+          showDebugOutput = false,
+          pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb',
+          pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir',
+          trace = false,
+          file = "${file}",
+          program = "${file}",
+          cwd = '${workspaceFolder}',
+          pathCat = "cat",
+          pathBash = "/opt/homebrew/bin/bash",
+          pathMkfifo = "mkfifo",
+          pathPkill = "pkill",
+          args = {},
+          env = {},
+          terminalKind = "integrated",
+        },
+        {
+          type = 'bashdb',
+          request = 'launch',
+          name = "Launch file with arguments",
+          showDebugOutput = false,
+          pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb',
+          pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir',
+          trace = false,
+          file = "${file}",
+          program = "${file}",
+          cwd = '${workspaceFolder}',
+          pathCat = "cat",
+          pathBash = "/opt/homebrew/bin/bash",
+          pathMkfifo = "mkfifo",
+          pathPkill = "pkill",
+          args = function()
+            local args_string = vim.fn.input('Arguments: ')
+            return vim.split(args_string, " +")
+          end,
+          env = {},
+          terminalKind = "integrated",
         }
-      end, { nargs = 0 })
-
-      -- handled by dap ui
-      -- dap.defaults.fallback.console = 'internalConsole'
-      -- dap.defaults.fallback.terminal_win_cmd = 'Dap Console'
-      -- dap.defaults.fallback.terminal_win_cmd = 'tabnew'
-      -- dap.defaults.fallback.external_terminal = {
-      --   command = '/usr/bin/alacritty';
-      --   args = { '--hold', '-e' };
-      -- }
-      -- require('dap.ext.vscode').load_launchjs()
+      }
     end
 
     M.setup()
