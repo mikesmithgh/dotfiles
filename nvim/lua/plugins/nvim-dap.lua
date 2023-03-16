@@ -73,11 +73,18 @@ return {
       set('n', '<s-f5>', dap.terminate) -- vscode
       set('n', '<f17>', dap.terminate)  -- vscode, same as <s-f5>
 
+      local dapuiwidgets
+      status, dapuiwidgets = pcall(require, "dapui.widgets")
+      if status then
+        set('n', '<f12>', dapuiwidgets.hover)
+      end
+
       -- set('n', '<leader>dr', function() dap.repl.toggle({ height = 15 }) end)
       set('n', '<leader>dl', dap.run_last)
       set('n', '<leader>dj', dap.down)
       set('n', '<leader>dk', dap.up)
       set('n', '<leader>dc', dap.run_to_cursor)
+      set('n', '<leader>df', dap.focus_frame)
 
       -- set('n', '<leader>dS', function() widgets.centered_float(widgets.frames) end)
       -- set('n', '<leader>dt', function() widgets.centered_float(widgets.threads) end)

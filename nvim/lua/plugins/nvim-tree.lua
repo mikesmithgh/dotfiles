@@ -4,7 +4,7 @@ return {
   dependencies = {
     'nvim-tree/nvim-web-devicons', -- optional, for file icons
   },
-  version = 'nightly', -- optional, updated every week. (see issue #1193)
+  version = 'nightly',             -- optional, updated every week. (see issue #1193)
   config = function()
     local status, nvim_tree = pcall(require, "nvim-tree")
     if not status then
@@ -72,7 +72,7 @@ return {
         --   { key = "=", action = "resize to fit contents", action_cb = resizer }
       }
       local HEIGHT_RATIO = 0.8 -- You can change this
-      local WIDTH_RATIO = 0.5 -- You can change this too
+      local WIDTH_RATIO = 0.5  -- You can change this too
 
 
       local sidebar_options = {
@@ -316,7 +316,8 @@ return {
               enable = false,
               chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
               exclude = {
-                filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+                filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame", "dapui_watches",
+                  "dapui_stacks", "dapui_breakpoints", "dapui_scopes", "dapui_console", "dapui-repl" },
                 buftype = { "nofile", "terminal", "help" },
               },
             },

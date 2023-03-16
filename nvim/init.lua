@@ -1,3 +1,5 @@
+local keymap = require('keymap')
+
 -- package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -13,13 +15,16 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
-require('keymap')
+keymap.init()
+
 require("lazy").setup("plugins", {
   dev = {
     -- directory where you store your local plugin projects
-    path = "~/gitrepos",
+    path = "~/gitrepos/",
     ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
-    patterns = {}, -- For example {"folke"}
+    patterns = {
+      "mikesmithgh",
+    },
     fallback = false, -- Fallback to git when local plugin doesn't exist
   },
   install = {
@@ -30,7 +35,8 @@ require("lazy").setup("plugins", {
   },
 })
 
--- TODO clean up how keymaps are organized
-require('keymap.fzf')
-require('core') -- TODO: something in here causing issues on startup
-require('core.options')
+keymap.setup()
+
+require('option').setup()
+require('autocmd').setup()
+require('ftdetect').setup()

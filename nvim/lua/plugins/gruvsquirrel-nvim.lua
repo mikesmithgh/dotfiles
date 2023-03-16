@@ -2,10 +2,10 @@ return {
   {
     "mikesmithgh/gruvsquirrel.nvim",
     priority = 1000,
+    enabled = true,
     lazy = false,
-    name = "gruvsquirrel",
     dev = true,
-    config = function()
+    init = function()
       -- load colorscheme on startup
       vim.cmd([[colorscheme gruvsquirrel]])
     end,
