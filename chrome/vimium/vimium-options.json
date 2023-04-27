@@ -1,5 +1,5 @@
 {
-  "settingsVersion": "1.67",
+  "settingsVersion": "1.67.4",
   "exclusionRules": [
     {
       "pattern": "https?://vim-adventures.com/*",
@@ -20,6 +20,26 @@
     {
       "pattern": "https?://meet.google.com/*",
       "passKeys": ""
+    },
+    {
+      "pattern": "https?://mail.google.com/chat/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https?://goplay.tools/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https?://easyretro.io/*",
+      "passKeys": ""
+    },
+    {
+      "pattern": "https?://www.linkedin.com/*",
+      "passKeys": "G"
+    },
+    {
+      "pattern": "https?://mail.google.com/*",
+      "passKeys": "x"
     }
   ],
   "filterLinkHints": false,

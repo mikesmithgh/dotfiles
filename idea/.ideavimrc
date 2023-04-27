@@ -1,0 +1,94 @@
+set NERDTree
+
+" change leader key from \ to space
+nnoremap <SPACE> <Nop>
+let mapleader=' '
+
+" map jj to Esc
+inoremap jj <Esc>
+
+" toggle highlight
+nnoremap <leader>/ :set hls! <cr>
+
+" Toggle list characters
+nmap <leader>l :set list!<cr>
+
+" highlight then enter search mode
+nnoremap / :set hls<cr>/
+
+
+" yank/put copy/paste mappings
+nnoremap Y y$
+nnoremap pp :put<CR>
+nnoremap PP :.-1put<CR>
+
+vnoremap <leader>Y "+Y
+vnoremap <leader>y "+y
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
+nnoremap <leader>Y "+y$
+nnoremap <leader>y "+y
+nnoremap <leader>yy "+yy
+nnoremap <leader>p "+p<CR>
+nnoremap <leader>pp :put +<CR>
+nnoremap <leader>P "+P<CR>
+nnoremap <leader>PP :.-1put +<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIMUserInterface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set scroll=5
+autocmd BufNewFile,BufRead * set scroll=5
+nnoremap <C-e> 5<C-e>
+nnoremap <C-y> 5<C-y>
+nnoremap <C-h> 3h
+nnoremap <C-j> 5j
+nnoremap <C-k> 5k
+nnoremap <C-l> 3l
+
+" Set 7 lines visible above/below the cursor
+set scrolloff=7
+
+" Ignore case when searching
+set ignorecase
+
+" Case sensitive when searching with at least one uppcase letter
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch
+
+set number relativenumber
+
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+
+" Don't use Q for Ex mode, use it for formatting.  Except for Select mode.
+" Revert with ":unmap Q".
+map Q gq
+sunmap Q
+
+
+" TODO map me to something
+nnoremap S <Nop>
+
+
+
+# NERD Tree
+nnoremap <C-n>n :NERDTreeToggle<CR>
+nnoremap <C-n><C-n> :NERDTreeFind<CR>
+
+set showmode
+set showcmd
