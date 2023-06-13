@@ -1,8 +1,10 @@
-""""""VI Settings""""""
+"
+" vi settings (not vim)
+"
 set ic
 set showmode
 "
-""""""Key Mapping""""""
+" readline key mappings
 "
 "Up arrow: ctrl+v up-arrow ctrl+v esc ka
 map! OA ka 
