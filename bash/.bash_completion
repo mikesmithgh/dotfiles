@@ -7,6 +7,7 @@ export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
 
 # aws
 complete -C 'aws_completer' aws
+# complete -C 'aws_completer' localaws
 
 # add 'git' auto completion to 'g'
 if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "function" ]; then
@@ -28,6 +29,22 @@ _ssh()
 complete -F _ssh ssh
 complete -F __start_kubectl k
 
-
 # kubectl completion
 source <(kubectl completion bash)
+
+complete -W "$(ms_ls_projects | sed 's/\/.*\///' | xargs)" p
+
+# TODO: clean up
+# Custom fuzzy completion for "p" command
+#   e.g. p **<TAB>
+_fzf_complete_p() {
+  FZF_COMPLETION_TRIGGER=''
+  _fzf_complete --reverse --prompt="p> " -- "$@" < <(
+    ms_ls_projects
+  )
+  unset FZF_COMPLETION_TRIGGER
+#   ms_ls_projects
+}
+complete -F _fzf_complete_p p
+
+complete -C /opt/homebrew/bin/terraform terraform

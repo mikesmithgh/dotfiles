@@ -92,3 +92,5 @@ nnoremap <C-n><C-n> :NERDTreeFind<CR>
 
 set showmode
 set showcmd
+
+map <leader>b <Action>(ToggleLineBreakpoint)
