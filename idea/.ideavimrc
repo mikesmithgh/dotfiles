@@ -4,9 +4,6 @@ set NERDTree
 nnoremap <SPACE> <Nop>
 let mapleader=' '
 
-" map jj to Esc
-inoremap jj <Esc>
-
 " toggle highlight
 nnoremap <leader>/ :set hls! <cr>
 
@@ -86,11 +83,37 @@ nnoremap S <Nop>
 
 
 
-# NERD Tree
+" NERD Tree
 nnoremap <C-n>n :NERDTreeToggle<CR>
 nnoremap <C-n><C-n> :NERDTreeFind<CR>
 
 set showmode
 set showcmd
 
-map <leader>b <Action>(ToggleLineBreakpoint)
+" in progress
+
+" started successfully tested
+:map <leader>b <Action>(ToggleLineBreakpoint)
+
+:map ]d <Action>(GotoNextError)
+:map [d <Action>(GotoPreviousError)
+
+:map s<leader> <Action>(SearchEverywhere)
+:map so <Action>(RecentFiles)
+:map sR <Action>(FindUsages)
+:map sf <Action>(GotoFile)
+:map sI <Action>(GotoImplementation)
+:map sg <Action>(FindInPath)
+
+:map <f5> <Action>(Debug)
+:map sb <Action>(Switcher)
+" ended successfully tested
+
+:map <leader>d <Action>(ShowContextActions)
+:map <C-/> <Action>(CommentWithLineComment)
+:map s8 viw<Action>(FindInPath)
+:vmap s8 <Action>(FindInPath)
+:map s* viw<Action>(Find)
+:vmap s* <Action>(Find)
+
+
