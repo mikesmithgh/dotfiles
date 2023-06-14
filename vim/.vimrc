@@ -133,6 +133,7 @@ call plug#end()
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
+set viminfofile=~/.local/share/vim/.viminfo
 
 " Enable filetype plugins
 filetype plugin on
