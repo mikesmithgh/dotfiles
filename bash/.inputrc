@@ -1,0 +1,13 @@
+# user defined readline startup file
+# if $INPUTRC is defined then it will be used instead
+# include /etc/inputrc to avoid overriding system wide readline configuration
+# https://ss64.com/bash/syntax-inputrc.html
+
+$include  /etc/inputrc
+
+set completion-ignore-case On
+set show-all-if-ambiguous On
+set skip-completed-text On
+
+"\C-p": "p\n"
+"\C-n": "n\n"
