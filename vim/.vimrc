@@ -28,15 +28,30 @@ if has('nvim')
   quit
 else
   let data_dir = '~/.config/vim'
+
   " Install vim-plug if not found
   if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   endif
 
+
+  " do not recreate function if we are sourcing the file
+  if exists("*ReloadVimrc") == 0
+    function! ReloadVimrc(timer_id)
+      defer execute('source $MYVIMRC | PlugStatus')
+    endfunction
+  endif
+
+  function! PlugInstallAndSource()
+    PlugInstall --sync
+    call timer_start(0, 'ReloadVimrc')
+  endfunction
+
   " Run PlugInstall if there are missing plugins
   autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    \| PlugInstall --sync | source $MYVIMRC
+    \| call PlugInstallAndSource()
   \| endif
+
 endif
 
 " specify a directory for plugins
@@ -351,7 +366,19 @@ augroup BlackBackground
     autocmd ColorScheme * highlight Normal guibg=#070707
 augroup end
 
-colorscheme gruvbox
+" {rtp}/autoload/has.vim
+function! HasColorscheme(name) abort
+    " copied from https://stackoverflow.com/questions/5698284/in-my-vimrc-how-can-i-check-for-the-existence-of-a-color-scheme
+    let pat = 'colors/'.a:name.'.vim'
+    return !empty(globpath(&rtp, pat))
+endfunction
+
+if HasColorscheme('gruvbox')
+  colorscheme gruvbox
+elseif HasColorscheme('retrobox')
+  colorscheme retrobox
+endif
+
 set background=dark
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -392,8 +419,9 @@ set laststatus=2
 set noshowmode
 
 " Fugitive add branch name to status line
-set statusline+=%{fugitive#statusline()}
-let g:github_enterprise_urls = ['https://bithub.brightcove.com']
+if exists('g:loaded_fugitive')
+  set statusline+=%{fugitive#statusline()}
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
