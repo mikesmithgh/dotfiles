@@ -151,7 +151,12 @@ alias vi='vim'
 alias v='vim'
 alias iv='vim'
 alias i='vim'
-alias oldvim="VIMRUNTIME= $(which vim)" # clear vim runtime to avoid neovim conflict
+
+# clear vim runtime to avoid neovim conflict
+oldvim() {
+  MYVIMRC="/Users/mike/.config/vim/.vimrc" VIMINIT=":set runtimepath+=/Users/mike/.config/vim/|:source $MYVIMRC" VIMRUNTIME= $(which vim)
+}
+
 alias ovim='oldvim'
 alias ovi='oldvim'
 
