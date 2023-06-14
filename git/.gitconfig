@@ -42,13 +42,14 @@
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
   br = branch -vv
   cbr = symbolic-ref --short HEAD
-  ci = ! GIT_EDITOR='nvim -c \":Git! log | normal K\"' git commit -v
+  ci = ! GIT_EDITOR='nvim -c \":Git! log | normal! K\"' git commit -v
   cl = ! git --no-pager log
   co = checkout
   deleteprev = branch -d @{-1}
-  dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
+  ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
+  dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
   ;f = "! git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git ls-remote upstream --exit_code 2>/dev/null && [ -z \"$options\" ] && options='-v --multiple upstream' || options=\"$options upstream\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
-  f = "! args=$@; shift $#; git ls-remote mike --exit code 2>/dev/null && repos='mike'; git ls-remote upstream --exit_code 2>/dev/null && repos=\"upstream $repos\"; ! [ -z \"$repos\" ] && options=\"-v --multiple $repos\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; ! [ -z \"$args\" ] && git fetch $args"
+  f = ! bash -ic 'ms_git_f'
   ; fworking = "! shift $#; git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
         ; f = "! git ls-remote upstream --exit code 2>/dev/null && options='-v --multiple upstream'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
         ; ff = "! ( git ls-remote upstream --exit code 2>/dev/null && git fetch -v --multiple upstream origin 2>&1 || git fetch -v origin 2>&1 ) | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
@@ -72,18 +73,25 @@
   unset = branch --unset-upstream
   wip = ! git add . && git commit -a -m \"work in progress\"
   cinoreply = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
-  cimeta = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
+  cisign = ! git commit --author='Mike Smith <10135646+mikesmithgh@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mikesmithgh@users.noreply.github.com>'
   cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
   cibr = ! git ci -e -m \"$(echo $(git cbr) | egrep -io '.*[0-9]+' | tr [:lower:] [:upper:] | xargs -I {} printf '[%s]:' '' {})\"
   root = rev-parse --show-toplevel
   prdt = ! $(gh pr view --json baseRefName,headRefName -q .baseRefName,.headRefName | awk ' BEGIN{ printf(\"git dt \") } { printf(\"origin/%s \", $1) }')
+	stache = stash
 [fetch]
   prune = true
+  parallel = 5
+  output = compact
+[submodule]
+  fetchJobs = 5
 [filter "lfs"]
   process = git-lfs filter-process
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
 # enforce ssh
+; [url "git@github.com:"]
+;   insteadOf = https://github.com/
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/

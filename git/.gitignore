@@ -1,1 +1,6 @@
 .DS_Store
+*.swp
+tmp/
+tags
+Session.vim
+.worktrees/
