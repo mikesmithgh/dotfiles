@@ -1,0 +1,5 @@
+# see https://github.com/bash-lsp/bash-language-server/issues/874
+
+# Allow opening any 'source'd file, even if not specified as input
+external-sources=false
+
