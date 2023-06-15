@@ -1,5 +1,17 @@
 #!/usr/bin/bash env
 
+# hack to let us only get path, TODO: break this out
+path_only='false'
+if [[ "$1" == "path" ]]; then
+  path_only='true'
+fi
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_RUNTIME_DIR="/tmp/k9s.user/"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+
 if [[ $OSTYPE == darwin* ]]; then
   # 15 is lowest setting on UI
   # 8 was too fast causing duplicate keystrokes
@@ -16,22 +28,16 @@ fi
 
 # required for local build of neovim
 export VIMRUNTIME=~/gitrepos/neovim/runtime
-export PYENV_ROOT=$HOME/.config/pyenv
+export PYENV_ROOT="$XDG_CONFIG_HOME/pyenv"
 
 # homebrew setup
-[[ -z "${HOMEBREW_PREFIX}" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"  # Add homebrew to path if not set
-
-# macvim path (homebrew vim conflicts with macvim)
-# macvim_bin_path="$(echo $(realpath ${HOMEBREW_CELLAR}/macvim/*/bin))"
-mongodb_bin_path="$(echo $(realpath ${HOMEBREW_CELLAR}/mongodb-community*/*/bin))"
+[[ -z ${HOMEBREW_PREFIX} ]] && eval "$(/opt/homebrew/bin/brew shellenv)" # Add homebrew to path if not set
 
 declare -a my_prefix=(
   "${HOME}/bin"
   "${HOME}/go/bin"
-  "${HOME}/go/src/github.com/mikesmithgh/fzf/bin"
   "${PYENV_ROOT}/bin"
   "${HOME}/gitrepos/neovim/build/bin"
-  "${mongodb_bin_path}"
   /Users/mike/.cargo/bin
   "$HOMEBREW_PREFIX/opt/libpq/bin"
 )
@@ -39,22 +45,31 @@ declare -a my_suffix=(
   # ${macvim_bin_path}
 )
 
-function join_by { local IFS="$1"; shift; echo "$*"; }
+function join_by {
+  local IFS="$1"
+  shift
+  echo "$*"
+}
 export MYPATH_PREFIX=$(join_by ':' "${my_prefix[@]}")
 export MYPATH_SUFFIX=$(join_by ':' "${my_suffix[@]}")
 
 # export MYPATH="${HOME}/bin:${HOME}/go/bin:${maven_path}"
-if [[ "${PATH}" != *"${MYPATH_PREFIX}"*"${MYPATH_SUFFIX}"* ]] ; then
+if [[ ${PATH} != *"${MYPATH_PREFIX}"*"${MYPATH_SUFFIX}"* ]]; then
   export PATH="${MYPATH_PREFIX}:${PATH}:${MYPATH_SUFFIX}"
 fi
 
+if [[ "$path_only" == 'true' ]]; then
+  echo $PATH
+  return
+fi
+
 # export JAVA_HOME="$(/usr/libexec/java_home -F -v 1.8)"
-JAVA_HOME="$(/usr/libexec/java_home --verbose |& grep 'Amazon Corretto 17' | awk '{ print $9 }')"
+JAVA_HOME="$(/usr/libexec/java_home --verbose |& grep 'Amazon Corretto 20' | awk '{ print $9 }')"
 export JAVA_HOME
 
 GOPATH=$(go env GOPATH)
 export GOPATH
-export GOPRIVATE="github.com/zencoder/*,github.com/brightcove/*,*.brightcove.com"
+# export GOPRIVATE=""
 export GOARCH=arm64
 export GOOS=darwin
 # export CGO_ENABLED=1
@@ -65,36 +80,33 @@ declare -a source_files=(
   ".bash_functions"
   ".bash_myenv"
   # ".bash_ssh_add" # don't need this since it is now just a one liner
-  "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"  # home brew version of bash-completion, note this will source ~/.bash_completion
+  "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" # home brew version of bash-completion, note this will source ~/.bash_completion
   ".swift-package-complete.bash"
 )
 
 # source files which require commands in above source files
 declare -a dependent_source_files=(
-#   ".bash_repo_aliases"
+  #   ".bash_repo_aliases"
 )
 
 # source user's files if they exist
-for i in "${source_files[@]}" ; do
-  if [ -f "${HOME}/${i}" ] ; then
+for i in "${source_files[@]}"; do
+  if [ -f "${HOME}/${i}" ]; then
     source "${HOME}/${i}"
-  elif [ -f "${i}" ] ; then  
+  elif [ -f "${i}" ]; then
     source "${i}"
   fi
 done
 
-# _make_repo_aliases
 
 # source dependent source files if they exist
-for i in "${dependent_source_files[@]}" ; do
-  if [ -f "${HOME}/${i}" ] ; then
+for i in "${dependent_source_files[@]}"; do
+  if [ -f "${HOME}/${i}" ]; then
     source "${HOME}/${i}"
-  elif [ -f "${i}" ] ; then  
+  elif [ -f "${i}" ]; then
     source "${i}"
   fi
 done
-
-
 
 # environment variables
 # export DISPLAY=localhost:0.0 # required for copy paste in vim
@@ -111,7 +123,7 @@ export VISUAL='nvim'
 MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps' # execute every time before bash displays prompt
 # MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps; _set_title;' # execute every time before bash displays prompt
 if [[ ${PROMPT_COMMAND} != *${MY_PROMPT_COMMAND} ]]; then
-  if [[ -z "$PROMPT_COMMAND" ]]; then
+  if [[ -z $PROMPT_COMMAND ]]; then
     export PROMPT_COMMAND="$MY_PROMPT_COMMAND"
   else
     export PROMPT_COMMAND="$(echo $PROMPT_COMMAND'; '$MY_PROMPT_COMMAND | sed -E 's/;;/;/g')"
@@ -126,9 +138,8 @@ export HISTSIZE=
 # Setting HISTFILESIZE to a value less than zero causes the history file size to be unlimited (setting it to 0 causes the history file to be truncated to zero size).
 export HISTFILESIZE=
 
-
-shopt -s histappend  # append history see https://superuser.com/questions/211966/how-do-i-keep-my-bash-history-across-sessions
-shopt -s histreedit  # reedit a history substitution line if it failed
+shopt -s histappend # append history see https://superuser.com/questions/211966/how-do-i-keep-my-bash-history-across-sessions
+shopt -s histreedit # reedit a history substitution line if it failed
 # shopt -s histverify  # edit a recalled history line before executing
 # After each command, append to the history file and reread it
 # PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
@@ -140,9 +151,9 @@ alias k='kubectl'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias nrc='cd ~/.config/nvim/ && nvim'
-alias vimrc='cd ~/.config/nvim && nvim'
-alias nvimrc='cd ~/.config/nvim && nvim'
+alias nrc='cd $XDG_CONFIG_HOME/nvim/ && nvim'
+alias vimrc='cd $XDG_CONFIG_HOME/nvim && nvim'
+alias nvimrc='cd $XDG_CONFIG_HOME/nvim && nvim'
 
 alias bobnvim='VIMRUNTIME= ~/.local/share/bob/nvim-bin/nvim'
 alias bobvim='bobnvim'
@@ -152,10 +163,14 @@ alias v='vim'
 alias iv='vim'
 alias i='vim'
 
-# clear vim runtime to avoid neovim conflict
-oldvim() {
-  MYVIMRC="/Users/mike/.config/vim/.vimrc" VIMINIT=":set runtimepath+=/Users/mike/.config/vim/|:source $MYVIMRC" VIMRUNTIME= $(which vim)
-}
+oldvim() (
+  export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
+  # shellcheck disable=SC2034
+  export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim/|:source $MYVIMRC"
+  # clear vim runtime to avoid neovim conflict
+  export VIMRUNTIME='' 
+  eval "$(which vim)"
+)
 
 alias ovim='oldvim'
 alias ovi='oldvim'
@@ -167,12 +182,8 @@ alias vimdiff='nvimdiff'
 alias downloads='cd ~/Downloads'
 alias volumes='cd /Volumes'
 
-alias storeroomlogix="cd ${HOME}/storeroomlogix"
-
 # if interactive shell, disable xon/xoff to avoid conflicting with C-s history search
 [[ $- == *i* ]] && stty -ixon
-
-
 
 # export DOCKER_HOST=tcp://localhost:2375
 
@@ -188,7 +199,6 @@ export AWS_CLI_AUTO_PROMPT='on-partial'
 alias aws-prompt='aws --cli-auto-prompt'
 # export AWS_SDK_LOAD_NONDEFAULT_CONFIG=1
 alias localaws='aws --endpoint-url=http://localhost:4566'
-
 
 # TODO review below, it was copied it
 
@@ -211,9 +221,8 @@ alias todo='vim -o /Users/mike/Documents/notes/wiki/Running-TODOs.md /Users/mike
 alias display-wide='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:3440x1440 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,323) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(3440,360) degree:0"'
 alias display-standard='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:1920x1080 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,-37) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(1920,0) degree:0"'
 
-
 diary() {
-  cd /Users/mike/Documents/notes/wiki/diary  || return
+  cd /Users/mike/Documents/notes/wiki/diary || return
   vim -c 'NERDTree' -c 'wincmd l' -c 'normal 1 w wG' # space is <leader> cannot start with space so '1 ' represents first space
 }
 
@@ -226,8 +235,8 @@ lastnote() {
 }
 
 newnote() {
-  if [[ -n "$1" ]] ; then
-    if [[ -n "$2" ]] ; then
+  if [[ -n $1 ]]; then
+    if [[ -n $2 ]]; then
       fileext="${2}"
     else
       fileext="md"
@@ -235,14 +244,14 @@ newnote() {
     filename="$(date +%Y%m%d)-$1"
     cd "${HOME}/Documents/notes" || return
     nvim -c "NvimTreeOpen" -c "wincmd l" "${filename}.${fileext}"
-  else  
+  else
     echo "missing filename parameter"
   fi
 }
 
 makenote() {
-  if [[ -n "$1" ]] ; then
-    if [[ -n "$2" ]] ; then
+  if [[ -n $1 ]]; then
+    if [[ -n $2 ]]; then
       fileext=".${2}"
     else
       fileext=""
@@ -251,7 +260,7 @@ makenote() {
     mv "${1}" "${HOME}/Documents/notes/${filename}.${fileext}"
     cd "${HOME}/Documents/notes" || return
     vim -c "NvimTreeOpen" -c "wincmd l" "${filename}${fileext}"
-  else  
+  else
     echo "missing filename parameter"
   fi
 }
@@ -261,8 +270,8 @@ alias k9sscreens="cd '$k9s_screens_dir'"
 
 lastk9sscreen() {
   k9s_dir='/var/folders/y5/74_673kn67z59s6tynk7ggh9rmwj8r/T/k9s-screens-mike.smith'
-  latest_dir="${k9s_dir}/$(ls -1rt ${k9s_dir} | tail -1)"      
-  latest_screen="${latest_dir}/$(ls -1rt ${latest_dir} | tail -1)" 
+  latest_dir="${k9s_dir}/$(ls -1rt ${k9s_dir} | tail -1)"
+  latest_screen="${latest_dir}/$(ls -1rt ${latest_dir} | tail -1)"
   vi "${latest_screen}"
 }
 
@@ -290,14 +299,14 @@ export LC_CTYPE="en_US.UTF-8"
 
 # https://github.com/rcaloras/bash-preexec
 # precmd() {
-  # echo "precmd $?"
-  # echo "precmd $@"
-  # precy=cho
+# echo "precmd $?"
+# echo "precmd $@"
+# precy=cho
 # }
 # preexec() {
-  # echo "preexec $?"
-  # echo "preexec $@"
-  # precy=blow
+# echo "preexec $?"
+# echo "preexec $@"
+# precy=blow
 # }
 # TODO move and clean up
 # alias vim-intro="vim -c ':terminal ++curwin vim --clean' -c ':sleep 1' -c ':call feedkeys(\"\<C-W>N\")' -c ':%y' -c ':call feedkeys(\"i:q!\<CR>\")' -c ':bdelete!' -c ':silent normal pddggddr~' -c ':execute \"w \" . tempname()'"
@@ -310,17 +319,14 @@ export LC_CTYPE="en_US.UTF-8"
 export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
 
 # export FZF_DEFAULT_OPTS="--multi --layout=reverse --inline-info --scroll-off=5 --height=100% --bind 'alt-a:toggle-all' --history ${HOME}/.local/state/fzf/history.txt --history-size=100000"
-FZF_DEFAULT_OPTS='--preview-window=60%,border-thinblock --margin 1,4 --border=thinblock --multi --layout=reverse --inline-info --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline:"󰅁 " --ellipsis=… --separator=─ --scrollbar=▊ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
+FZF_DEFAULT_OPTS='--preview-window=60%,border-thinblock --margin 1,4 --border=thinblock --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --scrollbar=▊ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='"$($HOME/gitrepos/gruvsquirrel.nvim/extra/fzf/gruvsquirrel.sh)"'"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --no-ignore' # TODO: revisit the defaults
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export BAT_THEME='gruvsquirrel'
 
-
-
 alias cbat='bat --paging=never --style=plain --theme gruvbox-dark'
-
 
 # generated with vivid https://github.com/sharkdp/vivid
 LS_COLORS="$(vivid generate ~/gitrepos/gruvsquirrel.nvim/extra/vivid/gruvsquirrel.yml)"
@@ -329,8 +335,8 @@ export LS_COLORS
 # if [ -x /usr/bin/dircolors ]; then
 #     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 #     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
 # fi
 
 # use coreutile gnu
@@ -359,7 +365,7 @@ p() {
   if ((!$#)); then
     local directory
     directory="$(ms_ls_projects | fzf --ansi --prompt=' ' --border-label=' Projects ')"
-    if [[ "$directory" != "" ]]; then
+    if [[ $directory != "" ]]; then
       ms_cd_project "$directory"
     fi
   else
@@ -371,8 +377,8 @@ n() {
   if ((!$#)); then
     local path
     path="$(ms_nvim_dirs | fzf --ansi --prompt=' ' --border-label=' Neovim Directories ')"
-    if [[ "$path" != "" ]]; then
-      if [[ -d "${path}" ]]; then 
+    if [[ $path != "" ]]; then
+      if [[ -d ${path} ]]; then
         cd "$path" || return
         # nvim -c "NvimTreeOpen" -c "FzfLua files"
       else
@@ -385,7 +391,7 @@ n() {
 
 nvimdirs() {
   local directory="$(ms_nvim_dirs | fzf)"
-  if [[ "$directory" != "" ]]; then
+  if [[ $directory != "" ]]; then
     cd "$directory"
   fi
 }
@@ -401,14 +407,9 @@ source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
 source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 chruby ruby-3.1.3
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_RUNTIME_DIR="/tmp/k9s.user/"
-export XDG_STATE_HOME="$HOME/.local/state"
-
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 eval "$(pyenv init -)"
 
