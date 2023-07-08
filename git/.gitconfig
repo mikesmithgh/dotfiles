@@ -1,6 +1,7 @@
 [user]
   name = Mike Smith
   email = 10135646+mikesmithgh@users.noreply.github.com
+  ; email = 15022104-mikesmithgl@users.noreply.gitlab.com
 [push]
   default = current
 [core]
@@ -95,3 +96,5 @@
 ;   insteadOf = https://github.com/
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
+[includeIf "gitdir:~/repos/accumulus*/"]
+  path = ~/.config/accumulus/.gitconfig

@@ -264,6 +264,9 @@ DOTFILES_GO_PROJECT_DIRS=$(fd --max-depth 7 --hidden --glob --search-path "${GOP
 DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${DOTFILES_REPO_PROJECT_DIRS}" "${DOTFILES_GO_PROJECT_DIRS}" | sort -uf)
 
 ms_ls_projects() {
+  mkdir -p "$HOME/.cache/dotfiles"
+  touch "$HOME/.cache/dotfiles/recent_projects.txt"
+
   local recent_projects
   readarray -t recent_projects < "$HOME/.cache/dotfiles/recent_projects.txt"
   local project_dirs=("${DOTFILES_PROJECT_DIRS}")
@@ -459,4 +462,19 @@ colortest() {
 
 function wt () {
   cd "$(git worktree list | awk '{ for (i=NF; i>0; i--) printf("%s ",$i); printf("\n")}' | fzf | awk '{ print $NF }' )" || true
+}
+
+# from https://github.com/junegunn/fzf/wiki/Examples#homebrew
+# Install (one or multiple) selected application(s)
+# using "brew search" as source input
+# mnemonic [B]rew [I]nstall [P]ackage
+bip() {
+  local inst
+  inst=$(brew search "$@" | fzf -m)
+
+  if [[ $inst ]]; then
+    for prog in $(echo $inst); do
+      brew install $prog
+    done
+  fi
 }

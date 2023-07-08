@@ -20,6 +20,9 @@ if [[ $OSTYPE == darwin* ]]; then
 
   # 2 is lowest setting on UI
   defaults write -g KeyRepeat -int 2
+
+  # allow holding key instead of mac default holding key to choose alternate key
+  defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 fi
 
 # custom maven config pulled from repo
@@ -64,7 +67,8 @@ if [[ "$path_only" == 'true' ]]; then
 fi
 
 # export JAVA_HOME="$(/usr/libexec/java_home -F -v 1.8)"
-JAVA_HOME="$(/usr/libexec/java_home --verbose |& grep 'Amazon Corretto 20' | awk '{ print $9 }')"
+# JAVA_HOME="$(/usr/libexec/java_home --verbose |& grep 'Amazon Corretto 20' | awk '{ print $9 }')"
+JAVA_HOME='/opt/homebrew/opt/sdkman-cli/libexec/candidates/java/current'
 export JAVA_HOME
 
 GOPATH=$(go env GOPATH)
@@ -116,7 +120,8 @@ done
 # export LESS='RSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
 # export LESS='IRSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
 # export LESSOPEN="|lesspipe.sh %s"
-export LESS='iJXRK --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f :  (stdin) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+export LESS='iXK --raw-control-chars --mouse --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f :  (stdin) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+# removed J from less because it caused issues with bat alignment
 
 export EDITOR='nvim'
 export VISUAL='nvim'
@@ -178,6 +183,8 @@ alias ovi='oldvim'
 alias nd='nvim -d'
 alias nvimdiff='nvim -d'
 alias vimdiff='nvimdiff'
+alias intellij='open -a "/Applications/IntelliJ IDEA CE.app"'
+alias code='open -a /Applications/VSCodium.app'
 
 alias downloads='cd ~/Downloads'
 alias volumes='cd /Volumes'
@@ -218,8 +225,10 @@ alias strip-color='sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"'
 alias todo='vim -o /Users/mike/Documents/notes/wiki/Running-TODOs.md /Users/mike/Documents/notes/wiki/Archived-TODOs.md -c "wincmd j" -c "vsplit" -c "resize 25" -c "e /Users/mike/Documents/notes/wiki/Low-Priority-TODOs.md" -c "wincmd k"'
 
 # display settings
-alias display-wide='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:3440x1440 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,323) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(3440,360) degree:0"'
-alias display-standard='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:1920x1080 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,-37) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(1920,0) degree:0"'
+# alias display-wide='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:3440x1440 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,323) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(3440,360) degree:0"'
+alias display-wide='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A res:3440x1440 hz:50 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 enabled:true scaling:on origin:(-1728,177) degree:0" "id:20D97340-3FA4-4BAF-A245-C27FBDECA1E2 res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(3440,226) degree:0"'
+# alias display-standard='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:1920x1080 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,-37) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(1920,0) degree:0"'
+alias display-standard='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A res:1920x1080 hz:50 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 enabled:true scaling:on origin:(-1728,177) degree:0" "id:20D97340-3FA4-4BAF-A245-C27FBDECA1E2 res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(1920,226) degree:0"'
 
 diary() {
   cd /Users/mike/Documents/notes/wiki/diary || return
@@ -319,12 +328,12 @@ export LC_CTYPE="en_US.UTF-8"
 export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
 
 # export FZF_DEFAULT_OPTS="--multi --layout=reverse --inline-info --scroll-off=5 --height=100% --bind 'alt-a:toggle-all' --history ${HOME}/.local/state/fzf/history.txt --history-size=100000"
+mkdir -p '/Users/mike/.local/state/fzf/'
 FZF_DEFAULT_OPTS='--preview-window=60%,border-thinblock --margin 1,4 --border=thinblock --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --scrollbar=▊ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='"$($HOME/gitrepos/gruvsquirrel.nvim/extra/fzf/gruvsquirrel.sh)"'"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --no-ignore' # TODO: revisit the defaults
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export BAT_THEME='gruvsquirrel'
 
 alias cbat='bat --paging=never --style=plain --theme gruvbox-dark'
 
@@ -403,9 +412,9 @@ source "${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
 # [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
 # ruby
-source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-source /opt/homebrew/opt/chruby/share/chruby/auto.sh
-chruby ruby-3.1.3
+# source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+# source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+# chruby ruby-3.1.3
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
@@ -416,3 +425,5 @@ eval "$(pyenv init -)"
 # export SUDO_ASKPASS='/opt/homebrew/bin/ssh-askpass'
 
 # export GITHUB_WORKSPACE='/Users/mike/gitrepos/pdubs'
+export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"

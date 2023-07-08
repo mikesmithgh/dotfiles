@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # copied from .bashrc, TODO: automate this to keep in sync
-export LESS='iJXRK +G$ --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f : 󰄛 (kitty) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+# export LESS='iJXRK +G$ --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f : 󰄛 (kitty) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+export LESS='iJXRK +G$ --raw --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f : 󰄛 (kitty) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
 _less='/opt/homebrew/bin/less'
 while read -r line
 do

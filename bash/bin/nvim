@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+export VIMRUNTIME=/Users/mike/gitrepos/neovim/runtime
+/Users/mike/gitrepos/neovim/build/bin/nvim "$@"
+

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+lp='/opt/homebrew/bin/lpass'
+
+if (( $# )); then
+  $lp "$@"
+  exit $?
+fi
+
+$lp show -c "$($lp ls --long | fzf --prompt='󰑆 ' --border-label=' Lastpass ' | sed 's/.*\[id: \([[:digit:]]\+\)\].*/\1/')"
