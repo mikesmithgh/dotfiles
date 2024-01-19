@@ -1,0 +1,20 @@
+.DS_Store
+*.swp
+tmp/
+tags
+Session.vim
+.worktrees/
+
+node_modules 
+.git/
+**/classes/**
+**/build/
+.idea 
+.gradle 
+.settings 
+.classpath 
+.project
+.Trash
+
+# vi: ft=gitignore
+

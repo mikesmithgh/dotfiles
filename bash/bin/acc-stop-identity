@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+service='accumulus-identity-service'
+pids=$(pgrep -f "$service")
+mapfile -t pid_list <<<"$pids"
+for pid in "${pid_list[@]}"; do
+	if [[ -z "$pid" ]]; then
+		printf 'no pid found for %s\n' "$service"
+	else
+		printf 'killing %s with pid %s...\n' "$service" "$pid"
+		set -e
+		kill "$pid"
+	fi
+done
+ms_err '%s is dead to me\n' "$service"

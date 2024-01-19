@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+function ms_comment() {
+	printf '\033[90m'
+	# shellcheck disable=SC2059
+	printf "$@"
+	printf '\033[0m'
+}
+
+ms_comment "$@"

@@ -1,0 +1,2 @@
+%s --override env=PYENV_SHELL="bash" --override env=PYENV_ROOT="/Users/mike/.config/pyenv" --single-instance
+

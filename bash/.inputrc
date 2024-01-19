@@ -11,3 +11,5 @@ set skip-completed-text On
 
 "\C-p": "p\n"
 "\C-n": "n\n"
+"\e\e": ""
+

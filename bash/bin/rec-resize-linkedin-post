@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# see https://www.linkedin.com/help/linkedin/answer/a566445
+
+w=1200
+h=627
+
+defaults write com.knollsoft.Rectangle specifiedWidth -float $w
+defaults write com.knollsoft.Rectangle specifiedHeight -float $h
+
+pkill Rectangle
+open -a Rectangle
+
+printf 'Press '
+ms_comment '󰘳-m'
+printf ' to resize\n'

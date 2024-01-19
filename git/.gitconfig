@@ -8,9 +8,14 @@
   excludesfile = /Users/mike/.gitignore
   autocrlf = input
   editor = nvim
+	; pager = /opt/homebrew/bin/less
+	pager = delta
+[interactive]
+    diffFilter = delta --color-only
 [diff]
   tool = nvimdiff
 [merge]
+  conflictstyle = diff3
   tool = nvimdiff
 [difftool]
   prompt = false
@@ -19,6 +24,7 @@
   ; cmd = "vim -c \"Gcd\" -c \"Git difftool -y $REMOTE\""
     ; cmd = "echo $@; env"
 [diff]
+    colorMoved = default
     tool = nvimdiff
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
@@ -39,14 +45,49 @@
 ;   distinguishedonelinetab = %C(66 bold)%<(8)%h %C(173 nobold)%<(20)%ad %C(150 nobold)%<(19)%an %C(reset)%s
   distinguishedonelinetab = "%C(#83a598 bold)%h %C(#fe8019 nobold)%ad %C(#b5cea8 nobold)%an %C(reset)%s"
   distinguishedmediumtab = %C(173 nobold)commit %C(66 bold)%H%n%C(173 nobold)Merge: %C(66 bold)%p%n%C(186 bold)Author: %C(143 nobold)%an %Creset<%C(150)%ae%Creset>%n%C(186 bold)Date:   %C(143 nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
+
+[delta]
+
+	pager = /opt/homebrew/bin/less -r
+
+  navigate = true
+  side-by-side = true
+
+  commit-style = raw
+
+  line-numbers-zero-style = "#7c6f64"
+  line-numbers-left-style = "#504945"
+  line-numbers-right-style = "#504945"
+
+  plus-style = reverse "#414b32"
+  plus-emph-style = bold reverse "#414b32"
+  line-numbers-plus-style = "#414b32"
+
+  minus-style = reverse "#692e26"
+  minus-emph-style = bold "#070707" "#692e26"
+  line-numbers-minus-style  = "#692e26"
+
+  blame-palette = "#070707" "#1a1a1a" "#282828"
+
+  line-numbers-left-format  = {nm:^4}▏
+  line-numbers-right-format = {np:^4}▏
+  syntax-theme = gruvsquirrel
+  file-style = omit
+  hunk-header-style = omit
+  tabs = 4
+  hyperlinks = true
+
+
 [alias]
+  bashver = ! bash --version
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
   br = branch -vv
   cbr = symbolic-ref --short HEAD
-  ci = ! GIT_EDITOR='nvim -c \":Git! log | normal! K\"' git commit -v
+  ci = ! GIT_EDITOR='nvim -c \":Git! log | normal! K$\"' git commit -v
   cl = ! git --no-pager log
   co = checkout
   deleteprev = branch -d @{-1}
+  d = diff
   ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
   dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
   ;f = "! git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git ls-remote upstream --exit_code 2>/dev/null && [ -z \"$options\" ] && options='-v --multiple upstream' || options=\"$options upstream\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
@@ -60,7 +101,7 @@
   ll = ! git --no-pager llv --max-count=2
   llv = log --format=distinguishedmediumtab
   lv = log --format=distinguishedonelinetab
-  ml = ! git l --format=distinguishedoneline --author=\"\\($(git config --get user.name)\\)\\|\\(msmith2\\)\"
+  ml = ! git l --format=distinguishedoneline --author=\"$(git config --get user.name)\"
   mll = ! git ll --author=\"$(git config --get user.name)\"
   mllv = ! git llv --author=\"$(git config --get user.name)\"
   mlv = ! git lv --format=distinguishedoneline --author=\"$(git config --get user.name)\"
@@ -72,11 +113,12 @@
   st = status -s
   stashall = ! git add . && git stash
   unset = branch --unset-upstream
-  wip = ! git add . && git commit -a -m \"work in progress\"
+  wip = ! git add . && git commit -a -n -m \"work in progress\"
   cinoreply = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
   cisign = ! git commit --author='Mike Smith <10135646+mikesmithgh@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mikesmithgh@users.noreply.github.com>'
   cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
-  cibr = ! git ci -e -m \"$(echo $(git cbr) | egrep -io '.*[0-9]+' | tr [:lower:] [:upper:] | xargs -I {} printf '[%s]:' '' {})\"
+  ; cibr = ! git ci -e -m \"$(echo $(git cbr) | egrep -io '.*[0-9]+' | tr [:lower:] [:upper:] | xargs -I {} printf '%s' '' {})\"
+  cibr = "! args=$@; shift $#; bash -ic \"ms_git_cibr $args\""
   root = rev-parse --show-toplevel
   prdt = ! $(gh pr view --json baseRefName,headRefName -q .baseRefName,.headRefName | awk ' BEGIN{ printf(\"git dt \") } { printf(\"origin/%s \", $1) }')
 	stache = stash
@@ -94,7 +136,9 @@
 # enforce ssh
 ; [url "git@github.com:"]
 ;   insteadOf = https://github.com/
-[url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+; [url "ssh://git@github.com/"]
+;   insteadOf = https://github.com/
+[url "ssh://git@gitlab.com"]
+  insteadOf = https://gitlab.com/
 [includeIf "gitdir:~/repos/accumulus*/"]
   path = ~/.config/accumulus/.gitconfig

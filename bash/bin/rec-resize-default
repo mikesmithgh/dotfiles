@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+w=2000
+h=800
+
+# rectangle configuration for centered window <command-m> see https://github.com/rxhanson/Rectangle/blob/master/TerminalCommands.md#add-an-extra-centering-command-with-custom-size
+defaults write com.knollsoft.Rectangle specifiedWidth -float $w
+defaults write com.knollsoft.Rectangle specifiedHeight -float $h
+
+pkill Rectangle
+open -a Rectangle
+
+printf 'Press '
+ms_comment '󰘳-m'
+printf ' to resize\n'

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+kitty_socket=$(find /tmp/* -name 'kitty-*' -maxdepth 0 -type socket)
+kitty @ --to "unix:$kitty_socket" launch --type os-window --cwd current --os-window-state maximized git dt
+

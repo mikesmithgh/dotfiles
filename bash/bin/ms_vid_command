@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+win_dimensions=$(pdubs | jq -r '.[0].kCGWindowBounds | "\(.X),\(.Y),\(.Width),\(.Height)"')
+printf 'screencapture -v -u -R%s NONE\n' "$win_dimensions"
+

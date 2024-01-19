@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+service='accumulus-identity-service'
+repo="$HOME/repos/$service"
+profile='sponsor'
+export LIQUIBASE_CONTEXT=dev
+if [[ "$profile" == sponsor* ]]; then
+	export LIQUIBASE_CONTEXT="$LIQUIBASE_CONTEXT,devsponsor"
+fi
+if pgrep -f "$service"; then
+	acc-stop-identity
+fi
+
+cd "$repo" || exit 1
+
+gw bootRun --args="--spring.profiles.active=$profile"

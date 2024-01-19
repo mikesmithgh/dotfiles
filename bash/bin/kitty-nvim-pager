@@ -1,12 +1,12 @@
 #!/opt/homebrew/bin/bash
-# had to specify hombrew bash because kitty was defaulting to mac version of bash
+# had to specify homebrew bash because kitty was defaulting to mac version of bash
 
 top_line="$(($1 + 1))"
 x="$(($2))"
 y="$(($3 - 1))"
 
 # sourcing .bashrc to get the path env, TODO: improve this for performance gains
-source /Users/mike/.bashrc
-_nvim='/Users/mike/gitrepos/neovim/build/bin/nvim'
+# source /Users/mike/.bashrc
+# _nvim='/Users/mike/gitrepos/neovim/build/bin/nvim'
 # shellcheck disable=2016
-$_nvim +"$top_line" +"normal! zt" +"call cursor(line('.') + $y, $x)"
+nvim +"$top_line" +"normal! zt" +"call cursor(line('.') + $y, $x)"

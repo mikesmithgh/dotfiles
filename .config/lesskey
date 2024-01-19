@@ -3,6 +3,6 @@ v noaction g|$/Users/mike/gitrepos/neovim/build/bin/nvim +BaleiaLess\r
 e visual
 ^j noaction jjj
 ^k noaction kkk
-f noaction g|$/opt/homebrew/bin/fzf\r
+f noaction g|$/opt/homebrew/bin/fzf --ansi\r
 \e quit
 

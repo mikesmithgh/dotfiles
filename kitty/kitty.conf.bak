@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 # BEGIN_KITTY_THEME
-# Gruvsquirrel
+# Tokyo Night
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -1759,7 +1759,6 @@ macos_option_as_alt yes
 #: that is assigned in the default configuration::
 
 #:     map kitty_mod+space no_op
-# map kitty_mod+v no_op
 
 #: If you would like kitty to completely ignore a key event, not even
 #: sending it to the program running in the terminal, map it to
@@ -1845,7 +1844,7 @@ macos_option_as_alt yes
 #: Paste from clipboard
 
 # map kitty_mod+v paste_from_clipboard
-map ctrl+shift+v       paste_from_clipboard
+# map cmd+v       paste_from_clipboard
 
 #: Paste from selection
 
@@ -2504,10 +2503,8 @@ map ctrl+w>l kitten pass_keys.py neighboring_window right  'ctrl+w>l'
 
 # action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args --clean --noplugin -n
 # action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --no-nvim-args
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --no-nvim-args
-action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
-
+action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
+# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
 
 # map kitty_mod+g kitty_scrollback_nvim --config ksb_example_status_win_nvim
 
@@ -2524,8 +2521,7 @@ menu_map global "󰄛    ::kitty_scrollback_nvim --config ksb_builtin_last
 underline_hyperlinks hover
 
 
-# action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
-action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py
+action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
 # map kitty_mod+j kitty_scrollback_bobnvim 
 
 # scrollback_pager /opt/homebrew/bin/less --no-init --RAW-CONTROL-CHARS --chop-long-lines +INPUT_LINE_NUMBER

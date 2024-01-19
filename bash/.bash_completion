@@ -4,18 +4,15 @@
 # source git bash completion
 # export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
 # [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
-if type brew &>/dev/null
-then
-  HOMEBREW_PREFIX="$(brew --prefix)"
-  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
-  then
-    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-  else
-    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
-    do
-      [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-    done
-  fi
+if type brew &>/dev/null; then
+	HOMEBREW_PREFIX="$(brew --prefix)"
+	if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+		source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+	else
+		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+			[[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+		done
+	fi
 fi
 
 # aws
@@ -24,19 +21,50 @@ complete -C 'aws_completer' aws
 
 # add 'git' auto completion to 'g'
 if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "function" ]; then
-  __git_complete g __git_main
+	__git_complete g __git_main
+  _git_br () {   _git_branch "$@"; }
+  _git_ci () {   _git_commit "$@"; }
+  _git_cl () {   _git_log "$@"; }
+  _git_co () {   _git_checkout "$@"; }
+  _git_d () {   _git_diff "$@"; }
+  _git_dt () {   _git_difftool "$@"; }
+  _git_f () {   _git_fetch "$@"; }
+  _git_graph () {   _git_log "$@"; }
+  _git_l () {   _git_log "$@"; }
+  _git_ll () {   _git_log "$@"; }
+  _git_llv () {   _git_log "$@"; }
+  _git_lv () {   _git_log "$@"; }
+  _git_ml () {   _git_log "$@"; }
+  _git_mll () {   _git_log "$@"; }
+  _git_mllv () {   _git_log "$@"; }
+  _git_mlv () {   _git_log "$@"; }
+  _git_p () {   _git_pull "$@"; }
+  _git_st () {   _git_status "$@"; }
+  _git_stashall () {   _git_stash "$@"; }
+  _git_unset () {   _git_branch "$@"; }
+  _git_wip () {   _git_commit "$@"; }
+  _git_cibr () {   _git_commit "$@"; }
 fi
 
-_ssh() 
-{
-    local cur prev opts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    prev="${COMP_WORDS[COMP_CWORD-1]}"
-    opts=$(grep '^Host' ~/.ssh/config | grep -v '[?*]' | cut -d ' ' -f 2-)
+# not needed since this is included in gradle autocompletion setup
+# leaving as reference for now
+# if hash gw 2>/dev/null || alias gw >/dev/null 2>&1; then
+#     complete -F _gradle gw
+# fi
+# add 'gradle' auto completion to 'gw'
+# if [ "$(type -t _gradle)" = "function" ]; then
+# 	complete -F _gradle gw
+# fi
 
-    COMPREPLY=( $(compgen -W "$opts" -- ${cur}) )
-    return 0
+_ssh() {
+	local cur prev opts
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD - 1]}"
+	opts=$(grep '^Host' ~/.ssh/config | grep -v '[?*]' | cut -d ' ' -f 2-)
+
+	COMPREPLY=($(compgen -W "$opts" -- ${cur}))
+	return 0
 }
 
 complete -F _ssh ssh
@@ -51,12 +79,12 @@ complete -W "$(ms_ls_projects | sed 's/\/.*\///' | xargs)" p
 # Custom fuzzy completion for "p" command
 #   e.g. p **<TAB>
 _fzf_complete_p() {
-  FZF_COMPLETION_TRIGGER=''
-  _fzf_complete --reverse --prompt="p> " -- "$@" < <(
-    ms_ls_projects
-  )
-  unset FZF_COMPLETION_TRIGGER
-#   ms_ls_projects
+	FZF_COMPLETION_TRIGGER=''
+	_fzf_complete --reverse --prompt="p> " -- "$@" < <(
+		ms_ls_projects
+	)
+	unset FZF_COMPLETION_TRIGGER
+	#   ms_ls_projects
 }
 complete -F _fzf_complete_p p
 

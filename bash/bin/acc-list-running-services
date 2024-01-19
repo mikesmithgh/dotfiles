@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+services=("accumulus-asset-service" "accumulus-audit-service" "accumulus-identity-service" "accumulus-notification-service" "accumulus-workflow-service")
+for service in "${services[@]}"; do
+	pids=$(pgrep -f "$service")
+	if [[ -n "$pids" ]]; then
+		ms_comment '%s' "$service"
+		printf ' running... '
+		ms_warn '(pids: %s)\n' "${pids//$'\n'/ }"
+	else
+		ms_comment '%s' "$service"
+		printf ' not running\n'
+	fi
+done

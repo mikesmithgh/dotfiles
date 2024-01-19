@@ -1,3 +1,16 @@
+"
+" https://github.com/JetBrains/ideavim#finding-action-ids
+" Finding action ids:
+" IJ provides IdeaVim: track action Ids command to show the id of the executed actions. This command can be found in "Search everywhere" (double shift).
+"
+" "Track action Ids" Details (click to see)
+" :actionlist [pattern]
+"
+" Find IDE actions by id or keymap pattern (E.g. :actionlist extract, :actionlist <C-D)
+"
+
+set ideastatusicon=gray
+
 set NERDTree
 
 " change leader key from \ to space
@@ -5,10 +18,10 @@ nnoremap <SPACE> <Nop>
 let mapleader=' '
 
 " toggle highlight
-nnoremap <leader>/ :set hls! <cr>
+nnoremap <leader>o/ :set hls! <cr>
 
 " Toggle list characters
-nmap <leader>l :set list!<cr>
+nmap <leader>ol :set list!<cr>
 
 " highlight then enter search mode
 nnoremap / :set hls<cr>/
@@ -61,7 +74,7 @@ set hlsearch
 " Makes search act like search in modern browsers
 set incsearch
 
-set number relativenumber
+" set number relativenumber
 
 map <leader>ss :setlocal spell!<cr>
 
@@ -90,30 +103,58 @@ nnoremap <C-n><C-n> :NERDTreeFind<CR>
 set showmode
 set showcmd
 
+" Disable bell sounds
+set visualbell
+set noerrorbells
+
 " in progress
 
 " started successfully tested
 :map <leader>b <Action>(ToggleLineBreakpoint)
 
+" diagnostics
+:map <leader>d <Action>(ShowErrorDescription)
 :map ]d <Action>(GotoNextError)
 :map [d <Action>(GotoPreviousError)
 
 :map s<leader> <Action>(SearchEverywhere)
 :map so <Action>(RecentFiles)
-:map sR <Action>(FindUsages)
+:map sR <Action>(GotoDeclaration)
 :map sf <Action>(GotoFile)
 :map sI <Action>(GotoImplementation)
 :map sg <Action>(FindInPath)
+:map sS <Action>(GotoSymbol)
 
 :map <f5> <Action>(Debug)
 :map sb <Action>(Switcher)
 " ended successfully tested
 
 :map <leader>d <Action>(ShowContextActions)
-:map <C-/> <Action>(CommentWithLineComment)
+:map <C-/> <Action>(CommentByLineComment)k
 :map s8 viw<Action>(FindInPath)
 :vmap s8 <Action>(FindInPath)
 :map s* viw<Action>(Find)
 :vmap s* <Action>(Find)
 
+:map <leader><leader>t <Action>(ActivateTerminalToolWindow)
+" :map <leader><leader>v :!kitty --start-as maximized --override 'macos_quit_when_last_window_closed yes' git dt &<cr>
+:map <leader><leader>v <Action>(Tool_External Tools_Kitty git dt)
 
+
+" lsp-like commands
+" :map <leader>lf <Action>(ReformatCode)
+:map <leader>lf <Action>(io.gitlab.arturbosch.detekt.idea.action.AutoCorrect) \| <Action>(ReformatCode) 
+:map <leader>lr <Action>(RenameElement)
+:map <leader>lk <Action>(ShowHoverInfo)
+:map <leader>lt <Action>(ExpressionTypeInfo)
+:map <leader>lc <Action>(ShowIntentionActions)
+
+" wincmds
+:map <C-w>q <Action>(CloseAllEditors)
+:map <C-w>o <Action>(HideAllWindows)
+
+
+" sethandler <C-D> a:ide
+
+" :command! Kitty ! kitty --override 'env=PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.' --override 'macos_quit_when_last_window_closed yes' >&/dev/null
+:command! Kitty action Tool_External Tools_Kitty

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+function gw () {
+  if ! ./gradlew "$@" ; then
+    printf '\n\n'
+    ms_err 'gradlew failed :: check if the terrible terrible zscaler is enabled'
+    printf '\n\n'
+    kitty +kitten icat --align=left /Users/mike/Pictures/personal/harold-zscaler-banner.png
+    printf '\n'
+    ms_err 'gradlew failed :: make sure vpn is on and internet security is off!'
+    printf '\n\n'
+    if ! docker ps ; then
+      ms_err ' 󰡨 check if docker is running! 󰡨 '
+      printf '\n\n'
+    fi
+    printf 'try:\n\n'
+    ms_comment '  gw projects | grep -o "Project '"'"'.*'"'"'" | awk -F"'"'"'" '"'"'{print $2}'"'"' | xargs -I {} bash --login -c "gw {}:build -x test --refresh-dependencies"'
+    printf '\n\ntry:\n\n'
+    ms_comment '  check if you need to build accumulus-core first for dependencies'
+    printf '\n\n'
+    return 1
+  fi
+}
+
+gw "$@"

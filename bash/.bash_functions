@@ -258,9 +258,10 @@ _make_repo_aliases() {
 }
 
 # repo directories
-DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --glob --prune --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
+DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --no-ignore --glob --prune --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
+# DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --no-ignore --glob --prune --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
 # go directories
-DOTFILES_GO_PROJECT_DIRS=$(fd --max-depth 7 --hidden --glob --search-path "${GOPATH}/src" '.git' --exec realpath "{//}")
+DOTFILES_GO_PROJECT_DIRS=$(fd --max-depth 7 --hidden --no-ignore --glob --search-path "${GOPATH}/src" '.git' --exec realpath "{//}")
 DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${DOTFILES_REPO_PROJECT_DIRS}" "${DOTFILES_GO_PROJECT_DIRS}" | sort -uf)
 
 ms_ls_projects() {
@@ -286,29 +287,35 @@ ms_cd_project() {
   local cache="$HOME/.cache/dotfiles/recent_projects.txt"
   touch "$cache"
   if (( $# != 1 )); then
-    echo "no project name provided"
+    ms_err "no project name provided"
     return 1
   fi
   project="$1" 
   project_path=$(ms_ls_projects | ansifilter | grep -E -m 1 "${project%/}\$")
   if [[ -z "$project_path" ]]; then
-    echo "could not find project"
+    ms_err "could not find project"
     return 1
   fi
 
   printf '%s\n%s\n' "$project_path" "$(cat "$cache")" >"$cache"
   # remove duplicates
   gawk -i inplace '!seen[$0]++' "$cache"
+
+  if ! cd "$project_path" 2>/dev/null; then
+    ms_err "could not find project $project_path"
+    # replace with blank line for removal
+    gsed -i -e "s|$project_path||g" "$cache"
+  fi
+
   # limit to 20 lines, remove base repos and blank lines
   gsed -i -e '21,$ d' -e "s|^$HOME/.*repos$||" -e /^$/d "$cache"
 
-  cd "$project_path" || return
 }
 
 ms_nvim_dirs() {
   plugin_configs=$(find "$HOME/.config/nvim/lua/plugins" -maxdepth 1)
   mason_packages=$(find "$HOME/.local/share/nvim/mason/packages" -maxdepth 1)
-  nvim_plugins="$(fd --max-depth 5 --hidden --glob --prune --search-path "$HOME/.local/share/nvim/lazy" '.git' --exec realpath {//})"
+  nvim_plugins="$(fd --max-depth 5 --hidden --no-ignore --glob --prune --search-path "$HOME/.local/share/nvim/lazy" '.git' --exec realpath {//})"
   local nvim_dirs=(
     "$HOME/.config/nvim" 
     "$HOME/.config/kitty-nvim" 
@@ -411,10 +418,35 @@ ms_git_f() {
       return ${grep_return_code}    
     fi
   else
-    fortune computers | cowsay | lolcat --force
+    msg='oops, not a git repo'
+    if command -v fortune &> /dev/null;then
+      msg=$(fortune computers)
+    fi
+    if command -v cowsay &> /dev/null;then
+      msg=$(cowsay "$msg")
+    fi
+    if command -v lolcat &> /dev/null;then
+      lolcat --force <<< "$msg"
+    else
+      echo "$msg"
+    fi
     return 148
   fi
 }
+
+ms_git_cibr() {
+  local branch
+  branch="$(git cbr)"
+  if [[ "$branch" =~ ^.*[^A-Z]([A-Z]+\-[0-9]+).*$ ]] || [[ "$branch" =~ ^([A-Z]+\-[0-9]+).*$ ]]; then
+    local msg
+    msg=$(printf "%s: " "${BASH_REMATCH[1]}")
+    git ci --edit --cleanup=verbatim --message="$msg" "$@"
+    return $?
+  fi
+  return 1
+}
+
+
 # thanks https://github.com/kalgynirae/dotfiles/blob/1203030bd44448088c4c1a42155a254171a31c4b/bashrc#L59
 # Test the terminal's text/color capabilities
 colortest() {
@@ -458,7 +490,6 @@ colortest() {
     printf "\n";
   }'
 }
-
 
 function wt () {
   cd "$(git worktree list | awk '{ for (i=NF; i>0; i--) printf("%s ",$i); printf("\n")}' | fzf | awk '{ print $NF }' )" || true
