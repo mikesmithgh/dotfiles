@@ -58,6 +58,12 @@ nnoremap <C-h> 3h
 nnoremap <C-j> 5j
 nnoremap <C-k> 5k
 nnoremap <C-l> 3l
+vnoremap <C-e> 5<C-e>
+vnoremap <C-y> 5<C-y>
+vnoremap <C-h> 3h
+vnoremap <C-j> 5j
+vnoremap <C-k> 5k
+vnoremap <C-l> 3l
 
 " Set 7 lines visible above/below the cursor
 set scrolloff=7

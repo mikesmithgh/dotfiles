@@ -7,4 +7,17 @@ if (( $# )); then
   exit $?
 fi
 
-$lp show -c "$($lp ls --long | fzf --prompt='󰑆 ' --border-label=' Lastpass ' | sed 's/.*\[id: \([[:digit:]]\+\)\].*/\1/')"
+if ! $lp status -q; then
+  printf "\e[31m\e[1mNot logged in\e[0m.\n"
+  read -r -p "Username: " user
+  $lp login "$user"
+fi
+
+$lp ls --format $'\e[34;5m%ag \e[33;5m%an\e[m \e[35;5m%au\e[m \e[90;5m[id: %ai]\e[m' --color=always | \
+  sed -E -e 's/^[ \t]*//g' -e '/\[id:/!d' -e '/\[Deprecated/d' -e 's/^(.*5m) /\1None /g' | \
+  fzf --ansi --header $' <\e[33;5menter\e[m> Copy password to clipboard\n <\e[33;5mctrl-o\e[m> Output JSON' \
+  --prompt='󰑆 ' \
+  --border-label=' Lastpass ' \
+  "--bind=ctrl-o:execute@echo {} | sed 's/.*\[id: \([0-9]*\)\].*/\1/g' | xargs '$lp' show --json | jq . @+abort" \
+  "--bind=enter:execute@echo {} | sed 's/.*\[id: \([0-9]*\)\].*/\1/g' | xargs '$lp' show --password --clip @+abort"
+

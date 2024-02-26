@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 # BEGIN_KITTY_THEME
-# Tokyo Night
+# 1984 Dark
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -51,7 +51,45 @@ font_size 18.0
 #: LTR, which FriBidi expects for terminals.
 
 # symbol_map
-symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+E00A,U+E0A0-U+E0A3,U+E0B0-U+E0C8,U+E0CA,U+E0CC-U+E0D2,U+E0D4,U+E200-U+E2A9,U+E300-U+E3E3,U+E5FA-U+E634,U+E700-U+E7C5,U+EA60-U+EBEB,U+F000-U+F2E0,U+F300-U+F32F,U+F400-U+F4A9,U+F500-U+F8FF,U+F10FE,U+E6AE,U+F36F,U+EAD3,U+F52A,U+F281,U+F031,U+E6AE,U+F365,U+E62B,U+E7C5 FiraCode Nerd Font
+
+
+# Copied from https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points on 20230129
+# | Glyph Set              | original if different | location in Nerd Font | rough area    |
+# |------------------------|-----------------------|-----------------------|---------------|
+# | IEC Power Symbols      | -                     | `23fb` - `23fe`       | `23`          |
+# | Octicons               | -                     | `2665`                | `26`          |
+# | Octicons               | -                     | `26a1`                | `26`          |
+# | IEC Power Symbols      | -                     | `2b58`                | `2b`          |
+# | Pomicons               | -                     | `e000` - `e00a`       | `e0`          |
+# | Powerline              | -                     | `e0a0` - `e0a2`       | `e0`          |
+# | Powerline Extra        | -                     | `e0a3`                | `e0`          |
+# | Powerline              | -                     | `e0b0` - `e0b3`       | `e0`          |
+# | Powerline Extra        | -                     | `e0b4` - `e0c8`       | `e0`          |
+# | Powerline Extra        | -                     | `e0ca`                | `e0`          |
+# | Powerline Extra        | -                     | `e0cc` - `e0d4`       | `e0`          |
+# | Font Awesome Extension | `e000` - `e0a9`       | `e200` - `e2a9`       | `e2`          |
+# | Weather Icons          | `f000` - `f0eb` `*`   | `e300` - `e3e3`       | `e3`          |
+# | Seti-UI + Custom       | -                     | `e5fa` - `e6b1`       | `e6`          |
+# | Devicons               | `e600` - `e6c5`       | `e700` - `e7c5`       | `e7`          |
+# | Codicons               | -                     | `ea60` - `ebeb`       | `ea` - `eb`   |
+# | Font Awesome           | -                     | `f000` - `f2e0`       | `f0` - `f2`   |
+# | Font Logos             | -                     | `f300` - `f372`       | `f3`          |
+# | Octicons               | `f000` - `f305` `*`   | `f400` - `f532`       | `f4` - `f5`   |
+# | ~Material Design~      | `f001` - `f847`       | `f500` - `fd46`       | `f5` - `fd`   |
+# | Material Design        | -                     | `f0001`-`f1af0`       | `f00` - `f10` |
+
+
+# formatted symbol_map 
+# U+23FB-U+23FE   | IEC Power Symbols
+# U+2665          | Octicons
+# U+26A1          | Octicons
+# U+2B58          | IEC Power Symbols
+# U+E000-U+F8FF   | Private Use Areas
+# U+F0000-U+FFFFF | Private Use Areas
+# U+100000-10FFFF | Private Use Areas
+
+# please make updates to the formatted symbol_map table above when changing symbol_map
+symbol_map U+23FB-U+23FE,U+2665,U+26A1,U+2B58,U+E000-U+F8FF,U+F0000-U+FFFFF,U+100000-10FFFF FiraCode Nerd Font
 
 #: E.g. symbol_map U+E0A0-U+E0A3,U+E0C0-U+E0C7 PowerlineSymbols
 
@@ -1759,6 +1797,7 @@ macos_option_as_alt yes
 #: that is assigned in the default configuration::
 
 #:     map kitty_mod+space no_op
+# map kitty_mod+v no_op
 
 #: If you would like kitty to completely ignore a key event, not even
 #: sending it to the program running in the terminal, map it to
@@ -1844,7 +1883,7 @@ macos_option_as_alt yes
 #: Paste from clipboard
 
 # map kitty_mod+v paste_from_clipboard
-# map cmd+v       paste_from_clipboard
+map ctrl+shift+v       paste_from_clipboard
 
 #: Paste from selection
 
@@ -2482,6 +2521,8 @@ map cmd+enter launch --cwd=current
 
 #: }}}
 
+underline_hyperlinks hover
+
 # vim-kitty-navigator
 # smart-splits
 map ctrl+w>j kitten pass_keys.py neighboring_window bottom 'ctrl+w>j' 
@@ -2489,24 +2530,22 @@ map ctrl+w>k kitten pass_keys.py neighboring_window top    'ctrl+w>k'
 map ctrl+w>h kitten pass_keys.py neighboring_window left   'ctrl+w>h' 
 map ctrl+w>l kitten pass_keys.py neighboring_window right  'ctrl+w>l' 
 
+menu_map global "󰄛    ::kitty_scrollback_nvim" kitty_scrollback_nvim 
+menu_map global "󰄛    ::kitty_scrollback_nvim --config ksb_builtin_last_cmd_output" kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+
+
+# action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
+action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py
+# map kitty_mod+j kitty_scrollback_bobnvim 
+
+scrollback_pager /opt/homebrew/bin/less --ignore-case --status-column --no-init --raw-control-chars --chop-long-lines +INPUT_LINE_NUMBER --use-color --color=P0.7$ --prompt='?f  %f : 󰄛 (kitty) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+
+# map --when-focus-on not var:in_editor=1 ctrl+w>o
+map ctrl+w>o toggle_layout stack
+map --when-focus-on var:in_editor ctrl+w>o
+
 # kitty-scrollback.nvim Kitten alias
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/ksb-init.lua
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py 
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u NONE +'lua vim.defer_fn(function() vim.cmd("ls!") end, 1000)'
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/ksb-init.lua
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/ksb-init.lua
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --env NVIM_APPNAME=nvim-ksb --no-nvim-args
-
-
-
-
-
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args --clean --noplugin -n
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --no-nvim-args
-action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
-# action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
-
-# map kitty_mod+g kitty_scrollback_nvim --config ksb_example_status_win_nvim
+action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py
 
 # Browse scrollback buffer in nvim
 map kitty_mod+h kitty_scrollback_nvim
@@ -2515,24 +2554,4 @@ map kitty_mod+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
 # Show clicked command output in nvim
 mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output
 
-menu_map global "󰄛    ::kitty_scrollback_nvim" kitty_scrollback_nvim 
-menu_map global "󰄛    ::kitty_scrollback_nvim --config ksb_builtin_last_cmd_output" kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
-
-underline_hyperlinks hover
-
-
-action_alias kitty_scrollback_bobnvim kitten kitty_scrollback_bobnvim.py --nvim-args -u /Users/mike/.config/nvim/lua/kitty-scrollback-nvim-kitten-config.lua
-# map kitty_mod+j kitty_scrollback_bobnvim 
-
-# scrollback_pager /opt/homebrew/bin/less --no-init --RAW-CONTROL-CHARS --chop-long-lines +INPUT_LINE_NUMBER
-# scrollback_pager /opt/homebrew/bin/less --no-init --raw-control-chars --chop-long-lines +INPUT_LINE_NUMBER
-# scrollback_pager nvim --clean --noplugin -n
-scrollback_pager /opt/homebrew/bin/less --ignore-case --status-column --no-init --raw-control-chars --chop-long-lines +INPUT_LINE_NUMBER --use-color --color=P0.7$ --prompt='?f  %f : 󰄛 (kitty) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
-
 map kitty_mod+j kitty_scrollback_bobnvim 
-
-
-# map f1 launch --type=overlay kitty @ set-window-logo --match='all' --alpha=1 --position=center none
-# map f2 launch --type=overlay kitty @ set-window-logo --match='all' --alpha=1 --position=center /Users/mike/gitrepos/kitty-scrollback.nvimconf/assets/neovimconf-bg.png
-# map f3 launch --type=overlay kitty @ set-window-logo --match='all' --alpha=1 --position=center /Users/mike/gitrepos/kitty-scrollback.nvimconf/assets/scrollback-buffer-surprised-cat.jpeg 
-

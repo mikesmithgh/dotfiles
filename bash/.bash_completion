@@ -72,6 +72,7 @@ complete -F __start_kubectl k
 
 # kubectl completion
 source <(kubectl completion bash)
+source <(glab completion -s bash)
 
 complete -W "$(ms_ls_projects | sed 's/\/.*\///' | xargs)" p
 

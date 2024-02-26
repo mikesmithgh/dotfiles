@@ -51,6 +51,7 @@ declare -a my_prefix=(
 	"${HOME}/gitrepos/neovim/build/bin"
 	/Users/mike/.cargo/bin
 	"$HOMEBREW_PREFIX/opt/libpq/bin"
+  '/Users/mike/Library/Application Support/Coursier/bin'
 )
 declare -a my_suffix=(
 	# ${macvim_bin_path}
@@ -154,6 +155,8 @@ shopt -s histreedit # reedit a history substitution line if it failed
 # After each command, append to the history file and reread it
 # PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
 PROMPT_COMMAND="${PROMPT_COMMAND} && history -a && history -c && history -r"
+# PROMPT_COMMAND=
+# PS1='$ '
 
 # alias commands
 alias ag='ag --path-to-ignore ~/.agignore'
@@ -203,7 +206,7 @@ alias nd='nvim -d'
 alias nvimdiff='nvim -d'
 alias vimdiff='nvimdiff'
 alias intellij='open -a "/Applications/IntelliJ IDEA.app"'
-alias code='open -a /Applications/VSCodium.app'
+alias code='open -a /Applications/Visual Studio Code.app'
 
 alias downloads='cd ~/Downloads'
 alias volumes='cd /Volumes'
@@ -240,6 +243,7 @@ alias python='python3'
 alias pip='pip3'
 alias strip-color='sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"'
 alias todo='vim -o /Users/mike/Documents/notes/wiki/Running-TODOs.md /Users/mike/Documents/notes/wiki/Archived-TODOs.md -c "wincmd j" -c "vsplit" -c "resize 25" -c "e /Users/mike/Documents/notes/wiki/Low-Priority-TODOs.md" -c "wincmd k"'
+alias ft3='vim  /Users/mike/Documents/notes/ft3/ft3.md'
 
 # display settings
 # alias display-wide='displayplacer "id:57213D25-59E0-43E5-977D-86C571A2E6EB res:3440x1440 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 scaling:on origin:(-1728,323) degree:0" "id:42B02A68-B135-44F3-9F98-FFA811FDAA90 res:1920x1080 hz:60 color_depth:8 scaling:off origin:(3440,360) degree:0"'
@@ -378,8 +382,8 @@ export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
 mkdir -p '/Users/mike/.local/state/fzf/'
 FZF_DEFAULT_OPTS='--preview-window=60%,border-thinblock --margin 1,4 --border=thinblock --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --scrollbar=▊ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
 
-gruvsquirrel_fzf="$(nvim --headless -i NONE +'lua gs_base=vim.api.nvim_get_runtime_file("lua/gruvsquirrel", true)[1]' +'=vim.fn.fnamemodify(gs_base, [[:h:h]]) .. [[/extra/fzf/gruvsquirrel.sh]]' +quit 2>&1 | sed -n '2p')"
-gruvsquirrel_err="$(nvim --headless -i NONE +'lua gs_base=vim.api.nvim_get_runtime_file("lua/gruvsquirrel", true)[1]' +'=vim.fn.fnamemodify(gs_base, [[:h:h]]) .. [[/extra/fzf/gruvsquirrel.sh]]' +quit 2>&1 | sed -n '3,$p')"
+gruvsquirrel_fzf="$(nvim --headless -i NONE +'set eventignore=all' +'lua gs_base=vim.api.nvim_get_runtime_file("lua/gruvsquirrel", true)[1]' +'=vim.fn.fnamemodify(gs_base, [[:h:h]]) .. [[/extra/fzf/gruvsquirrel.sh]]' +quit 2>&1 | sed -n '2p')"
+gruvsquirrel_err="$(nvim --headless -i NONE +'set eventignore=all' +'lua gs_base=vim.api.nvim_get_runtime_file("lua/gruvsquirrel", true)[1]' +'=vim.fn.fnamemodify(gs_base, [[:h:h]]) .. [[/extra/fzf/gruvsquirrel.sh]]' +quit 2>&1 | sed -n '3,$p')"
 if [[ -n "$gruvsquirrel_err" ]]; then
 	ms_err "Error loading fzf gruvsquirrel theme"
 	ms_err "$gruvsquirrel_err"
@@ -435,7 +439,10 @@ alias kitty-demo="kitty --config /Users/mike/gitrepos/kitty-scrollback.nvim/test
 p() {
 	if ((!$#)); then
 		local directory
-		directory="$(ms_ls_projects | fzf --ansi --prompt=' ' --border-label=' Projects ')"
+		directory="$(ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
+      --header $' <\e[33;5mctrl-x\e[m> to \e[m\e[31;5mRemove from recent projects' \
+      --bind='ctrl-x:execute(ms_remove_recent_project {})+abort' \
+                )"
 		if [[ $directory != "" ]]; then
 			ms_cd_project "$directory"
 		fi
@@ -492,7 +499,7 @@ export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 
 if [[ $OSTYPE == darwin* ]] && [[ "$TERM" == 'xterm-kitty' ]]; then
 	# new instances of kitty will have the correct path
-	cat ~/.config/kitty/macos-launch-services-cmdline.template | xargs -I {} printf "{}" "--override env=PATH=$PATH" >~/.config/kitty/macos-launch-services-cmdline
+	cat ~/.config/kitty/macos-launch-services-cmdline.template | xargs -I {} printf "{}" "--override env=PATH=\"$PATH\"" >~/.config/kitty/macos-launch-services-cmdline
 fi
 
 LIQUIBASE_HOME=$(brew --prefix)/opt/liquibase/libexec

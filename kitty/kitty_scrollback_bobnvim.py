@@ -6,9 +6,12 @@ from kitty.fast_data_types import get_options
 from kitty.constants import config_dir, version
 
 import json
+import os
+import inspect
 import shutil
 
-ksb_dir = '/Users/mike/gitrepos/kitty-scrollback.nvim'
+ksb_dir = os.path.dirname(
+    os.path.dirname(os.path.abspath(inspect.getfile(lambda: None))))
 
 
 def main():
@@ -22,13 +25,35 @@ def get_kitty_shell_integration(kitty_opts, w):
     shell_integration_opts = kitty_opts.shell_integration or frozenset(
         {'enabled'})
     shell_integration = w.child.environ.get(
-        'KITTY_SHELL_INTEGRATION',
-        ' '.join(list(shell_integration_opts)))
+        'KITTY_SHELL_INTEGRATION', ' '.join(list(shell_integration_opts)))
     return shell_integration.split()
 
 
+def parse_tmux_env(env):
+    tmux_data = {}
+    tmux = None
+    tmux_pane = None
+    for e in env:
+        env_kv = e.split('=')
+        if len(env_kv) == 2:
+            key = env_kv[0]
+            value = env_kv[1]
+            if key == 'TMUX':
+                tmux = value
+            if key == 'TMUX_PANE':
+                tmux_pane = value
+    if tmux:
+        tmux_parts = tmux.split(',')
+        if len(tmux_parts) == 3 and tmux_pane:
+            tmux_data['socket_path'] = tmux_parts[0]
+            tmux_data['pid'] = tmux_parts[1]
+            tmux_data['session_id'] = tmux_parts[2]
+            tmux_data['pane_id'] = tmux_pane
+    return tmux_data
+
+
 # based on kitty source window.py
-def pipe_data(w, target_window_id, config, kitty_path):
+def pipe_data(w, target_window_id, config, kitty_path, tmux_data):
     kitty_opts = get_options()
     kitty_shell_integration = get_kitty_shell_integration(kitty_opts, w)
     return {
@@ -60,12 +85,13 @@ def pipe_data(w, target_window_id, config, kitty_path):
         },
         'kitty_config_dir': config_dir,
         'kitty_version': version,
+        'tmux': tmux_data,
     }
 
 
 def parse_nvim_args(args=[]):
     for idx, arg in enumerate(args):
-        if arg.startswith('--nvim-args'):
+        if arg == '--nvim-args':
             if idx + 1 < len(args):
                 return tuple(filter(None, args[idx + 1:]))
             return ()
@@ -75,7 +101,7 @@ def parse_nvim_args(args=[]):
 def parse_env(args):
     env_args = []
     for idx, arg in reversed(list(enumerate(args))):
-        if arg.startswith('--env') and (idx + 1 < len(args)):
+        if arg == '--env' and (idx + 1 < len(args)):
             env_args.append('--env')
             env_args.append(args[idx + 1])
             del args[idx:idx + 2]
@@ -85,22 +111,20 @@ def parse_env(args):
 def parse_config(args):
     config_args = []
     for idx, arg in reversed(list(enumerate(args))):
-        if arg.startswith('--config-file'):
-            return 'crying cat --config-file'
-        if arg.startswith('--config') and (idx + 1 < len(args)):
+        if arg == '--config' and (idx + 1 < len(args)):
             config_args = args[idx + 1]
             del args[idx:idx + 2]
             return config_args
-    return 'default'
+    return 'ksb_builtin_get_text_all'
 
 
 def parse_cwd(args):
     for idx, arg in reversed(list(enumerate(args))):
-        if arg.startswith('--cwd') and (idx + 1 < len(args)):
+        if arg == '--cwd' and (idx + 1 < len(args)):
             cwd_args = args[idx + 1]
             del args[idx:idx + 2]
             return ('--cwd', cwd_args)
-    return ()
+    return ('--cwd', 'current')
 
 
 def nvim_err_cmd(err_file):
@@ -120,9 +144,7 @@ def nvim_err_cmd(err_file):
 
 
 @result_handler(type_of_input=None, no_ui=True, has_ready_notification=False)
-def handle_result(args: List[str],
-                  result: str,
-                  target_window_id: int,
+def handle_result(args: List[str], result: str, target_window_id: int,
                   boss: Boss) -> None:
     del args[0]
     w = boss.window_id_map.get(target_window_id)
@@ -130,34 +152,15 @@ def handle_result(args: List[str],
         kitty_path = shutil.which('kitty')
         if not kitty_path:
             boss.call_remote_control(
-                w,
-                nvim_err_cmd(f'{ksb_dir}/scripts/kitty_not_found.txt'))
+                w, nvim_err_cmd(f'{ksb_dir}/scripts/kitty_not_found.txt'))
             return
 
         config = parse_config(args)
-        if config == 'crying cat --config-file':
-
-            err_winid = boss.call_remote_control(
-                w,
-                nvim_err_cmd(
-                    f'{ksb_dir}/scripts/breaking_change_config_file.txt'))
-
-            # window logo is overridden by new neovim colorscheme
-            set_logo_cmd = ('set-window-logo',
-                            '--no-response',
-                            '--alpha',
-                            '0.5',
-                            '--position',
-                            'bottom-right',
-                            f'{ksb_dir}/media/sad_kitty_thumbs_up.png')
-
-            err_win = boss.window_id_map.get(err_winid)
-            boss.call_remote_control(err_win, set_logo_cmd)
-            return
-
         cwd = parse_cwd(args)
         env = parse_env(args)
-        kitty_data_str = pipe_data(w, target_window_id, config, kitty_path)
+        tmux_data = parse_tmux_env(env)
+        kitty_data_str = pipe_data(w, target_window_id, config, kitty_path,
+                                   tmux_data)
         kitty_data = json.dumps(kitty_data_str)
 
         if w.title.startswith('kitty-scrollback.nvim'):
@@ -171,6 +174,8 @@ def handle_result(args: List[str],
             '--copy-env',
             '--env',
             'VIMRUNTIME=',
+            '--env',
+            'KITTY_SCROLLBACK_NVIM=true',
             '--type',
             'overlay',
             '--title',
@@ -178,8 +183,7 @@ def handle_result(args: List[str],
         ) + env + cwd
 
         nvim_args = parse_nvim_args(args) + (
-            '--cmd',
-            ' lua'
+            '--cmd', ' lua'
             ' vim.api.nvim_create_autocmd([[VimEnter]], {'
             '  group = vim.api.nvim_create_augroup([[KittyScrollBackNvimVimEnter]], { clear = true }),'
             '  pattern = [[*]],'
