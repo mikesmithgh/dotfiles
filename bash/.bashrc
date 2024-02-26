@@ -155,8 +155,6 @@ shopt -s histreedit # reedit a history substitution line if it failed
 # After each command, append to the history file and reread it
 # PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
 PROMPT_COMMAND="${PROMPT_COMMAND} && history -a && history -c && history -r"
-# PROMPT_COMMAND=
-# PS1='$ '
 
 # alias commands
 alias ag='ag --path-to-ignore ~/.agignore'
