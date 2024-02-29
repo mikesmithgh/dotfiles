@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# XDG base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 XDG_RUNTIME_DIR=$(mktemp -u -t "${USER}")
@@ -15,6 +16,8 @@ mkdir -p "$XDG_STATE_HOME"
 mkdir -p "$XDG_CACHE_HOME"
 mkdir -p "$XDG_DATA_DIRS"
 
+
+# osx specific
 if [[ $OSTYPE == darwin* ]]; then
 	# 15 is lowest setting on UI
 	# 8 was too fast causing duplicate keystrokes
@@ -34,13 +37,34 @@ if [[ $OSTYPE == darwin* ]]; then
 	defaults write com.knollsoft.Rectangle specified -dict-add keyCode -float 46 modifierFlags -float 1048840
 	defaults write com.knollsoft.Rectangle specifiedWidth -float 2000
 	defaults write com.knollsoft.Rectangle specifiedHeight -float 800
+
+
+  # osx and kitty specific
+  if [[ "$TERM" == 'xterm-kitty' ]]; then
+    # new instances of kitty will have the correct path
+    cat ~/.config/kitty/macos-launch-services-cmdline.template | xargs -I {} printf "{}" "--override env=PATH=\"$PATH\"" >~/.config/kitty/macos-launch-services-cmdline
+  fi
 fi
 
-# required for local build of neovim
-export VIMRUNTIME=~/gitrepos/neovim/runtime
+
+# neovim / vim
+export VIMRUNTIME=~/gitrepos/neovim/runtime  # required for local build of neovim
+
+
+# python
+alias python='python3'
+alias pip='pip3'
+
+# python :: virtualenv (https://github.com/pypa/virtualenv)
+# disable updating PS1 prompt, this is currently added with bgps
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+
+# python :: pyenv (https://github.com/pyenv/pyenv)
 export PYENV_ROOT="$XDG_CONFIG_HOME/pyenv"
 
-# homebrew setup
+
+# homebrew
 [[ -z ${HOMEBREW_PREFIX} ]] && eval "$(/opt/homebrew/bin/brew shellenv)" # Add homebrew to path if not set
 
 declare -a my_prefix=(
@@ -73,17 +97,17 @@ eval "$(pyenv init -)"
 
 export PATH="${MYPATH_PREFIX}:${DEFAULT_PATH}:${MYPATH_SUFFIX}"
 
-# export JAVA_HOME="$(/usr/libexec/java_home -F -v 1.8)"
-# JAVA_HOME="$(/usr/libexec/java_home --verbose |& grep 'Amazon Corretto 20' | awk '{ print $9 }')"
-JAVA_HOME='/opt/homebrew/opt/sdkman-cli/libexec/candidates/java/current'
-export JAVA_HOME
 
+# go
 GOPATH=$(go env GOPATH)
 export GOPATH
 # export GOPRIVATE=""
 export GOARCH=arm64
 export GOOS=darwin
 # export CGO_ENABLED=1
+# TODO look into this
+# export GOOS=linux
+
 
 # source files
 declare -a source_files=(
@@ -118,27 +142,25 @@ for i in "${dependent_source_files[@]}"; do
 	fi
 done
 
-# environment variables
-# export DISPLAY=localhost:0.0 # required for copy paste in vim
-# export TERM=xterm-256color
-# export TERM=xterm-kitty
-
-# export LESS='RSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
-# export LESS='IRSFX' # ignore case, raw control character (for color), chop long lines, quit if one screen, no init
-# export LESSOPEN="|lesspipe.sh %s"
+# less
+# removed J because it caused issues with bat alignment
 export LESS='iXK --raw-control-chars --mouse --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f :  (stdin) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
-# removed J from less because it caused issues with bat alignment
 
 export EDITOR='nvim'
 export VISUAL='nvim'
-MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps' # execute every time before bash displays prompt
-# MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps; _set_title;' # execute every time before bash displays prompt
-if [[ ${PROMPT_COMMAND} != *${MY_PROMPT_COMMAND} ]]; then
-	if [[ -z $PROMPT_COMMAND ]]; then
-		export PROMPT_COMMAND="$MY_PROMPT_COMMAND"
-	else
-		export PROMPT_COMMAND="$(echo $PROMPT_COMMAND'; '$MY_PROMPT_COMMAND | sed -E 's/;;/;/g')"
-	fi
+
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
+  PS1="\[\n\e[0;33m\w\n\e[0;32m\u@local \e[0;36m\$\e[0m \]"
+else
+  MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps' # execute every time before bash displays prompt
+  if [[ ${PROMPT_COMMAND} != *${MY_PROMPT_COMMAND} ]]; then
+    if [[ -z $PROMPT_COMMAND ]]; then
+      export PROMPT_COMMAND="$MY_PROMPT_COMMAND"
+    else
+      PROMPT_COMMAND="$(echo $PROMPT_COMMAND'; '$MY_PROMPT_COMMAND | sed -E 's/;;/;/g')"
+      export PROMPT_COMMAND
+    fi
+  fi
 fi
 
 # see https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
@@ -156,26 +178,21 @@ shopt -s histreedit # reedit a history substitution line if it failed
 # PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
 PROMPT_COMMAND="${PROMPT_COMMAND} && history -a && history -c && history -r"
 
-# alias commands
-alias ag='ag --path-to-ignore ~/.agignore'
+
+# kubectl
 alias k='kubectl'
+
+# grep
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
-alias nrc='cd $XDG_CONFIG_HOME/nvim/ && nvim'
-alias vimrc='cd $XDG_CONFIG_HOME/nvim && nvim'
-alias nvimrc='cd $XDG_CONFIG_HOME/nvim && nvim'
-
+# bob (https://github.com/MordechaiHadad/bob)
 alias bobnvim='VIMRUNTIME= ~/.local/share/bob/nvim-bin/nvim'
-alias bobvim='bobnvim'
-alias bvim='bobnvim'
+alias bnvim='bobnvim'
 alias bvi='bobnvim'
-alias bi='bobnvim'
+
 alias vim='nvim'
 alias vi='vim'
-alias v='vim'
-alias iv='vim'
-alias i='vim'
 
 oldvim() {
 	export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
@@ -200,10 +217,13 @@ alias ovi='oldvim'
 alias bram='oldvim'
 
 
-alias nd='nvim -d'
 alias nvimdiff='nvim -d'
 alias vimdiff='nvimdiff'
+
+# intellij
 alias intellij='open -a "/Applications/IntelliJ IDEA.app"'
+
+# vsc*de
 alias code='open -a /Applications/Visual Studio Code.app'
 
 alias downloads='cd ~/Downloads'
@@ -212,33 +232,29 @@ alias volumes='cd /Volumes'
 # if interactive shell, disable xon/xoff to avoid conflicting with C-s history search
 [[ $- == *i* ]] && stty -ixon
 
-# export DOCKER_HOST=tcp://localhost:2375
 
-# unset variables
-unset source_files
-unset dependent_source_files
+# motd
+alias motd='cat ~/.motd'
+purple="\033[0;95m"
+touch "$HOME/.motd" 
+xargs -0 -n1 printf %b "$purple" < "$HOME/.motd"
 
-touch ~/.motd && cat ~/.motd | xargs -0 -n1 printf %b $(get_color txt hifo pur)
 
-# AWS
+# aws
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list-aws_cli_auto_prompt
 export AWS_CLI_AUTO_PROMPT='on-partial'
 alias aws-prompt='aws --cli-auto-prompt'
 # export AWS_SDK_LOAD_NONDEFAULT_CONFIG=1
 alias localaws='aws --endpoint-url=http://localhost:4566'
 
-# TODO review below, it was copied it
+# rm
+alias rm='rm -i'
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-
+# directoy shorcuts
 alias notes="cd ~/Documents/notes"
 alias scripts="cd ~/scripts"
-alias rm='rm -i'
-alias motd='cat ~/.motd'
 alias gitrepos="cd ${HOME}/gitrepos"
 alias repos="cd ${HOME}/repos"
-alias python='python3'
-alias pip='pip3'
 alias strip-color='sed "s/\x1B\[[0-9;]\{1,\}[A-Za-z]//g"'
 alias todo='vim -o /Users/mike/Documents/notes/wiki/Running-TODOs.md /Users/mike/Documents/notes/wiki/Archived-TODOs.md -c "wincmd j" -c "vsplit" -c "resize 25" -c "e /Users/mike/Documents/notes/wiki/Low-Priority-TODOs.md" -c "wincmd k"'
 alias ft3='vim  /Users/mike/Documents/notes/ft3/ft3.md'
@@ -369,9 +385,8 @@ export LC_CTYPE="en_US.UTF-8"
 # TODO move and clean up
 # alias vim-intro="vim -c ':terminal ++curwin vim --clean' -c ':sleep 1' -c ':call feedkeys(\"\<C-W>N\")' -c ':%y' -c ':call feedkeys(\"i:q!\<CR>\")' -c ':bdelete!' -c ':silent normal pddggddr~' -c ':execute \"w \" . tempname()'"
 
-# TODO look into this
-# export GOOS=linux
 
+# fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
@@ -393,28 +408,18 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='$gruvsquirrel_fzf_colors'"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --no-ignore' # TODO: revisit the defaults
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-alias cbat='bat --paging=never --style=plain --theme gruvbox-dark'
-
 # generated with vivid https://github.com/sharkdp/vivid
 LS_COLORS="$(vivid generate ~/gitrepos/gruvsquirrel.nvim/extra/vivid/gruvsquirrel.yml)"
 export LS_COLORS
 
-export EZA_COLORS="uu=38;2;167;192;128:gu=38;2;167;192;128:uR=38;2;255;105;97:gR=38;2;255;105;97:un=90:gn=90"
-# enable color support of ls and also add handy aliases
-# if [ -x /usr/bin/dircolors ]; then
-#     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-#     alias ls='ls --color=auto'
-#alias dir='dir --color=auto'
-#alias vdir='vdir --color=auto'
-# fi
 
-# use coreutile gnu
-alias ls='gls --color=auto -p'
-alias ll='ls -lAhrtGp'
-alias l='ls -lAhrtGp'
-# alias l='exa --long --sort=time --time=modified --time-style=long-iso --all'
-# alias l='eza --hyperlink --long --sort=time --time=modified --time-style=long-iso --all --git --grid'
+# eza
+export EZA_COLORS="uu=38;2;167;192;128:gu=38;2;167;192;128:uR=38;2;255;105;97:gR=38;2;255;105;97:un=90:gn=90"
 alias l='eza --hyperlink --long --sort=time --time=modified --time-style=relative --all --git --color=auto --icons=auto --group-directories-first --dereference'
+
+
+# gnu / coreutil
+alias ls='gls'
 alias grep='ggrep --color=auto'
 alias fgrep='gfgrep --color=auto'
 alias egrep='gegrep --color=auto'
@@ -422,17 +427,6 @@ alias od='god'
 alias awk='gawk'
 alias sed='gsed'
 
-alias ..='cd ..'
-
-alias kitty-demo="kitty --config /Users/mike/gitrepos/kitty-scrollback.nvim/tests/kitty.conf --override 'shell /opt/homebrew/bin/bash --login --noprofile --norc' --override 'action_alias kitty_scrollback_nvim kitten /Users/mike/gitrepos/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'"
-
-# r() {
-#     local cmd opts dir;
-#     cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune     -o -type d -print 2> /dev/null | cut -b3-"}";
-#     opts="--height ${FZF_TMUX_HEIGHT:-40%} --bind=ctrl-z:ignore --reverse ${FZF_DEFAULT_OPTS-} ${FZF_ALT_C_OPTS-} +m";
-#     dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="$opts" $(__fzfcmd))
-#     cd -- $dir
-# }
 
 p() {
 	if ((!$#)); then
@@ -466,44 +460,44 @@ n() {
 }
 
 nvimdirs() {
-	local directory="$(ms_nvim_dirs | fzf)"
+	local directory
+  directory="$(ms_nvim_dirs | fzf)"
 	if [[ $directory != "" ]]; then
-		cd "$directory"
+		cd "$directory" || return
 	fi
 }
 
-# don't use nvim, it conflicts with nvim bash lsp
-export MANPAGER='nvim +Man!'
+# bash-preexec (https://github.com/rcaloras/bash-preexec)
+bash_preexec="${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
+[[ -f "$bash_preexec" ]] && source "$bash_preexec"
 
-# see https://github.com/rcaloras/bash-preexec
-source "${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
-# [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 
-# ruby
-# source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
-# source /opt/homebrew/opt/chruby/share/chruby/auto.sh
-# chruby ruby-3.1.3
-
+# node version manager (https://github.com/nvm-sh/nvm)
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh" # load nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # loads nvm bash_completion
 
 
-# export SUDO_ASKPASS='/opt/homebrew/bin/ssh-askpass'
-
-# export GITHUB_WORKSPACE='/Users/mike/gitrepos/pdubs'
-export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+# sdkman (https://sdkman.io/)
+SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
+export SDKMAN_DIR
 [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
-if [[ $OSTYPE == darwin* ]] && [[ "$TERM" == 'xterm-kitty' ]]; then
-	# new instances of kitty will have the correct path
-	cat ~/.config/kitty/macos-launch-services-cmdline.template | xargs -I {} printf "{}" "--override env=PATH=\"$PATH\"" >~/.config/kitty/macos-launch-services-cmdline
-fi
 
+# java
+JAVA_HOME='/opt/homebrew/opt/sdkman-cli/libexec/candidates/java/current'
+export JAVA_HOME
+
+
+# man
+export MANPAGER='nvim +Man!'
+
+
+# liquibase (https://github.com/liquibase/liquibase)
 LIQUIBASE_HOME=$(brew --prefix)/opt/liquibase/libexec
 export LIQUIBASE_HOME
 
-# BEGIN_KITTY_SHELL_INTEGRATION
-# export KITTY_SHELL_INTEGRATION='no-prompt-mark'
-# if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
-# END_KITTY_SHELL_INTEGRATION
+
+# unset variables
+unset source_files
+unset dependent_source_files
