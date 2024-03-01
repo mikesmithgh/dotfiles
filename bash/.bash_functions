@@ -1,85 +1,5 @@
 #!/bin/bash
 
-# get git branch info
-# _git_info() {
-#   local green="\033[2;92m"
-#   local purple="\033[2;95m"
-#   local red="\033[2;91m"
-#   local white="\033[2;97m"
-#   local yellow="\033[0;33m"
-#
-#   local gitSymbol=""
-#   local gitColor="$white"
-#
-#   local pendingChanges
-#   pendingChanges="$(git status --porcelain 2>/dev/null)"
-#   if (( $? )) ; then
-#     return 1
-#   fi
-#   pendingChanges="$(printf -- "%s $pendingChanges | wc -w)"
-#
-#   local commitCounts
-#   commitCounts=($(git rev-list --left-right --count ...@{u} 2>/dev/null))
-#
-#   if (( $? )) ; then
-#     gitColor="$purple"
-#   else
-#     if (( ! $pendingChanges )) ; then
-#       gitColor="$green"
-#     fi
-#
-#     if (( ${commitCounts[0]} )) ; then
-#       gitColor="$yellow"
-#       gitSymbol="↑[${commitCounts[0]}]"
-#     fi
-#
-#     if (( ${commitCounts[1]} )) ; then
-#       gitColor="$yellow"
-#       gitSymbol="↓[${commitCounts[1]}]"
-#     fi
-#
-#     if (( ${commitCounts[0]} && ${commitCounts[1]} )) ; then
-#       gitSymbol="↕ ↑[${commitCounts[0]}] ↓[${commitCounts[1]}]"
-#     fi
-#   fi
-#
-#   if (( $pendingChanges )) ; then
-#     gitColor="$red"
-#     gitSymbol="*$gitSymbol"
-#   fi
-#
-#   if $1 ; then
-#     echo "$gitColor(%s) $gitSymbol"
-#   else
-#     echo "(%s) $gitSymbol"
-#   fi
-# }
-
-# set title bar text to current working directory
-# _set_title () {
-#   # current working directory
-#   local dir="$PWD"
-#
-#   # substitute a leading path that's in $HOME for "~"
-#   if [[ "$HOME" == ${dir:0:${#HOME}} ]] ; then
-#     dir="~${dir:${#HOME}}"
-#   fi
-#
-#   echo -ne "\033]0;$dir\007"
-# }
-
-# # get PS1 prompt configuration
-# _get_ps1() {
-#   if $1 ; then
-#     local dirColor="\033[0;36m"
-#     local psColor="\033[0;92m"
-#     local textColor="\033[0m"
-#     __git_ps1 "\n\[$dirColor\]{\w} " "\n\[$psColor\][\u@\h] \[$dirColor\]\\$ \[$textColor\]" "$(_git_info $1)"
-#   else  
-#     __git_ps1 "\n{\w} " "\n[\u@\h] \\$ " "$(_git_info $1)"
-#   fi
-# }
-
 _kube_ps1() {
   if [ -f ~/.kube/config ]; then  
     # Get current context
@@ -257,14 +177,14 @@ _make_repo_aliases() {
   fi
 }
 
-# repo directories
-# DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --no-ignore --glob --prune --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
-DOTFILES_REPO_PROJECT_DIRS=$(fd --color=never --exact-depth 1 --type directory --glob --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" --exec realpath "{}")
-# go directories
-DOTFILES_GO_PROJECT_DIRS=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d  --exec realpath "{}")
-DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${DOTFILES_REPO_PROJECT_DIRS}" "${DOTFILES_GO_PROJECT_DIRS}" | sort -uf)
-
 ms_ls_projects() {
+  # repo directories
+  # DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --no-ignore --glob --prune --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
+  DOTFILES_REPO_PROJECT_DIRS=$(fd --color=never --exact-depth 1 --type directory --glob --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" --exec realpath "{}")
+  # go directories
+  DOTFILES_GO_PROJECT_DIRS=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d  --exec realpath "{}")
+  DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${DOTFILES_REPO_PROJECT_DIRS}" "${DOTFILES_GO_PROJECT_DIRS}" | sort -uf)
+
   mkdir -p "$HOME/.cache/dotfiles"
   touch "$HOME/.cache/dotfiles/recent_projects.txt"
 
@@ -505,3 +425,140 @@ bip() {
     done
   fi
 }
+
+
+oldvim() {
+	export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
+	# shellcheck disable=SC2034
+	export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim/|:source $MYVIMRC"
+	# clear vim runtime to avoid neovim conflict
+	export VIMRUNTIME=''
+	eval "$(which vim)" "$@"
+}
+
+vim8() {
+	export MYVIMRC="$XDG_CONFIG_HOME/vim8*/.vimrc"
+	# shellcheck disable=SC2034
+	export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim8*/|:source $MYVIMRC"
+	# clear vim runtime to avoid neovim conflict
+	export VIMRUNTIME="$HOME/gitrepos/vim/runtime"
+	eval "$HOME/gitrepos/vim/src/vim" "$@"
+}
+
+
+# if not arguments are provided navigate to the root of the git repository
+g() {
+	if [ $# -eq 0 ]; then
+		cd "$(git root)" || return
+	else
+		git "$@"
+	fi
+}
+
+
+lastnote() {
+	cd "${HOME}/Documents/notes" || return
+	latest_file="$(ls -rt | tail -1)"
+	nvim -c 'NvimTreeOpen' -c 'wincmd l' "${latest_file}"
+}
+
+newnote() {
+	if [[ -n $1 ]]; then
+		if [[ -n $2 ]]; then
+			fileext="${2}"
+		else
+			fileext="md"
+		fi
+		filename="$(date +%Y%m%d)-$1"
+		cd "${HOME}/Documents/notes" || return
+		nvim -c "NvimTreeOpen" -c "wincmd l" "${filename}.${fileext}"
+	else
+		echo "missing filename parameter"
+	fi
+}
+
+makenote() {
+	if [[ -n $1 ]]; then
+		if [[ -n $2 ]]; then
+			fileext=".${2}"
+		else
+			fileext=""
+		fi
+		filename="$(date +%Y%m%d)-$1"
+		mv "${1}" "${HOME}/Documents/notes/${filename}.${fileext}"
+		cd "${HOME}/Documents/notes" || return
+		vim -c "NvimTreeOpen" -c "wincmd l" "${filename}${fileext}"
+	else
+		echo "missing filename parameter"
+	fi
+}
+
+k9s() {
+	k9s_cmd='/opt/homebrew/bin/k9s'
+	if [[ "$1" == '' ]] || [[ "$1" == '-'* ]]; then
+		$k9s_cmd --screen-dump-dir "$XDG_DATA_HOME/k9s/screens" --logFile "$XDG_DATA_HOME/k9s/k9s.log" "$@"
+	elif [[ "$1" == 'info' ]]; then
+		if command -v lolcat &>/dev/null; then
+			eval "$k9s_cmd info" | head -8
+			eval "$k9s_cmd info" | tail -2 | gsed -e "s|\(^.*Screen Dumps:.*[[:space:]]\+\)\/.*$|\1$XDG_DATA_HOME/k9s/screens|g" \
+				-e "s|\(^.*Logs:.*[[:space:]]\+\)\/.*$|\1$XDG_DATA_HOME/k9s/k9s.log|g" | lolcat --force
+			printf "\n ⚠️  Logs and Screen Dumps file are overridden ⚠️\\n     by a custom k9s function wrapper \n"
+		else
+			eval "$k9s_cmd info" | gsed -e "s|\(^.*Screen Dumps:.*[[:space:]]\+\)\/.*$|\1$XDG_DATA_HOME/k9s/screens|g" \
+				-e "s|\(^.*Logs:.*[[:space:]]\+\)\/.*$|\1$XDG_DATA_HOME/k9s/k9s.log|g"
+			printf "\n ⚠️  Logs and Screen Dumps file are overridden ⚠️\\n     by a custom k9s function wrapper \n"
+		fi
+	elif [[ "$1" == 'screens' ]]; then
+		ctx="$(kubectl config current-context)"
+		cd "$XDG_DATA_HOME/k9s/screens/$ctx" || exit 1
+	elif [[ "$1" == 'lastscreen' ]]; then
+		ctx="$(kubectl config current-context)"
+		ctx_dir="$XDG_DATA_HOME/k9s/screens/$ctx"
+		last_screen="$ctx_dir/$(ls -1rt $ctx_dir | tail -1)"
+		nvim "$last_screen"
+	elif [[ "$1" == 'logs' ]]; then
+		nvim "$XDG_DATA_HOME/k9s/k9s.log"
+	else
+		$k9s_cmd "$@"
+	fi
+}
+
+p() {
+	if ((!$#)); then
+		local directory
+		directory="$(ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
+      --header $' <\e[33;5mctrl-x\e[m> to \e[m\e[31;5mRemove from recent projects' \
+      --bind='ctrl-x:execute(ms_remove_recent_project {})+abort' \
+                )"
+		if [[ $directory != "" ]]; then
+			ms_cd_project "$directory"
+		fi
+	else
+		ms_cd_project "$@"
+	fi
+}
+
+n() {
+	if ((!$#)); then
+		local path
+		path="$(ms_nvim_dirs | fzf --ansi --prompt=' ' --border-label=' Neovim Directories ')"
+		if [[ $path != "" ]]; then
+			if [[ -d ${path} ]]; then
+				cd "$path" || return
+				# nvim -c "NvimTreeOpen" -c "FzfLua files"
+			else
+				cd "$(dirname "$path")" || return
+				nvim "$path"
+			fi
+		fi
+	fi
+}
+
+nvimdirs() {
+	local directory
+  directory="$(ms_nvim_dirs | fzf)"
+	if [[ $directory != "" ]]; then
+		cd "$directory" || return
+	fi
+}
+
