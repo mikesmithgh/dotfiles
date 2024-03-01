@@ -7,7 +7,7 @@ purple="\033[0;35m"
 # xdg base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 XDG_RUNTIME_DIR=$(mktemp -u -t "${USER}")
 export XDG_RUNTIME_DIR
-mkdir -p "$XDG_RUNTIME_DIR" # this direcory is important for neovim vim.fn.serverstart (used by fzf-lua)
+(mkdir -p "$XDG_RUNTIME_DIR" &) # this direcory is important for neovim vim.fn.serverstart (used by fzf-lua)
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -235,11 +235,6 @@ alias display-standard='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A r
 # fi
 
 
-# ssh
-# check if any identities added to ssh agent, if not then add default identities
-ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf %b "$purple"
-
-
 # localization
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
@@ -285,11 +280,23 @@ bash_preexec="${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
 first_precmd="skip"
 precmd() { 
   # my attempt at somewhat lazy loading completions
-  if [[ "$first_precmd" == "run" ]]; then
+  if [[ "$first_precmd" == "run2" ]]; then
     
     # color utilities
   	source "$HOME/.bash_colors"
     
+    # sdkman
+    [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
+    first_precmd=
+  fi
+  if [[ "$first_precmd" == "run1" ]]; then
+    
+    # ssh
+    # check if any identities added to ssh agent, if not then add default identities
+    # run in background in a subshell
+    (ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf '\n%b' "$purple" &)
+
     # bash completion
 	  source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew version of bash-completion, note this will source ~/.bash_completion
 
@@ -299,13 +306,10 @@ precmd() {
     source "$HOMEBREW_PREFIX/opt/fzf/shell/completion.bash" 2> /dev/null
     source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.bash"
 
-    # sdkman
-    [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-
-    first_precmd=
+    first_precmd="run2"
   fi
   if [[ "$first_precmd" == "skip" ]]; then
-    first_precmd="run"
+    first_precmd="run1"
   fi
 }
 
