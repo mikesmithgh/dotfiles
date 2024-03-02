@@ -1,0 +1,79 @@
+format = """
+[ ](bg:rocky_0)\
+$directory\
+[](bg:scrat_2 fg:rocky_0)\
+$kubernetes\
+[](bg:scrat_6 fg:scrat_2)\
+${custom.bgps}\
+[](fg:scrat_6) \
+$status\
+$line_break\
+$username [\\$](blue) \
+"""
+
+palette = 'gruvsquirrel'
+
+[palettes.gruvsquirrel]
+scrat_0 = '#070707'
+scrat_1 = '#282828'
+scrat_2 = '#32302f'
+scrat_3 = '#3c3836'
+scrat_4 = '#000000'
+scrat_5 = '#0d0d0d'
+scrat_6 = '#1a1a1a'
+scrat_7 = '#151515'
+scrat_8 = '#1e1e1e'
+rocky_0 = '#968c81'
+rocky_1 = '#504945'
+rocky_2 = '#665c54'
+rocky_3 = '#7c6f64'
+rocky_4 = '#a0a0a0'
+rocky_5 = '#8b7e57'
+rocky_6 = '#878787'
+
+[username]
+style_user = 'green'
+style_root = 'red'
+format = '[${user}@local]($style)'
+disabled = false
+show_always = true
+
+[status]
+symbol = '[ $status](red)'
+success_symbol = ''
+not_executable_symbol = '[ $status](red)'
+not_found_symbol = '[ $status](yellow)'
+sigint_symbol = '[ $status](yellow)'
+signal_symbol = '[ $status](red) [󰠠 $signal_number $signal_name](purple)'
+format = '[$symbol]($style) '
+map_symbol = true
+disabled = false
+
+[directory]
+home_symbol='~'
+format = '[$path]($style)'
+repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)'
+truncation_length = 0
+truncate_to_repo = false
+truncation_symbol = '…/'
+# read_only = '[ro]'
+before_repo_root_style = "fg:scrat_0 bg:rocky_0"
+repo_root_style = "bold italic fg:scrat_0 bg:rocky_0"
+style = "fg:scrat_0 bg:rocky_0"
+
+[custom.bgps]
+command = '/Users/mike/gitrepos/bgps/bgps'
+format = '[${output}](bg:scrat_6)'
+when = true
+
+[kubernetes]
+disabled = false
+symbol = '󱃾 '
+format = '[ $symbol$context]($style)'	
+style = 'bold bg:scrat_2 fg:cyan'
+
+[line_break]
+disabled = false
+
+# Warning: 󰅂 causes issues (see https://github.com/starship/starship/issues/290)
+

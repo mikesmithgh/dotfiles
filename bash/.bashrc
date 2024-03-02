@@ -7,7 +7,7 @@ purple="\033[0;35m"
 # xdg base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 XDG_RUNTIME_DIR=$(mktemp -u -t "${USER}")
 export XDG_RUNTIME_DIR
-(mkdir -p "$XDG_RUNTIME_DIR" &) # this direcory is important for neovim vim.fn.serverstart (used by fzf-lua)
+(mkdir -p "$XDG_RUNTIME_DIR" &) # this directory is important for neovim vim.fn.serverstart (used by fzf-lua)
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -142,20 +142,6 @@ export LESS='iXK --raw-control-chars --mouse --line-num-width=4 --use-color --co
 export EDITOR='nvim'
 export VISUAL='nvim'
 
-if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-  PS1="\[\n\e[0;33m\w\n\e[0;32m\u@local \e[0;36m\$\e[0m \]"
-else
-  MY_PROMPT_COMMAND='source ~/gitrepos/bgps/bgps' # execute every time before bash displays prompt
-  if [[ ${PROMPT_COMMAND} != *${MY_PROMPT_COMMAND} ]]; then
-    if [[ -z $PROMPT_COMMAND ]]; then
-      export PROMPT_COMMAND="$MY_PROMPT_COMMAND"
-    else
-      PROMPT_COMMAND="$(echo $PROMPT_COMMAND'; '$MY_PROMPT_COMMAND | sed -E 's/;;/;/g')"
-      export PROMPT_COMMAND
-    fi
-  fi
-fi
-
 # see https://unix.stackexchange.com/questions/1288/preserve-bash-history-in-multiple-terminal-windows
 # export HISTCONTROL='ignoreboth' # history, ignore commands that start with spaces and duplicates
 # export HISTCONTROL='erasedups' # history, ignore commands that start with spaces and duplicates
@@ -169,7 +155,7 @@ shopt -s histreedit # reedit a history substitution line if it failed
 # shopt -s histverify  # edit a recalled history line before executing
 # After each command, append to the history file and reread it
 # PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
-PROMPT_COMMAND="${PROMPT_COMMAND} && history -a && history -c && history -r"
+export PROMPT_COMMAND='history -a && history -c && history -r'
 
 
 # kubectl
@@ -236,8 +222,8 @@ alias display-standard='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A r
 
 
 # localization
-export LC_ALL="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
+export LANG='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
 
 
 export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
@@ -337,6 +323,17 @@ export MANPAGER='nvim +Man!'
 # liquibase (https://github.com/liquibase/liquibase)
 LIQUIBASE_HOME="$HOMEBREW_PREFIX/opt/liquibase/libexec"
 export LIQUIBASE_HOME
+
+
+# ps1 
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
+  PS1="\[\n\e[0;33m\w\n\e[0;32m\u@local \e[0;36m\$\e[0m \]"
+else
+  # starship (https://starship.rs/)
+  # eval "$(starship init bash)"
+  # the following are hardcoded results of the above command to improve speed
+  source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
+fi
 
 
 # unset variables
