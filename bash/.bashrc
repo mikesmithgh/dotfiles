@@ -271,9 +271,6 @@ precmd() {
   # my attempt at somewhat lazy loading completions
   if [[ "$first_precmd" == "run2" ]]; then
     
-    # color utilities
-  	source "$HOME/.bash_colors"
-    
     # sdkman
     [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-#get color (style part color)
+# get color (style part color)
 get_color() {
   if [ -z ${1+x} ]; then
     echo 'Missing parameter'
@@ -26,7 +26,7 @@ get_color() {
         local style=5
         ;;
       rst)
-        echo "\033[0m" 
+        printf '%s\n' "\033[0m" 
         return 0
         ;;
       *)
@@ -93,23 +93,30 @@ get_color() {
         ;;
       esac
   fi
-  echo "\033[${style};${part}${color}m"
+  printf "%s\n" "\033[${style};${part}${color}m"
 }
 
-# list all colors
-list_colors() {
+# list or get color
+list_color() {
+  if [[ -n "$1" ]]; then
+    get_color "$@"
+    return
+  fi
   local styles=(txt bld drk drkbld und blink)
   local parts=(fo ba hifo hiba)
   local colors=(blk red grn ylw blu pur cyn wht)
-  for style in ${styles[@]}; do
-    for part in ${parts[@]}; do
-      for color in ${colors[@]}; do
-        echo -e  "  $(get_color ${style} ${part} ${color})\c"
+  for style in "${styles[@]}"; do
+    for part in "${parts[@]}"; do
+      for color in "${colors[@]}"; do
+        raw_color=$(get_color "$style" "$part" "$color")
+        echo -e  "  $raw_color\c"
         echo -e "${style} ${part} ${color} \c"
         echo -e "$(get_color rst)\c)"
-        echo "  ${style} ${part} ${color} - $(get_color ${style} ${part} ${color})"
+        printf '%s %s %s - %s\n' "${style}" "${part}" "${color}" "$raw_color"
       done
     done
   done
-  echo "  rst - $(get_color rst))"
+  echo "  rst - $(get_color rst)"
 }
+
+list_color "$@"
