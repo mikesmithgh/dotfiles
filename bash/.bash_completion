@@ -1,26 +1,20 @@
-#!/bin/bash
-# set -x
+#!/usr/bin/env bash
+# this file is sourced from bash_completion in bashrc
 
-# source git bash completion
-# export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d"
-# [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
-if type brew &>/dev/null; then
-	HOMEBREW_PREFIX="$(brew --prefix)"
-	if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-		source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-	else
-		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-			[[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-		done
-	fi
-fi
+# fzf
+# [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+# the following have been extracted from .fzf.bash
+source "$HOMEBREW_PREFIX/opt/fzf/shell/completion.bash" 2> /dev/null
+source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.bash"
+# disable fzf: ALT-C - cd into the selected directory
+bind -r '\ec'
+# keep fzf: CTRL-R - Paste the selected command from history into the command line
+# keep fzf: CTRL-T - Paste the selected file path into the command line
 
-# aws
-complete -C 'aws_completer' aws
-# complete -C 'aws_completer' localaws
 
-# add 'git' auto completion to 'g'
+# git
 if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "function" ]; then
+  # add 'git' auto completion to 'g'
 	__git_complete g __git_main
   _git_br () {   _git_branch "$@"; }
   _git_ci () {   _git_commit "$@"; }
@@ -46,47 +40,22 @@ if [ "$(type -t __git_complete)" = "function" ] && [ "$(type -t __git_main)" = "
   _git_cibr () {   _git_commit "$@"; }
 fi
 
-# not needed since this is included in gradle autocompletion setup
-# leaving as reference for now
-# if hash gw 2>/dev/null || alias gw >/dev/null 2>&1; then
-#     complete -F _gradle gw
-# fi
-# add 'gradle' auto completion to 'gw'
-# if [ "$(type -t _gradle)" = "function" ]; then
-# 	complete -F _gradle gw
-# fi
 
+# ssh
 _ssh() {
-	local cur prev opts
-	COMPREPLY=()
+	local cur opts
 	cur="${COMP_WORDS[COMP_CWORD]}"
-	prev="${COMP_WORDS[COMP_CWORD - 1]}"
 	opts=$(grep '^Host' ~/.ssh/config | grep -v '[?*]' | cut -d ' ' -f 2-)
-
-	COMPREPLY=($(compgen -W "$opts" -- ${cur}))
+  mapfile -t COMPREPLY < <(compgen -W "$opts" -- "$cur")
 	return 0
 }
-
 complete -F _ssh ssh
+
+
+# kubectl
 complete -F __start_kubectl k
 
-# kubectl completion
-source <(kubectl completion bash)
-source <(glab completion -s bash)
 
-complete -W "$(ms_ls_projects | sed 's/\/.*\///' | xargs)" p
+# sdkman
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
 
-# TODO: clean up
-# Custom fuzzy completion for "p" command
-#   e.g. p **<TAB>
-_fzf_complete_p() {
-	FZF_COMPLETION_TRIGGER=''
-	_fzf_complete --reverse --prompt="p> " -- "$@" < <(
-		ms_ls_projects
-	)
-	unset FZF_COMPLETION_TRIGGER
-	#   ms_ls_projects
-}
-complete -F _fzf_complete_p p
-
-complete -C /opt/homebrew/bin/terraform terraform

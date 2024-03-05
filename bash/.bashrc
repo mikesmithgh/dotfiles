@@ -262,42 +262,11 @@ alias awk='gawk'
 alias sed='gsed'
 
 
-# bash-preexec (https://github.com/rcaloras/bash-preexec)
-# needs to be at this line .bashrc or else the error __bp_install: invalid signal specification, TODO: investigate
-bash_preexec="${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
-[[ -f "$bash_preexec" ]] && source "$bash_preexec"
-first_precmd="skip"
-precmd() { 
-  # my attempt at somewhat lazy loading completions
-  if [[ "$first_precmd" == "run2" ]]; then
-    
-    # sdkman
-    [[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
-
-    first_precmd=
-  fi
-  if [[ "$first_precmd" == "run1" ]]; then
-    
-    # ssh
-    # check if any identities added to ssh agent, if not then add default identities
-    # run in background in a subshell
-    (ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf '\n%b' "$purple" &)
-
-    # bash completion
-	  source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew version of bash-completion, note this will source ~/.bash_completion
-
-    # fzf
-    # [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
-    # the following have been extracted from .fzf.bash
-    source "$HOMEBREW_PREFIX/opt/fzf/shell/completion.bash" 2> /dev/null
-    source "$HOMEBREW_PREFIX/opt/fzf/shell/key-bindings.bash"
-
-    first_precmd="run2"
-  fi
-  if [[ "$first_precmd" == "skip" ]]; then
-    first_precmd="run1"
-  fi
-}
+# # bash-preexec (https://github.com/rcaloras/bash-preexec)
+# # not using nvm at the moment, leave commented for now
+# # needs to be at this line .bashrc or else the error __bp_install: invalid signal specification, TODO: investigate
+# bash_preexec="${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
+# [[ -f "$bash_preexec" ]] && source "$bash_preexec"
 
 
 # # node version manager (https://github.com/nvm-sh/nvm)
@@ -335,6 +304,14 @@ else
   source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
 fi
 
+
+# completions
+source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew version of bash-completion, note this will source ~/.bash_completion
+
+# ssh
+# check if any identities added to ssh agent, if not then add default identities
+# run in background in a subshell
+(ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf '\n%b' "$purple" &)
 
 # unset variables
 unset source_files
