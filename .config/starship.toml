@@ -1,3 +1,5 @@
+continuation_prompt = '[            ](blue)'
+
 format = """
 [ ](bg:rocky_0)\
 $directory\
@@ -12,6 +14,7 @@ $username [\\$](blue) \
 """
 
 palette = 'gruvsquirrel'
+command_timeout = 500
 
 [palettes.gruvsquirrel]
 scrat_0 = '#070707'
@@ -62,7 +65,7 @@ repo_root_style = "bold italic fg:scrat_0 bg:rocky_0"
 style = "fg:scrat_0 bg:rocky_0"
 
 [custom.bgps]
-command = '/Users/mike/gitrepos/bgps/bgps'
+command = '$GOPATH/src/github.com/mikesmithgh/bgps/bgps'
 format = '[${output}](bg:scrat_6)'
 when = true
 
