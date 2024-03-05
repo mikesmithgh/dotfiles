@@ -292,7 +292,7 @@ p() {
 	if ((!$#)); then
 		local directory
 		directory="$(ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
-      --header $' <\e[33;5mctrl-x\e[m> to \e[m\e[31;5mRemove from recent projects' \
+      --header $' <\e[33mctrl-x\e[m> to \e[m\e[31mRemove from recent projects' \
       --bind='ctrl-x:execute(ms_remove_recent_project {})+abort' \
                 )"
 		if [[ $directory != "" ]]; then

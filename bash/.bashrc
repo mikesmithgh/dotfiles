@@ -230,8 +230,11 @@ export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
 
 # only needed one time, uncomment on new install
 # mkdir -p '/Users/mike/.local/state/fzf/'
-
-FZF_DEFAULT_OPTS='--preview-window=60%,border-thinblock --margin 1,4 --border=thinblock --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --scrollbar=▊ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
+FZF_DEFAULT_OPTS=
+if [[ "$TERM" == 'xterm-kitty' ]]; then
+  FZF_DEFAULT_OPTS='--border=thinblock --scrollbar=▊'
+fi
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"' --preview-window=60%,border-thinblock --margin 1,4 --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
 # generate colors with $HOME/gitrepos/gruvsquirrel.nvim/extra/fzf/gruvsquirrel.sh
 gruvsquirrel_fzf_colors='spinner:#8faa80:bold,fg:#c7c7c7,pointer:#ff6961:bold,preview-label:#504945:bold,hl+:#dbbc5f:bold:reverse,label:#504945:reverse:bold,bg+:#32302f,fg+:#a0a0a0:bold,info:#8faa80,query:#c7c7c7:bold,preview-bg:#070707,separator:#504945,disabled:#968c81:regular,border:#504945,prompt:#83a598,bg:#1a1a1a,hl:#a9d5c4:bold:reverse,gutter:#1a1a1a,marker:#d3869b:bold,preview-fg:#c7c7c7,scrollbar:#504945,header:#968c81'
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='$gruvsquirrel_fzf_colors'"
