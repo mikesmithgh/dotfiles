@@ -1,29 +1,4 @@
-#!/bin/bash
-
-ms_ls_projects() {
-  # repo directories
-  # DOTFILES_REPO_PROJECT_DIRS=$(fd --max-depth 3 --type file --hidden --no-ignore --glob --prune --search-path "${HOME}/gitrepos/" 'HEAD' --exec realpath "{//}" | sed -e 's/\/\.git.*//')
-  DOTFILES_REPO_PROJECT_DIRS=$(fd --color=never --exact-depth 1 --type directory --glob --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" --exec realpath "{}")
-  # go directories
-  DOTFILES_GO_PROJECT_DIRS=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d  --exec realpath "{}")
-  DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${DOTFILES_REPO_PROJECT_DIRS}" "${DOTFILES_GO_PROJECT_DIRS}" | sort -uf)
-
-  mkdir -p "$HOME/.cache/dotfiles"
-  touch "$HOME/.cache/dotfiles/recent_projects.txt"
-
-  local recent_projects
-  readarray -t recent_projects < "$HOME/.cache/dotfiles/recent_projects.txt"
-  local project_dirs=("${DOTFILES_PROJECT_DIRS}")
-  tput setaf 8
-  for recent_proj in "${recent_projects[@]}"; do
-    printf "%s\n" "${recent_proj}"
-    project_dirs=("${project_dirs[@]/$recent_proj}")
-  done
-  tput setaf 7
-  printf "%s/gitrepos\n" "${HOME}"
-  printf "%s/repos\n" "${HOME}"
-  printf "%s\n" "${project_dirs[@]}" | gsed -e /^$/d
-}
+#!/usr/bin/env bash
 
 ms_cd_project() {
   mkdir -p "$HOME/.cache/dotfiles"

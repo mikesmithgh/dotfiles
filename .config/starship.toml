@@ -1,3 +1,8 @@
+# https://starship.rs/config/
+# Warning: 󰅂 causes issues (see https://github.com/starship/starship/issues/290)
+
+"$schema" = 'https://starship.rs/config-schema.json'
+
 continuation_prompt = '[            ](blue)'
 
 format = """
@@ -8,6 +13,7 @@ $kubernetes\
 [](bg:scrat_6 fg:scrat_2)\
 ${custom.bgps}\
 [](fg:scrat_6) \
+$jobs\
 $status\
 $line_break\
 $username [\\$](blue) \
@@ -61,8 +67,9 @@ truncate_to_repo = false
 truncation_symbol = '…/'
 # read_only = '[ro]'
 before_repo_root_style = "fg:scrat_0 bg:rocky_0"
-repo_root_style = "bold italic fg:scrat_0 bg:rocky_0"
+# repo_root_style = "fg:scrat_0 bg:rocky_0" # causing issues in some directories
 style = "fg:scrat_0 bg:rocky_0"
+use_logical_path = true
 
 [custom.bgps]
 command = '$GOPATH/src/github.com/mikesmithgh/bgps/bgps'
@@ -78,5 +85,9 @@ style = 'bold bg:scrat_2 fg:cyan'
 [line_break]
 disabled = false
 
-# Warning: 󰅂 causes issues (see https://github.com/starship/starship/issues/290)
-
+[jobs]
+symbol = ''
+format = '[$symbol $number ]($style)'
+symbol_threshold = 1
+number_threshold = 1
+style = 'bold blue'
