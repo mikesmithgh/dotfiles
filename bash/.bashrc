@@ -261,12 +261,14 @@ source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew vers
 
 # ps1
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-	PROMPT_COMMAND='PS1="\[\n \e[0;33m\w$($GOPATH/src/github.com/mikesmithgh/bgps/bgps)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]"'
+	PROMPT_COMMAND='PS1="\[\n \e[0;33m\w\e[0m$($GOPATH/src/github.com/mikesmithgh/bgps/bgps)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]"'
+	export BGPS_CONFIG='NONE'
 else
 	# starship (https://starship.rs/)
 	# eval "$(starship init bash)"
 	# the following are hardcoded results of the above command to improve speed
 	source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
+	export BGPS_CONFIG=
 fi
 
 # history

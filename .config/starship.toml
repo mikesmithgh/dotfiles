@@ -11,7 +11,7 @@ $directory\
 [](bg:scrat_2 fg:rocky_0)\
 $kubernetes\
 [](bg:scrat_6 fg:scrat_2)\
-${custom.bgps}\
+[${custom.bgps}](bg:scrat_6)\
 [](fg:scrat_6) \
 $jobs\
 $status\
