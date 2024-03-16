@@ -141,7 +141,6 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
 # bob (https://github.com/MordechaiHadad/bob)
-alias bobnvim='VIMRUNTIME= ~/.local/share/bob/nvim-bin/nvim'
 alias bnvim='bobnvim'
 alias bvi='bobnvim'
 

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+export VIMRUNTIME=
+"$HOME/.local/share/bob/nvim-bin/nvim" "$@"
