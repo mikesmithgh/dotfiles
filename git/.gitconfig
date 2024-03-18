@@ -31,6 +31,7 @@
 [mergetool]
   prompt = false
   trustExitCode = true
+	keepBackup = false
 ; [difftool "nvimdiff"]
         ; cmd = nvim -d $LOCAL $REMOTE  -c 'wincmd w | wincmd l'
 ; [mergetool "nvimdiff"]
