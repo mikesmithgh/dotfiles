@@ -1,0 +1,7 @@
+branch="$(git cbr)"
+if [[ "$branch" =~ ^.*[^A-Z]([A-Z]+\-[0-9]+).*$ ]] || [[ "$branch" =~ ^([A-Z]+\-[0-9]+).*$ ]]; then
+  msg=$(printf "%s: " "${BASH_REMATCH[1]}")
+  git ci --edit --message="$msg" "$@"
+  exit $?
+fi
+exit 1

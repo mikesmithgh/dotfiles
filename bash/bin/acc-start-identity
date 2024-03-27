@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
+
+source "$HOME/scripts/acc/init-backend-setup.sh"
+
 service='accumulus-identity-service'
 repo="$HOME/repos/$service"
 profile='sponsor'
-export LIQUIBASE_CONTEXT=dev
 if [[ "$profile" == sponsor* ]]; then
-	export LIQUIBASE_CONTEXT="$LIQUIBASE_CONTEXT,devsponsor"
+	export S2S_CLIENT_SECRET=$SPONSOR_S2S_CLIENT_SECRET
+elif [[ "$profile" == hacollab* ]]; then
+	export S2S_CLIENT_SECRET=$HACOLLAB_S2S_CLIENT_SECRET
 fi
 if pgrep -f "$service"; then
 	acc-stop-identity
@@ -12,4 +16,4 @@ fi
 
 cd "$repo" || exit 1
 
-gw bootRun --args="--spring.profiles.active=$profile"
+gw bootRun --args="--spring.profiles.active=$profile,admin-data-reset" &

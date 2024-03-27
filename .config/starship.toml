@@ -11,7 +11,7 @@ $directory\
 [](bg:scrat_2 fg:rocky_0)\
 $kubernetes\
 [](bg:scrat_6 fg:scrat_2)\
-[${custom.bgps}](bg:scrat_6)\
+[${custom.git-prompt-string}](bg:scrat_6)\
 [](fg:scrat_6) \
 $jobs\
 $status\
@@ -71,8 +71,8 @@ before_repo_root_style = "fg:scrat_0 bg:rocky_0"
 style = "fg:scrat_0 bg:rocky_0"
 use_logical_path = true
 
-[custom.bgps]
-command = '$GOPATH/src/github.com/mikesmithgh/bgps/bgps'
+[custom.git-prompt-string]
+command = "git-prompt-string || :"
 format = '[${output}](bg:scrat_6)'
 when = true
 

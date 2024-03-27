@@ -224,17 +224,10 @@ alias od='god'
 alias awk='gawk'
 alias sed='gsed'
 
-# # bash-preexec (https://github.com/rcaloras/bash-preexec)
-# # not using nvm at the moment, leave commented for now
-# # needs to be at this line .bashrc or else the error __bp_install: invalid signal specification, TODO: investigate
-# bash_preexec="${HOMEBREW_PREFIX}/etc/profile.d/bash-preexec.sh"
-# [[ -f "$bash_preexec" ]] && source "$bash_preexec"
-
-# # node version manager (https://github.com/nvm-sh/nvm)
-# not using nvm at the moment, leave commented for now
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # load nvm
-# [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # loads nvm bash_completion
+# node version manager (https://github.com/nvm-sh/nvm)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"                                       # load nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # loads nvm bash_completion
 
 # sdkman (https://sdkman.io/)
 export SDKMAN_DIR='/opt/homebrew/opt/sdkman-cli/libexec'
@@ -260,7 +253,7 @@ source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew vers
 
 # ps1
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-	PROMPT_COMMAND='PS1="\[\n \e[0;33m\w\e[0m$($GOPATH/src/github.com/mikesmithgh/bgps/bgps)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]"'
+	PROMPT_COMMAND='PS1="\[\n \e[0;33m\w\e[0m$(git-prompt-string)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]"'
 	export BGPS_CONFIG='NONE'
 else
 	# starship (https://starship.rs/)

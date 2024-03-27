@@ -118,8 +118,7 @@
   cinoreply = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
   cisign = ! git commit --author='Mike Smith <10135646+mikesmithgh@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mikesmithgh@users.noreply.github.com>'
   cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
-  ; cibr = ! git ci -e -m \"$(echo $(git cbr) | egrep -io '.*[0-9]+' | tr [:lower:] [:upper:] | xargs -I {} printf '%s' '' {})\"
-  cibr = "! args=$@; shift $#; bash -ic \"ms_git_cibr $args\""
+  cibr = "! args=$@; shift $#; ms_git_cibr $args"
   root = rev-parse --show-toplevel
   prdt = ! $(gh pr view --json baseRefName,headRefName -q .baseRefName,.headRefName | awk ' BEGIN{ printf(\"git dt \") } { printf(\"origin/%s \", $1) }')
 	stache = stash
