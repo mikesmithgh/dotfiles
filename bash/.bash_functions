@@ -110,24 +110,6 @@ function wt() {
 	cd "$(git worktree list | awk '{ for (i=NF; i>0; i--) printf("%s ",$i); printf("\n")}' | fzf | awk '{ print $NF }')" || true
 }
 
-oldvim() {
-	export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
-	# shellcheck disable=SC2034
-	export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim/|:source $MYVIMRC"
-	# clear vim runtime to avoid neovim conflict
-	export VIMRUNTIME=''
-	eval "$(which vim)" "$@"
-}
-
-vim8() {
-	export MYVIMRC="$XDG_CONFIG_HOME/vim8*/.vimrc"
-	# shellcheck disable=SC2034
-	export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim8*/|:source $MYVIMRC"
-	# clear vim runtime to avoid neovim conflict
-	export VIMRUNTIME="$HOME/gitrepos/vim/runtime"
-	eval "$HOME/gitrepos/vim/src/vim" "$@"
-}
-
 # if not arguments are provided navigate to the root of the git repository
 g() {
 	if [ $# -eq 0 ]; then

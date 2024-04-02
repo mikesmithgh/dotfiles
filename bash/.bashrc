@@ -84,9 +84,6 @@ export PATH='/Users/mike/bin:/opt/homebrew/bin:/Users/mike/go/bin:/Users/mike/.c
 export VIMRUNTIME="$HOME/gitrepos/neovim/runtime" # required for local build of neovim
 alias vim='nvim'
 alias vi='vim'
-alias ovim='oldvim'
-alias ovi='oldvim'
-alias bram='oldvim'
 alias nvimdiff='nvim -d'
 alias vimdiff='nvimdiff'
 
@@ -253,14 +250,12 @@ source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew vers
 
 # ps1
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-	PROMPT_COMMAND='PS1="\[\n \e[0;33m\w\e[0m$(git-prompt-string)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]"'
-	export BGPS_CONFIG='NONE'
+	PS1='\[\n \e[0;33m\w\e[0m$(git-prompt-string)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]'
 else
 	# starship (https://starship.rs/)
 	# eval "$(starship init bash)"
 	# the following are hardcoded results of the above command to improve speed
 	source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
-	export BGPS_CONFIG=
 fi
 
 # history
@@ -276,8 +271,7 @@ shopt -s histappend # append history see https://superuser.com/questions/211966/
 shopt -s histreedit # reedit a history substitution line if it failed
 # shopt -s histverify  # edit a recalled history line before executing
 # After each command, append to the history file and reread it
-# PROMPT_COMMAND="${PROMPT_COMMAND+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r;"
-export PROMPT_COMMAND="$PROMPT_COMMAND && history -a && history -c && history -r"
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$' && '}history -a && history -c && history -r "
 
 # unset variables
 unset source_files

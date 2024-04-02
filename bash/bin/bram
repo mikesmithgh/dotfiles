@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
+export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim/|:source $MYVIMRC"
+# clear vim runtime to avoid neovim conflict
+export VIMRUNTIME=''
+_vim="$(which vim)"
+$_vim "$@"

@@ -1,0 +1,2 @@
+#!/bin/sh
+open --fresh --new "$GOPATH/src/github.com/kovidgoyal/kitty/kitty/launcher/kitty.app"
