@@ -42,10 +42,8 @@
 [color "status"]
   untracked = magenta
 [pretty]
-  distinguishedoneline = %C(66 bold)%h  %C(173 nobold)%ad  %C(150 nobold)%an  %C(reset)%s
-;   distinguishedonelinetab = %C(66 bold)%<(8)%h %C(173 nobold)%<(20)%ad %C(150 nobold)%<(19)%an %C(reset)%s
-  distinguishedonelinetab = "%C(#83a598 bold)%h %C(#fe8019 nobold)%ad %C(#b5cea8 nobold)%an %C(reset)%s"
-  distinguishedmediumtab = %C(173 nobold)commit %C(66 bold)%H%n%C(173 nobold)Merge: %C(66 bold)%p%n%C(186 bold)Author: %C(143 nobold)%an %Creset<%C(150)%ae%Creset>%n%C(186 bold)Date:   %C(143 nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
+  prettyoneline = %C(blue bold)%h %C(yellow nobold)%ad %C(green nobold)%an %C(reset)%s
+  prettylog = %C(cyan nobold)commit %C(blue bold)%H%n%C(cyan nobold)parent %C(blue bold)%P%n%C(brightyellow bold)Author: %C(green nobold)%an %Creset%C(brightblack)<%ae>%Creset%n%C(brightyellow bold)Date:   %C(yellow nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
 
 [delta]
 
@@ -93,19 +91,15 @@
   dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
   ;f = "! git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git ls-remote upstream --exit_code 2>/dev/null && [ -z \"$options\" ] && options='-v --multiple upstream' || options=\"$options upstream\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
   f = ! bash -ic 'ms_git_f'
-  ; fworking = "! shift $#; git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
-        ; f = "! git ls-remote upstream --exit code 2>/dev/null && options='-v --multiple upstream'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
-        ; ff = "! ( git ls-remote upstream --exit code 2>/dev/null && git fetch -v --multiple upstream origin 2>&1 || git fetch -v origin 2>&1 ) | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
-        ; fff = "! git ls-remote upstream --exit code 2>/dev/null && options='-v --multiple upstream'; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
-  graph = log --graph --format=distinguishedoneline
+  graph = log --graph --format=prettyoneline
   l = ! git --no-pager lv --max-count=10
   ll = ! git --no-pager llv --max-count=2
-  llv = log --format=distinguishedmediumtab
-  lv = log --format=distinguishedonelinetab
-  ml = ! git l --format=distinguishedoneline --author=\"$(git config --get user.name)\"
+  llv = log --format=prettylog
+  lv = log --format=prettyoneline
+  ml = ! git l --format=prettyoneline --author=\"$(git config --get user.name)\"
   mll = ! git ll --author=\"$(git config --get user.name)\"
   mllv = ! git llv --author=\"$(git config --get user.name)\"
-  mlv = ! git lv --format=distinguishedoneline --author=\"$(git config --get user.name)\"
+  mlv = ! git lv --format=prettyoneline --author=\"$(git config --get user.name)\"
   mlmessage = ! git l --format=\"%s\" --author=\"$(git config --get user.name)\"
   mrb = ! git for-each-ref --format=\"%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(color:150)%(authorname)  %(color:reset)%(refname:strip=3)\" --sort=authordate refs/remotes | grep \"$(git config --get user.name)\"
   mt = mergetool
