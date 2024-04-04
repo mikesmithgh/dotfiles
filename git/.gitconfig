@@ -2,51 +2,54 @@
   name = Mike Smith
   email = 10135646+mikesmithgh@users.noreply.github.com
   ; email = 15022104-mikesmithgl@users.noreply.gitlab.com
+
 [push]
   default = current
+
 [core]
   excludesfile = /Users/mike/.gitignore
   autocrlf = input
   editor = nvim
 	; pager = /opt/homebrew/bin/less
 	pager = delta
+
 [interactive]
     diffFilter = delta --color-only
+
 [diff]
   tool = nvimdiff
+
 [merge]
   conflictstyle = diff3
   tool = nvimdiff
+
 [difftool]
   prompt = false
   trustExitCode = true
-; [difftool.vimdiff]
-  ; cmd = "vim -c \"Gcd\" -c \"Git difftool -y $REMOTE\""
-    ; cmd = "echo $@; env"
+
 [diff]
     colorMoved = default
     tool = nvimdiff
+
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
 [mergetool]
   prompt = false
   trustExitCode = true
 	keepBackup = false
-; [difftool "nvimdiff"]
-        ; cmd = nvim -d $LOCAL $REMOTE  -c 'wincmd w | wincmd l'
-; [mergetool "nvimdiff"]
-        ; cmd = nvim -d $MERGED $LOCAL $BASE $REMOTE -c 'wincmd J'
-        ; cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED
+
 [log]
   date = format:%m/%d/%Y %I:%M %p
+
 [color "status"]
   untracked = magenta
+
 [pretty]
   prettyoneline = %C(blue bold)%h %C(yellow nobold)%ad %C(green nobold)%an %C(reset)%s
   prettylog = %C(cyan nobold)commit %C(blue bold)%H%n%C(cyan nobold)parent %C(blue bold)%P%n%C(brightyellow bold)Author: %C(green nobold)%an %Creset%C(brightblack)<%ae>%Creset%n%C(brightyellow bold)Date:   %C(yellow nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
 
 [delta]
-
 	pager = /opt/homebrew/bin/less -r
 
   navigate = true
@@ -76,7 +79,6 @@
   tabs = 4
   hyperlinks = true
 
-
 [alias]
   bashver = ! bash --version
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
@@ -89,7 +91,6 @@
   d = diff
   ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
   dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
-  ;f = "! git ls-remote mike --exit code 2>/dev/null && options='-v --multiple mike'; git ls-remote upstream --exit_code 2>/dev/null && [ -z \"$options\" ] && options='-v --multiple upstream' || options=\"$options upstream\"; git fetch $options origin 2>&1 | grep -v '\\[up to date\\]'; if [ $# -gt 0 ]; then git fetch $@; fi; shift $#"
   f = ! bash -ic 'ms_git_f'
   graph = log --graph --format=prettyoneline
   l = ! git --no-pager lv --max-count=10
@@ -101,27 +102,27 @@
   mllv = ! git llv --author=\"$(git config --get user.name)\"
   mlv = ! git lv --format=prettyoneline --author=\"$(git config --get user.name)\"
   mlmessage = ! git l --format=\"%s\" --author=\"$(git config --get user.name)\"
-  mrb = ! git for-each-ref --format=\"%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(color:150)%(authorname)  %(color:reset)%(refname:strip=3)\" --sort=authordate refs/remotes | grep \"$(git config --get user.name)\"
   mt = mergetool
   p = pull
-  rb = ! git for-each-ref --format=\"%(color:66 bold)%(objectname:short)  %(color:173 nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(align:28,left)%(color:150)%(authorname)%(end) %(color:reset)%(refname:strip=3)\" --sort=authordate refs/remotes
+  rb  = ! git for-each-ref --format=\"%(color:blue bold)%(objectname:short)  %(color:yellow nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(align:28,left)%(color:green)%(authorname)%(end) %(color:reset)%(refname:strip=3)\" --sort=authordate refs/remotes
+  mrb = ! git for-each-ref --color=always --format=\"%(color:blue bold)%(objectname:short)  %(color:yellow nobold)%(authordate:format:%m/%d/%Y %I:%M %p)  %(color:green)%(authorname)  %(color:reset)%(refname:strip=3)\" --sort=authordate refs/remotes | grep \"$(git config --get user.name)\"
   st = status -s
   stashall = ! git add . && git stash
-  unset = branch --unset-upstream
   wip = ! git add . && git commit -a -n -m \"work in progress\"
   cinoreply = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
   cisign = ! git commit --author='Mike Smith <10135646+mikesmithgh@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mikesmithgh@users.noreply.github.com>'
   cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
   cibr = "! args=$@; shift $#; ms_git_cibr $args"
   root = rev-parse --show-toplevel
-  prdt = ! $(gh pr view --json baseRefName,headRefName -q .baseRefName,.headRefName | awk ' BEGIN{ printf(\"git dt \") } { printf(\"origin/%s \", $1) }')
-	stache = stash
+
 [fetch]
   prune = true
   parallel = 5
   output = compact
+
 [submodule]
   fetchJobs = 5
+
 [filter "lfs"]
   process = git-lfs filter-process
   required = true
@@ -132,7 +133,9 @@
 ;   insteadOf = https://github.com/
 ; [url "ssh://git@github.com/"]
 ;   insteadOf = https://github.com/
+
 [url "ssh://git@gitlab.com"]
   insteadOf = https://gitlab.com/
+
 [includeIf "gitdir:~/repos/accumulus*/"]
   path = ~/.config/accumulus/.gitconfig
