@@ -6,9 +6,9 @@
 continuation_prompt = '[            ](blue)'
 
 format = """
-[ ](bg:rocky_0)\
+[ ](bg:rocky_6)\
 $directory\
-[](bg:scrat_2 fg:rocky_0)\
+[](bg:scrat_2 fg:rocky_6)\
 $kubernetes\
 [](bg:scrat_6 fg:scrat_2)\
 [${custom.git-prompt-string}](bg:scrat_6)\
@@ -66,9 +66,9 @@ truncation_length = 0
 truncate_to_repo = false
 truncation_symbol = '…/'
 # read_only = '[ro]'
-before_repo_root_style = "fg:scrat_0 bg:rocky_0"
+before_repo_root_style = "fg:scrat_0 bg:rocky_6"
 # repo_root_style = "fg:scrat_0 bg:rocky_0" # causing issues in some directories
-style = "fg:scrat_0 bg:rocky_0"
+style = "bold fg:scrat_0 bg:rocky_6"
 use_logical_path = true
 
 [custom.git-prompt-string]
