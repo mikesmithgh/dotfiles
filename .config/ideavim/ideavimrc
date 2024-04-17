@@ -24,7 +24,8 @@ nnoremap <leader>o/ :set hls! <cr>
 nmap <leader>ol :set list!<cr>
 
 " highlight then enter search mode
-nnoremap / :set hls<cr>/
+" no longer working, I submitted a bug: https://youtrack.jetbrains.com/issue/VIM-3392/Keymap-containing-cr-and-no-longer-works
+" nnoremap / :set hls<cr>/
 
 
 " yank/put copy/paste mappings

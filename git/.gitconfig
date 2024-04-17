@@ -87,7 +87,7 @@
   ci = ! GIT_EDITOR='nvim -c \":Git! log -10 | normal! K$\"' git commit -v
   cl = ! git --no-pager log
   co = checkout
-  deleteprev = branch -d @{-1}
+  dprev = branch -D @{-1}
   d = diff
   ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
   dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
