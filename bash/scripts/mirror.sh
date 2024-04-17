@@ -9,7 +9,17 @@ parse_git_host() {
 	printf '%s' "$host"
 }
 
-mirror_repos=('dotfiles')
+mirror_repos=(
+	'dotfiles'
+	'nvim'
+	'kitty-scrollback.nvim'
+	'gruvsquirrel.nvim'
+	'borderline.nvim'
+	'git-prompt-string'
+	'git-prompt-string-lualine.nvim'
+	'vimpromptu'
+	'pdubs'
+)
 
 source='git@github.com:mikesmithgh'
 targets=('git@codeberg.org:mikesmith' 'git@gitlab.com:mikesmithgl')
