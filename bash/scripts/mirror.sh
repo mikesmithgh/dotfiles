@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
+set -e -o pipefail
 
-parse_git_host() {
-	host="$1"
-	# Remove everything before "@" symbol
-	temp="${target#*@}"
-	# Extract the part before the first occurrence of "."
-	host="${temp%%.*}"
-	printf '%s' "$host"
-}
+git_push_args=("$*") # for example --dry-run
 
 mirror_repos=(
-	'dotfiles'
-	'nvim'
-	'kitty-scrollback.nvim'
-	'gruvsquirrel.nvim'
 	'borderline.nvim'
+	'dotfiles'
+	'fzcf'
 	'git-prompt-string'
 	'git-prompt-string-lualine.nvim'
-	'vimpromptu'
+	'gruvsquirrel.nvim'
+	'homebrew-git-prompt-string'
+	'kitty-scrollback.nvim'
+	'kitty-scrollback.nvim.wiki'
+	'kitty-scrollback.nvimconf'
+	'mikesmithgh'
+	'nvim'
 	'pdubs'
+	'render.nvim'
+	'render.nvim.wiki'
+	'ugbi'
+	'vimpromptu'
 )
 
 source='git@github.com:mikesmithgh'
 targets=('git@codeberg.org:mikesmith' 'git@gitlab.com:mikesmithgl')
-
-branch='main'
 
 mirror_dir="$(mktemp -d)/mirror"
 mkdir -p "$mirror_dir"
@@ -34,16 +34,19 @@ for repo_name in "${mirror_repos[@]}"; do
 	cd "$mirror_dir" || exit 1
 	source_repo="$source/$repo_name.git"
 	printf 'cloning %s ...\n' "$source_repo"
-	git clone "$source_repo"
-	cd "$repo_name" || exit 1
-	git checkout "$branch"
+	git clone --mirror "$source_repo"
+	cd "$repo_name.git" || exit 1
 
 	for target in "${targets[@]}"; do
-		upstream=$(parse_git_host "$target")
 		target_repo="$target/$repo_name.git"
-		printf 'adding upstream: %s %s\n' "$upstream" "$target_repo"
-		git remote add "$upstream" "$target_repo"
-		git push -f "$upstream" "$branch"
+		git remote set-url --push origin "$target_repo"
+		printf 'mirroring %s to: %s\n' "$source_repo" "$target_repo"
+		printf 'git push --mirror %s\n' "${git_push_args[@]}"
+		if ((${#git_push_args[@]})); then
+			git push --mirror
+		else
+			git push --mirror "${git_push_args[@]}"
+		fi
 	done
 
 done
