@@ -244,6 +244,9 @@ export LIQUIBASE_HOME
 # check if any identities added to ssh agent, if not then add default identities
 # run in background in a subshell
 (ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf '\n%b' "$purple" &)
+if [[ "$TERM" == 'xterm-kitty' ]]; then
+	alias s='kitten ssh'
+fi
 
 # completions
 source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew version of bash-completion, note this will source ~/.bash_completion

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# nvim wrapper
+# fallback to bobnvim
 export VIMRUNTIME=/Users/mike/gitrepos/neovim/runtime
 /Users/mike/gitrepos/neovim/build/bin/nvim "$@"
 exit_code="$?"

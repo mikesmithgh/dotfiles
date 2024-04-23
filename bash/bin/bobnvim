@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+# bobnvim wrapper
 export VIMRUNTIME=
 "$HOME/.local/share/bob/nvim-bin/nvim" "$@"

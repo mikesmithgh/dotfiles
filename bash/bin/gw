@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# ./gradlew wrapper
 if [[ -f 'gradlew' ]]; then
 	./gradlew "$@"
 else

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# resize appropriate to post on social media, example from linkedin
 # see https://www.linkedin.com/help/linkedin/answer/a566445
 
 w=1200

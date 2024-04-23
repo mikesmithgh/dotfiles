@@ -91,3 +91,8 @@ format = '[$symbol $number ]($style)'
 symbol_threshold = 1
 number_threshold = 1
 style = 'bold blue'
+
+# [python]
+# symbol=' '
+# style = 'bold bg:scrat_2 fg:yellow'
+# format='[ ${symbol}${pyenv_prefix}(${version} )($virtualenv)]($style)'
