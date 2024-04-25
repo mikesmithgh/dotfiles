@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+function ms_info() {
+	printf '\033[34m'
+	# shellcheck disable=SC2059
+	printf "$@"
+	printf '\033[0m'
+}
+
+ms_info "$@"
