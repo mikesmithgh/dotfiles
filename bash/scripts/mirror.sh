@@ -4,6 +4,7 @@ set -e -o pipefail
 git_push_args=("$*") # for example --dry-run
 
 mirror_repos=(
+	# public
 	'borderline.nvim'
 	'dotfiles'
 	'fzcf'
@@ -21,6 +22,8 @@ mirror_repos=(
 	'render.nvim.wiki'
 	'ugbi'
 	'vimpromptu'
+	# private
+	'fonts'
 )
 
 source='git@github.com:mikesmithgh'
