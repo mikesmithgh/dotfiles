@@ -82,7 +82,7 @@
 [alias]
   bashver = ! bash --version
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
-  br = branch -vv
+  br = ! git --no-pager branch -vv
   cbr = symbolic-ref --short HEAD
   ci = ! GIT_EDITOR='nvim -c \":Git! log -10 | normal! K$\"' git commit -v
   cl = ! git --no-pager log
