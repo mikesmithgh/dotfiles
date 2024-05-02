@@ -141,9 +141,6 @@ alias egrep='egrep --color=auto'
 alias bnvim='bobnvim'
 alias bvi='bobnvim'
 
-# intellij
-alias intellij='open -a "/Applications/IntelliJ IDEA.app"'
-
 # vsc*de
 alias code='open -a /Applications/Visual Studio Code.app'
 
