@@ -16,6 +16,7 @@ mirror_repos=(
 	'kitty-scrollback.nvim.wiki'
 	'kitty-scrollback.nvimconf'
 	'mikesmithgh'
+	'mikesmithgh.github.io'
 	'nvim'
 	'pdubs'
 	'render.nvim'
