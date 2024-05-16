@@ -122,7 +122,15 @@ g() {
 lastnote() {
 	cd "${HOME}/Documents/notes" || return
 	latest_file="$(ls -rt | tail -1)"
-	nvim -c 'NvimTreeOpen' -c 'wincmd l' "${latest_file}"
+	nvim -c "lua vim.api.nvim_create_autocmd({ 'User' }, {
+                  group = vim.api.nvim_create_augroup('NewNoteOpenNvimTree', { clear = true }),
+                  pattern = { 'VeryLazy' },
+                  callback = function()
+                    vim.cmd.NvimTreeOpen()
+                    vim.cmd.wincmd('l')
+                  end,
+                })" \
+		"${latest_file}"
 }
 
 newnote() {
@@ -134,7 +142,15 @@ newnote() {
 		fi
 		filename="$(date +%Y%m%d)-$1"
 		cd "${HOME}/Documents/notes" || return
-		nvim -c "NvimTreeOpen" -c "wincmd l" "${filename}.${fileext}"
+		nvim -c "lua vim.api.nvim_create_autocmd({ 'User' }, {
+                  group = vim.api.nvim_create_augroup('NewNoteOpenNvimTree', { clear = true }),
+                  pattern = { 'VeryLazy' },
+                  callback = function()
+                    vim.cmd.NvimTreeOpen()
+                    vim.cmd.wincmd('l')
+                  end,
+                })" \
+			"${filename}.${fileext}"
 	else
 		echo "missing filename parameter"
 	fi
@@ -150,7 +166,15 @@ makenote() {
 		filename="$(date +%Y%m%d)-$1"
 		mv "${1}" "${HOME}/Documents/notes/${filename}.${fileext}"
 		cd "${HOME}/Documents/notes" || return
-		vim -c "NvimTreeOpen" -c "wincmd l" "${filename}${fileext}"
+		nvim -c "lua vim.api.nvim_create_autocmd({ 'User' }, {
+                  group = vim.api.nvim_create_augroup('NewNoteOpenNvimTree', { clear = true }),
+                  pattern = { 'VeryLazy' },
+                  callback = function()
+                    vim.cmd.NvimTreeOpen()
+                    vim.cmd.wincmd('l')
+                  end,
+                })" \
+			"${filename}${fileext}"
 	else
 		echo "missing filename parameter"
 	fi
@@ -179,7 +203,6 @@ n() {
 		if [[ $path != "" ]]; then
 			if [[ -d ${path} ]]; then
 				cd "$path" || return
-				# nvim -c "NvimTreeOpen" -c "FzfLua files"
 			else
 				cd "$(dirname "$path")" || return
 				nvim "$path"
