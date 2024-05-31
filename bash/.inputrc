@@ -9,7 +9,12 @@ set completion-ignore-case On
 set show-all-if-ambiguous On
 set skip-completed-text On
 
+set keymap vi-command
+"v": vi-edit-and-execute-command
+
+set keymap emacs
 "\C-p": "p\n"
 "\C-n": "n\n"
 "\e\e": ""
+"\C-x\C-e": edit-and-execute-command
 

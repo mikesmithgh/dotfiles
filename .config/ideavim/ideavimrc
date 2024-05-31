@@ -150,7 +150,7 @@ set noerrorbells
 
 " lsp-like commands
 " :map <leader>lf <Action>(ReformatCode)
-:map <leader>lf <Action>(io.gitlab.arturbosch.detekt.idea.action.AutoCorrect) \| <Action>(ReformatCode) 
+:map <leader>lf <Action>(io.gitlab.arturbosch.detekt.idea.action.AutoCorrect)
 :map <leader>lr <Action>(RenameElement)
 :map <leader>lk <Action>(ShowHoverInfo)
 :map <leader>lt <Action>(ExpressionTypeInfo)

@@ -87,6 +87,9 @@ alias vi='vim'
 alias nvimdiff='nvim -d'
 alias vimdiff='nvimdiff'
 
+alias nvimtutor='nvim +":Tutor"'
+alias vimtutor='nvimtutor'
+
 # TODO move to a script
 # alias vim-intro="vim -c ':terminal ++curwin vim --clean' -c ':sleep 1' -c ':call feedkeys(\"\<C-W>N\")' -c ':%y' -c ':call feedkeys(\"i:q!\<CR>\")' -c ':bdelete!' -c ':silent normal pddggddr~' -c ':execute \"w \" . tempname()'"
 
@@ -125,10 +128,14 @@ export PYENV_ROOT="$XDG_CONFIG_HOME/pyenv"
 
 # less
 # removed J because it caused issues with bat alignment
-export LESS='iXK --raw-control-chars --mouse --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f :  (stdin) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  %E $'
+export LESS='iXK --raw-control-chars --mouse --line-num-width=4 --use-color --color=P0.7$ --prompt=?f  %f :  (stdin) .?m(%T %i of %m) .?lt %lt-%lb?L/%L. .󱨅 %bB?s/%s. ?e(END) :?pB%pB\%..%t   v=>pipe e=>edit  nvim $'
 
 export EDITOR='nvim'
-export VISUAL='nvim'
+
+# kitty-scrollback.nvim
+# export VISUAL='nvim'
+export KITTY_SCROLLBACK_VISUAL='nvim'
+export VISUAL='/Users/mike/gitrepos/kitty-scrollback.nvim/scripts/edit_command_line.bash'
 
 # kubectl
 alias k='kubectl'
@@ -188,13 +195,13 @@ export FZF_CTRL_R_OPTS='--prompt=" " --border-label=" History "'
 # mkdir -p '/Users/mike/.local/state/fzf/'
 FZF_DEFAULT_OPTS=
 if [[ "$TERM" == 'xterm-kitty' ]]; then
-	FZF_DEFAULT_OPTS='--border=thinblock --scrollbar=▊'
+  FZF_DEFAULT_OPTS='--border=thinblock --scrollbar=▊'
 fi
 FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"' --preview-window=60%,border-thinblock --margin 1,4 --multi --layout=reverse --scroll-off=7 --height=100% --bind "alt-a:toggle-all" --history /Users/mike/.local/state/fzf/history.txt --history-size=100000 --cycle --info=inline-right --ellipsis=… --separator=─ --pointer=󰅂 --no-separator --marker=﹢ --prompt="$ "'
 # generate colors with $HOME/gitrepos/gruvsquirrel.nvim/extra/fzf/gruvsquirrel.sh
 gruvsquirrel_fzf_colors='spinner:#8faa80:bold,fg:#c7c7c7,pointer:#ff6961:bold,preview-label:#504945:bold,hl+:#dbbc5f:bold:reverse,label:#504945:reverse:bold,bg+:#32302f,fg+:#a0a0a0:bold,info:#8faa80,query:#c7c7c7:bold,preview-bg:#070707,separator:#504945,disabled:#968c81:regular,border:#504945,prompt:#83a598,bg:#1a1a1a,hl:#a9d5c4:bold:reverse,gutter:#1a1a1a,marker:#d3869b:bold,preview-fg:#c7c7c7,scrollbar:#504945,header:#968c81'
 if [[ "$TERM_PROGRAM" != "Apple_Terminal" ]]; then
-	FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='$gruvsquirrel_fzf_colors'"
+  FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --color='$gruvsquirrel_fzf_colors'"
 fi
 export "FZF_DEFAULT_OPTS"
 export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --no-ignore' # TODO: revisit the defaults
@@ -242,7 +249,7 @@ export LIQUIBASE_HOME
 # run in background in a subshell
 (ssh-add -l 1>/dev/null || ssh-add --apple-use-keychain 2>&1 | xargs -0 -n1 printf '\n%b' "$purple" &)
 if [[ "$TERM" == 'xterm-kitty' ]]; then
-	alias s='kitten ssh'
+  alias s='kitten ssh'
 fi
 
 # completions
@@ -250,12 +257,12 @@ source "$HOMEBREW_PREFIX/share/bash-completion/bash_completion" # home brew vers
 
 # ps1
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-	PS1='\[\n \e[0;33m\w\e[0m$(git-prompt-string)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]'
+  PS1='\[\n \e[0;33m\w\e[0m$(git-prompt-string)\n \e[0;32m\u@local \e[0;36m\$\e[0m \]'
 else
-	# starship (https://starship.rs/)
-	# eval "$(starship init bash)"
-	# the following are hardcoded results of the above command to improve speed
-	source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
+  # starship (https://starship.rs/)
+  # eval "$(starship init bash)"
+  # the following are hardcoded results of the above command to improve speed
+  source /dev/stdin <<<"$($HOMEBREW_PREFIX/bin/starship init bash --print-full-init)"
 fi
 
 # history

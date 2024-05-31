@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# nvim wrapper
-# fallback to bobnvim
+# nvim wrapper, fallback to bobnvim
+
 export VIMRUNTIME=/Users/mike/gitrepos/neovim/runtime
-/Users/mike/gitrepos/neovim/build/bin/nvim "$@"
-exit_code="$?"
-if [ "$exit_code" -eq 127 ]; then
-	# we may be updating nvim, fallback to bobnvim
-	bobnvim "$@"
+nvim_cmd='/Users/mike/gitrepos/neovim/build/bin/nvim'
+
+if [[ -f "$nvim_cmd" ]]; then
+	exec "$nvim_cmd" "$@"
+	exit "$?"
+else
+	exec bobnvim "$@"
 	exit "$?"
 fi
-exit "$exit_code"
