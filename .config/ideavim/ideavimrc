@@ -25,7 +25,7 @@ nmap <leader>ol :set list!<cr>
 
 " highlight then enter search mode
 " no longer working, I submitted a bug: https://youtrack.jetbrains.com/issue/VIM-3392/Keymap-containing-cr-and-no-longer-works
-" nnoremap / :set hls<cr>/
+nnoremap / :set hls<cr>/
 
 
 " yank/put copy/paste mappings
@@ -92,11 +92,10 @@ map <leader>sa zg
 map <leader>s? z=
 
 
-" Don't use Q for Ex mode, use it for formatting.  Except for Select mode.
+" Q to try and act like Neovim but not quite. Do @@ for now
 " Revert with ":unmap Q".
-map Q gq
+map Q @@
 sunmap Q
-
 
 " TODO map me to something
 nnoremap S <Nop>

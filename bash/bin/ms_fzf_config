@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+n() {
+  if ((!$#)); then
+    local path
+    path="$(ms_nvim_dirs | fzf --ansi --prompt=' ' --border-label=' Configurations ')"
+    if [[ $path == "" ]]; then
+      exit 1
+    fi
+    printf '%s' "$path"
+  fi
+}
+
+n "$@"

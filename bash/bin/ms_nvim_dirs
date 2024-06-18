@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# TODO: rename to config dirs
+ms_nvim_dirs() {
+  config_dirs=$(fd --follow --max-depth 1 --type directory --search-path "$HOME/.config")
+  plugin_configs=$(find "$HOME/.config/nvim/lua/plugins" -maxdepth 1)
+  mason_packages=$(find "$HOME/.local/share/nvim/mason/packages" -maxdepth 1)
+  nvim_plugins="$(fd --max-depth 5 --hidden --no-ignore --glob --prune --search-path "$HOME/.local/share/nvim/lazy" '.git' --exec realpath {//})"
+  local nvim_dirs=(
+    "$HOME/.config/nvim"
+    "$plugin_configs"
+    "$HOME/.config"
+    "$config_dirs"
+    "$HOME/.local/share/nvim"
+    "$HOME/.local/share/nvim/render"
+    "$HOME/.local/state/nvim"
+    "$HOME/.local/state/nvim/swap"
+    "$HOME/.local/state/nvim/undo"
+    "$HOME/.local/state/nvim/backup"
+    "$HOME/gitrepos/gruvsquirrel/"
+    "$HOME/.local/share/nvim/lazy"
+    "$nvim_plugins"
+    "$mason_packages"
+  )
+
+  for nvim_dir in "${nvim_dirs[@]}"; do
+    echo "$nvim_dir"
+  done
+}
+
+ms_nvim_dirs "$@"

@@ -9,6 +9,7 @@ format = """
 [ ](bg:rocky_6)\
 $directory\
 [](bg:scrat_2 fg:rocky_6)\
+$shell\
 $kubernetes\
 [](bg:scrat_6 fg:scrat_2)\
 [${custom.git-prompt-string}](bg:scrat_6)\
@@ -79,7 +80,7 @@ when = true
 [kubernetes]
 disabled = false
 symbol = '󱃾 '
-format = '[ $symbol$context]($style)'	
+format = '[ $symbol$context]($style)' 
 style = 'bold bg:scrat_2 fg:cyan'
 
 [line_break]
@@ -91,6 +92,22 @@ format = '[$symbol $number ]($style)'
 symbol_threshold = 1
 number_threshold = 1
 style = 'bold blue'
+
+[shell]
+bash_indicator = '  bash'
+fish_indicator = '' # default shell
+zsh_indicator = '  zsh'
+powershell_indicator = '  pwsh'
+ion_indicator = '  ion'
+elvish_indicator = '  esh'
+tcsh_indicator = '  tsh'
+xonsh_indicator = '  xsh'
+cmd_indicator = '  cmd'
+nu_indicator = '  nu'
+unknown_indicator = '  ??'
+format = '[$indicator]($style)'
+style = 'fg:bright-black bg:scrat_2'
+disabled = false
 
 # [python]
 # symbol=' '

@@ -181,10 +181,6 @@ alias repos='cd $HOME/repos'
 alias todo='vim -o $HOME/Documents/notes/wiki/Running-TODOs.md $HOME/Documents/notes/wiki/Archived-TODOs.md -c "wincmd j" -c "vsplit" -c "resize 25" -c "e /Users/mike/Documents/notes/wiki/Low-Priority-TODOs.md" -c "wincmd k"'
 alias ft3='vim $HOME/Documents/notes/ft3/ft3.md'
 
-# display settings
-alias display-wide='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A res:3440x1440 hz:50 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 enabled:true scaling:on origin:(-1728,323) degree:0" "id:20D97340-3FA4-4BAF-A245-C27FBDECA1E2 res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(3440,360) degree:0"'
-alias display-standard='displayplacer "id:BFB91403-4291-4F36-A876-7573049BD36A res:2560x1440 hz:60 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 enabled:true scaling:on origin:(-1728,323) degree:0" "id:20D97340-3FA4-4BAF-A245-C27FBDECA1E2 res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(2560,360) degree:0"'
-
 # localization
 export LANG='en_US.UTF-8'
 export LC_ALL='en_US.UTF-8'
@@ -214,7 +210,6 @@ export LS_COLORS='*~=3;38;2;150;140;129:bd=1;38;2;219;188;95:ca=0;38;2;7;7;7;48;
 
 # eza
 export EZA_COLORS="uu=38;2;167;192;128:gu=38;2;167;192;128:uR=38;2;255;105;97:gR=38;2;255;105;97:un=90:gn=90"
-alias l='eza --hyperlink --long --sort=time --time=modified --time-style=relative --all --git --color=auto --icons=auto --group-directories-first --dereference'
 
 # gnu / coreutil
 alias ls='gls'

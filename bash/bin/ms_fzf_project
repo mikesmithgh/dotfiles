@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+ms_cd_project() {
+  mkdir -p "$HOME/.cache/dotfiles"
+  local cache="$HOME/.cache/dotfiles/recent_projects.txt"
+  touch "$cache"
+  if (($# != 1)); then
+    ms_err "no project name provided"
+    return 1
+  fi
+  project="$1"
+  project_path=$(ms_ls_projects | ansifilter | grep -E -m 1 "${project%/}\$")
+  if [[ -z "$project_path" ]]; then
+    ms_err "could not find project"
+    return 1
+  fi
+
+  printf '%s\n%s\n' "$project_path" "$(cat "$cache")" >"$cache"
+  # remove duplicates
+  gawk -i inplace '!seen[$0]++' "$cache"
+
+  if ! cd "$project_path" 2>/dev/null; then
+    ms_err "could not find project $project_path"
+    # replace with blank line for removal
+    gsed -i -e "s|$project_path||g" "$cache"
+    exit 1
+  fi
+
+  # limit to 20 lines, remove base repos and blank lines
+  gsed -i -e '21,$ d' -e "s|^$HOME/.*repos$||" -e /^$/d "$cache"
+  printf '%s' "$project_path"
+}
+
+p() {
+  if ((!$#)); then
+    local directory
+    directory="$(
+      ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
+        --header $' <\e[33mctrl-x\e[m> to \e[m\e[31mRemove from recent projects' \
+        --bind='ctrl-x:execute(ms_remove_recent_project {})+abort'
+    )"
+    if [[ $directory != "" ]]; then
+      ms_cd_project "$directory"
+    fi
+  else
+    ms_cd_project "$@"
+  fi
+}
+
+p "$@"
