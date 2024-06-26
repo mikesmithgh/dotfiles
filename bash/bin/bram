@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # vim wrapper (not neovim)
 export MYVIMRC="$XDG_CONFIG_HOME/vim/.vimrc"
 export VIMINIT=":set runtimepath+=$XDG_CONFIG_HOME/vim/|:source $MYVIMRC"

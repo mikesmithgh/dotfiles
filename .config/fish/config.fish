@@ -2,6 +2,16 @@ set script_dir (dirname (status current-filename))
 
 if status is-interactive
 
+    # xdg base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+    set --export XDG_RUNTIME_DIR (mktemp -u -t $USER)
+    mkdir -p "$XDG_RUNTIME_DIR" & # this directory is important for neovim vim.fn.serverstart (used by fzf-lua)
+
+    set --export XDG_CONFIG_HOME "$HOME/.config"
+    set --export XDG_DATA_HOME "$HOME/.local/share"
+    set --export XDG_STATE_HOME "$HOME/.local/state"
+    set --export XDG_CACHE_HOME "$HOME/.cache"
+    set --export XDG_DATA_DIRS /usr/local/share
+
     # ls
     # generated with vivid https://github.com/sharkdp/vivid
     # LS_COLORS="$(vivid generate ~/gitrepos/gruvsquirrel.nvim/extra/vivid/gruvsquirrel.yml)"
