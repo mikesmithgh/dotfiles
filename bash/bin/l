@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-eza --hyperlink --long --sort=time --time=modified --time-style=relative --all --git --color=auto --icons=auto --group-directories-first --dereference "$@"
-
+eza --hyperlink --long --sort=time --time=modified --time-style=relative --all --git --color=auto --icons=auto --group-directories-first --dereference --group "$@"
