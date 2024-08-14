@@ -4,10 +4,15 @@
 export VIMRUNTIME=/Users/mike/gitrepos/neovim/runtime
 nvim_cmd='/Users/mike/gitrepos/neovim/build/bin/nvim'
 
+# required to resolve libMagick used by image.nvim
+# see https://github.com/3rd/image.nvim/issues/91
+# see https://stackoverflow.com/a/3172515/3499168
+export DYLD_FALLBACK_LIBRARY_PATH='/opt/homebrew/lib'
+
 if [[ -f "$nvim_cmd" ]]; then
-	exec "$nvim_cmd" "$@"
-	exit "$?"
+  exec "$nvim_cmd" "$@"
+  exit "$?"
 else
-	exec bobnvim "$@"
-	exit "$?"
+  exec bobnvim "$@"
+  exit "$?"
 fi

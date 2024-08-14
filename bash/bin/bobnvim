@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
 # bobnvim wrapper
+
+# remove runtime to avoid using built from source runtime
 export VIMRUNTIME=
+
+# required to resolve libMagick used by image.nvim
+# see https://github.com/3rd/image.nvim/issues/91
+# see https://stackoverflow.com/a/3172515/3499168
+export DYLD_FALLBACK_LIBRARY_PATH='/opt/homebrew/lib'
+
 "$HOME/.local/share/bob/nvim-bin/nvim" "$@"
