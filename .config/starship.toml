@@ -21,7 +21,7 @@ $username [\\$](blue) \
 """
 
 palette = 'gruvsquirrel'
-command_timeout = 500
+command_timeout = 2000
 
 [palettes.gruvsquirrel]
 scrat_0 = '#070707'
