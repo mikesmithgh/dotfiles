@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+configs_cache="$HOME/.cache/dotfiles/configs.txt"
+recent_configs_cache="$HOME/.cache/dotfiles/recent_configs.txt"
+
+if [ -f "$configs_cache" ]; then
+  readarray -t config_dirs <"$configs_cache"
+else
+  conf_dirs=$(fd --follow --max-depth 1 --type directory --search-path "$HOME/.config")
+  plugin_configs=$(find "$HOME/.config/nvim/lua/plugins" -maxdepth 1)
+  mason_packages=$(find "$HOME/.local/share/nvim/mason/packages" -maxdepth 1)
+  nvim_plugins="$(fd --max-depth 5 --hidden --no-ignore --glob --prune --search-path "$HOME/.local/share/nvim/lazy" '.git' --exec realpath '{//}')"
+  config_dirs=(
+    "$HOME/.config"
+    "$HOME/.config/nvim"
+    "$plugin_configs"
+    "$conf_dirs"
+    "$HOME/.local/share/nvim"
+    "$HOME/.local/share/nvim/render"
+    "$HOME/.local/state/nvim"
+    "$HOME/.local/state/nvim/swap"
+    "$HOME/.local/state/nvim/undo"
+    "$HOME/.local/state/nvim/backup"
+    "$HOME/.local/share/nvim/lazy"
+    "$nvim_plugins"
+    "$mason_packages"
+  )
+  printf "%s\n" "${config_dirs[@]}" | gsed -e /^$/d >"$configs_cache"
+fi
+
+mkdir -p "$HOME/.cache/dotfiles"
+touch "$recent_configs_cache"
+
+readarray -t recent_configs <"$recent_configs_cache"
+tput setaf 8
+for recent_config in "${recent_configs[@]}"; do
+  printf "%s\n" "${recent_config}"
+  config_dirs_str=$(printf "%s\n" "${config_dirs[@]}")
+  config_dirs=("${config_dirs_str/$recent_config/}")
+done
+tput setaf 7
+printf "%s\n" "${config_dirs[@]}" | gsed -e /^$/d

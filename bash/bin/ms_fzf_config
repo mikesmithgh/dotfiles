@@ -1,15 +1,55 @@
 #!/usr/bin/env bash
 set -e
 
-n() {
-  if ((!$#)); then
-    local path
-    path="$(ms_nvim_dirs | fzf --ansi --prompt=' ' --border-label=' Configurations ')"
-    if [[ $path == "" ]]; then
+ms_cd_config_dir() {
+  mkdir -p "$HOME/.cache/dotfiles"
+  local cache="$HOME/.cache/dotfiles/recent_configs.txt"
+  touch "$cache"
+  if (($# != 1)); then
+    ms_err "no config dir name provided"
+    return 1
+  fi
+  config_dir="$1"
+  config_path=$(ms_ls_config_dirs | ansifilter | grep -E -m 1 "${config_dir}\$")
+  if [[ -z "$config_path" ]]; then
+    ms_err "could not find project"
+    return 1
+  fi
+
+  printf '%s\n%s\n' "$config_path" "$(cat "$cache")" >"$cache"
+  # remove duplicates
+  gawk -i inplace '!seen[$0]++' "$cache"
+
+  if [[ -d "$config_path" ]]; then
+    if ! cd "$config_path" 2>/dev/null; then
+      ms_err "could not find config dir $config_path"
+      # replace with blank line for removal
+      gsed -i -e "s|$config_path||g" "$cache"
       exit 1
     fi
-    printf '%s' "$path"
+  elif [[ ! -e "$config_path" ]]; then
+    ms_err "could not find config file $config_path"
+    # replace with blank line for removal
+    gsed -i -e "s|$config_path||g" "$cache"
+    exit 1
+  fi
+
+  # limit to 20 lines, remove base repos and blank lines
+  gsed -i -e '21,$ d' -e "s|^$HOME/.*repos$||" -e /^$/d "$cache"
+  printf '%s' "$config_path"
+}
+
+n() {
+  local config
+  config="$(
+    ms_ls_config_dirs | fzf --ansi --no-multi --prompt=' ' --border-label=' Configurations ' \
+      --header $' <\e[33mctrl-l\e[m> to \e[m\e[31mClear configs cache\e[m\n <\e[33mctrl-x\e[m> to \e[m\e[31mRemove config from recent configs' \
+      --bind='ctrl-l:execute(ms_remove_config_cache)+become(ms_fzf_config)' \
+      --bind='ctrl-x:execute(ms_remove_recent_config {})+become(ms_fzf_config)'
+  )"
+  if [[ $config != "" ]]; then
+    ms_cd_config_dir "$config"
   fi
 }
 
-n "$@"
+n

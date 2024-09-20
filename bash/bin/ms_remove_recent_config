@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+gsed -i '\,^'"$1"'$,d' "$HOME/.cache/dotfiles/recent_configs.txt"

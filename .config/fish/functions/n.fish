@@ -1,4 +1,3 @@
-# TODO: bit of a hack at the moment
 function n
     if set path (ms_fzf_config $argv)
         if test -d $path
@@ -9,4 +8,5 @@ function n
         end
         commandline -f repaint
     end
+    return 0
 end

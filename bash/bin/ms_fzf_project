@@ -32,19 +32,16 @@ ms_cd_project() {
 }
 
 p() {
-  if ((!$#)); then
-    local directory
-    directory="$(
-      ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
-        --header $' <\e[33mctrl-x\e[m> to \e[m\e[31mRemove from recent projects' \
-        --bind='ctrl-x:execute(ms_remove_recent_project {})+abort'
-    )"
-    if [[ $directory != "" ]]; then
-      ms_cd_project "$directory"
-    fi
-  else
-    ms_cd_project "$@"
+  local directory
+  directory="$(
+    ms_ls_projects | fzf --ansi --no-multi --prompt=' ' --border-label=' Projects ' \
+      --header $' <\e[33mctrl-l\e[m> to \e[m\e[31mClear projects cache\e[m\n <\e[33mctrl-x\e[m> to \e[m\e[31mRemove project from recent projects' \
+      --bind='ctrl-l:execute(ms_remove_project_cache)+become(ms_fzf_project)' \
+      --bind='ctrl-x:execute(ms_remove_recent_project {})+become(ms_fzf_project)'
+  )"
+  if [[ $directory != "" ]]; then
+    ms_cd_project "$directory"
   fi
 }
 
-p "$@"
+p

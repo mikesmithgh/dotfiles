@@ -1,27 +1,31 @@
 #!/usr/bin/env bash
 
-# this isn't sourced, so we are doing this everytime. if this is a problem, optimize here
-if [[ -z "$DOTFILES_PROJECT_DIRS" ]]; then
+projects_cache="$HOME/.cache/dotfiles/projects.txt"
+recent_projects_cache="$HOME/.cache/dotfiles/recent_projects.txt"
+
+if [ -f "$projects_cache" ]; then
+  readarray -t project_dirs <"$projects_cache"
+else
   # repo directories
   repo_proj_dirs=$(fd --color=never --exact-depth 1 --type directory --glob --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" --exec realpath "{}")
   # go directories
-  go_proj_dirs=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d  --exec realpath "{}")
+  go_proj_dirs=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d --exec realpath "{}")
 
-  DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${repo_proj_dirs}" "${go_proj_dirs}" | sort -uf)
+  DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${repo_proj_dirs}" "${go_proj_dirs}" | sort -uf | tee "$projects_cache")
+  project_dirs=("${DOTFILES_PROJECT_DIRS}")
 fi
 
 mkdir -p "$HOME/.cache/dotfiles"
-touch "$HOME/.cache/dotfiles/recent_projects.txt"
+touch "$recent_projects_cache"
 
-readarray -t recent_projects < "$HOME/.cache/dotfiles/recent_projects.txt"
-project_dirs=("${DOTFILES_PROJECT_DIRS}")
+readarray -t recent_projects <"$recent_projects_cache"
 tput setaf 8
 for recent_proj in "${recent_projects[@]}"; do
   printf "%s\n" "${recent_proj}"
-  project_dirs=("${project_dirs[@]/$recent_proj}")
+  project_dirs_str=$(printf "%s\n" "${project_dirs[@]}")
+  project_dirs=("${project_dirs_str/$recent_proj/}")
 done
 tput setaf 7
 printf "%s/gitrepos\n" "${HOME}"
 printf "%s/repos\n" "${HOME}"
 printf "%s\n" "${project_dirs[@]}" | gsed -e /^$/d
-
