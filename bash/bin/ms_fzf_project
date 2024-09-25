@@ -15,16 +15,16 @@ ms_cd_project() {
     return 1
   fi
 
-  printf '%s\n%s\n' "$project_path" "$(cat "$cache")" >"$cache"
-  # remove duplicates
-  gawk -i inplace '!seen[$0]++' "$cache"
-
   if ! cd "$project_path" 2>/dev/null; then
     ms_err "could not find project $project_path"
     # replace with blank line for removal
     gsed -i -e "s|$project_path||g" "$cache"
     exit 1
   fi
+
+  printf '%s\n%s\n' "$project_path" "$(cat "$cache")" >"$cache"
+  # remove duplicates
+  gawk -i inplace '!seen[$0]++' "$cache"
 
   # limit to 20 lines, remove base repos and blank lines
   gsed -i -e '21,$ d' -e "s|^$HOME/.*repos$||" -e /^$/d "$cache"
