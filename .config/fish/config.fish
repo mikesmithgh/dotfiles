@@ -68,13 +68,34 @@ if status is-interactive
     end
 
     # TODO: revisit the defaults
-    set fzf_fd_opts --type f --strip-cwd-prefix --hidden --no-ignore
+    set fzf_fd_opts --strip-cwd-prefix --hidden --no-ignore
 
-    # fzf
-    set --export fzf_history_opts --prompt=" " --border-label=" History " --preview-window=bottom:40%,border-thinblock
+    # fzf.fish
+
+    # see https://github.com/PatrickF1/fzf.fish/discussions/303
+    set fzf_directory_opts --prompt="󰥨 " \
+        "--bind=ctrl-d:reload(fd --type d --type l --color=always --strip-cwd-prefix --hidden --no-ignore)" \
+        "--bind=ctrl-f:reload(fd --color=always --strip-cwd-prefix --hidden --no-ignore)"
+
+    set --export fzf_history_opts --prompt=" " --preview-window=bottom:40%,border-thinblock
+
 
     # dynamic libary lookup fallback currently used by image.nvim
     set --export --global DYLD_FALLBACK_LIBRARY_PATH /opt/homebrew/lib
+
+    ### testing TODO cleanup
+    function open_in_vim
+        # Save the current command line content
+        set cursor_pos (commandline -C)
+        commandline -C 0
+        commandline -i 'nvim '
+        commandline -C (math $cursor_pos + 5)
+    end
+
+    # Bind the function to a key, e.g., Ctrl+o
+    bind \co open_in_vim
+
+    ### testing TODO cleanup
 
 
     starship init fish | source
