@@ -1,6 +1,7 @@
 set script_dir (dirname (status current-filename))
 
 if status is-interactive
+    source $HOME/.config/fish/private.fish
 
     # xdg base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
     set --export XDG_RUNTIME_DIR (mktemp -u -t $USER)
