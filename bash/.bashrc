@@ -48,7 +48,7 @@ export XDG_DATA_DIRS='/usr/local/share'
 # export PATH="${MYPATH_PREFIX}:${DEFAULT_PATH}:${MYPATH_SUFFIX}"
 
 # the following is the hardcoded results of the above commands to improve speed
-export PATH='/Users/mike/bin:/opt/homebrew/bin:/Users/mike/go/bin:/Users/mike/.config/pyenv/bin:/Users/mike/.config/pyenv/bin:/Users/mike/gitrepos/neovim/build/bin:/Users/mike/.cargo/bin:/opt/homebrew/opt/libpq/bin:/Users/mike/Library/Application Support/Coursier/bin:/Users/mike/.config/pyenv/shims:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/usr/local/go/bin::/opt/homebrew/opt/fzf/bin'
+export PATH='/Users/mike/bin:/opt/homebrew/bin:/Users/mike/go/bin:/Users/mike/.config/pyenv/bin:/Users/mike/.config/pyenv/bin:/Users/mike/gitrepos/neovim/build/bin:/Users/mike/.cargo/bin:/opt/homebrew/opt/libpq/bin:/Users/mike/Library/Application Support/Coursier/bin:/Users/mike/.config/pyenv/shims:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/usr/local/go/bin:/opt/homebrew/opt/fzf/bin'
 
 # osx specific
 # the following have been commented out for performance, this doesn't need to run every time lets extract this into a script
