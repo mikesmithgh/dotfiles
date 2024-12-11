@@ -96,9 +96,6 @@ if status is-interactive
         commandline -C (math $cursor_pos + 5)
     end
 
-    # Bind the function to a key, e.g., Ctrl+o
-    bind \co open_in_vim
-
     ### testing TODO cleanup
 
 
