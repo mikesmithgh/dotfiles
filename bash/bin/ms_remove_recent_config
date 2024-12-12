@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-gsed -i '\,^'"$1"'$,d' "$HOME/.cache/dotfiles/recent_configs.txt"
+gsed -i '\,^'"$1"'$,d' "$XDG_CACHE_HOME/dotfiles/recent_configs.txt"

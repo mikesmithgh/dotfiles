@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ms_cd_project() {
-  mkdir -p "$HOME/.cache/dotfiles"
-  local cache="$HOME/.cache/dotfiles/recent_projects.txt"
+  mkdir -p "$XDG_CACHE_HOME/dotfiles"
+  local cache="$XDG_CACHE_HOME/dotfiles/recent_projects.txt"
   touch "$cache"
   if (($# != 1)); then
     ms_err "no project name provided"

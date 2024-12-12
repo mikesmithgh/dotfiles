@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-configs_cache="$HOME/.cache/dotfiles/configs.txt"
-recent_configs_cache="$HOME/.cache/dotfiles/recent_configs.txt"
+configs_cache="$XDG_CACHE_HOME/dotfiles/configs.txt"
+recent_configs_cache="$XDG_CACHE_HOME/dotfiles/recent_configs.txt"
 
 if [ -f "$configs_cache" ]; then
   readarray -t config_dirs <"$configs_cache"
@@ -28,7 +28,7 @@ else
   printf "%s\n" "${config_dirs[@]}" | gsed -e /^$/d >"$configs_cache"
 fi
 
-mkdir -p "$HOME/.cache/dotfiles"
+mkdir -p "$XDG_CACHE_HOME/dotfiles"
 touch "$recent_configs_cache"
 
 readarray -t recent_configs <"$recent_configs_cache"

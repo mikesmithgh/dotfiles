@@ -2,8 +2,8 @@
 set -e
 
 ms_cd_config_dir() {
-  mkdir -p "$HOME/.cache/dotfiles"
-  local cache="$HOME/.cache/dotfiles/recent_configs.txt"
+  mkdir -p "$XDG_CACHE_HOME/dotfiles"
+  local cache="$XDG_CACHE_HOME/dotfiles/recent_configs.txt"
   touch "$cache"
   if (($# != 1)); then
     ms_err "no config dir name provided"

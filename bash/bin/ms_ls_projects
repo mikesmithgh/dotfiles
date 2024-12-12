@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-projects_cache="$HOME/.cache/dotfiles/projects.txt"
-recent_projects_cache="$HOME/.cache/dotfiles/recent_projects.txt"
+projects_cache="$XDG_CACHE_HOME/dotfiles/projects.txt"
+recent_projects_cache="$XDG_CACHE_HOME/dotfiles/recent_projects.txt"
 
 if [ -f "$projects_cache" ]; then
   readarray -t project_dirs <"$projects_cache"
@@ -15,7 +15,7 @@ else
   project_dirs=("${DOTFILES_PROJECT_DIRS}")
 fi
 
-mkdir -p "$HOME/.cache/dotfiles"
+mkdir -p "$XDG_CACHE_HOME/dotfiles"
 touch "$recent_projects_cache"
 
 readarray -t recent_projects <"$recent_projects_cache"

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rm -f "$HOME/.cache/dotfiles/projects.txt"
+rm -f "$XDG_CACHE_HOME/dotfiles/projects.txt"
