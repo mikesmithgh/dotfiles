@@ -87,17 +87,5 @@ if status is-interactive
     # dynamic libary lookup fallback currently used by image.nvim
     set --export --global DYLD_FALLBACK_LIBRARY_PATH /opt/homebrew/lib
 
-    ### testing TODO cleanup
-    function open_in_vim
-        # Save the current command line content
-        set cursor_pos (commandline -C)
-        commandline -C 0
-        commandline -i 'nvim '
-        commandline -C (math $cursor_pos + 5)
-    end
-
-    ### testing TODO cleanup
-
-
     starship init fish | source
 end

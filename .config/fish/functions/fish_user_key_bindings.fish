@@ -1,7 +1,7 @@
 function fish_user_key_bindings
     bind \cP p
     bind \cN n
-    bind \co open_in_vim
+    bind \co toggle_nvim_prefix
     bind \cf favorites
 
 
