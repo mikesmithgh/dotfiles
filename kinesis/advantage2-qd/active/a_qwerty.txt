@@ -1,49 +1,70 @@
-[kp-5]>[F6]
-[kp-4]>[F5]
-[kp-3]>[F4]
-[kp-2]>[F3]
-[kp-1]>[F2]
+** left thumb cluster
+[home]>[lwin]
+[end]>[escape]
+
+** kp left thumb cluster
+[kp-home]>[kp-lwin]
+[kp-end]>[kp-escape]
+
+** right thumb cluster
+[rwin]>[kp-ralt]
+[pup]>[rwin]
+* ctrl-w
+{pdown}>{speed9}{-rctrl}{w}{+rctrl}
+
+** kp right thumb cluster
+[kp-rwin]>[kp-lalt]
+[kp-pup]>[kp-rwin]
+* ctrl-w
+{kp-pdown}>{speed9}{-rctrl}{w}{+rctrl}
+
+** number row fn keys
 [kp-=]>[F1]
-[caps]>[kpshift]
-[kp-caps]>[kpshift]
-[up]>[kpshift]
-[kp-up]>[kpshift]
-[down]>[lalt]
-[kp-down]>[lalt]
-[kp.]>[obrack]
-[kpenter2]>[cbrack]
-[right]>[kpshift]
-[kp-right]>[kpshift]
-[left]>[lalt]
-[kp-left]>[lalt]
-[intl-\]>[hyper]
+[kp-1]>[F2]
+[kp-2]>[F3]
+[kp-3]>[F4]
+[kp-4]>[F5]
+[kp-5]>[F6]
 [kp-6]>[F7]
 [numlk]>[F8]
 [kp=]>[F9]
-[kp-hyphen]>[F12]
 [kpdiv]>[F10]
 [kpmult]>[F11]
-[home]>[lwin]
-[kp-home]>[kp-lwin]
-[end]>[escape]
-[kp-end]>[kp-escape]
-[kp7]>[U]
-[kp8]>[I]
-[kp9]>[O]
-[kpmin]>[P]
-[kp0]>[space]
+[kp-hyphen]>[F12]
+
+** kp shift toggle layer keys
+[caps]>[kpshift]
+[kp-caps]>[kpshift]
+[right]>[kpshift]
+[kp-right]>[kpshift]
+[up]>[kpshift]
+[kp-up]>[kpshift]
+
+** alt
+[down]>[lalt]
+[kp-down]>[lalt]
+[left]>[lalt]
+[kp-left]>[lalt]
+
+** arrows hjkl kp layer
 [kp-H]>[kp-left]
 [kp4]>[down]
 [kp5]>[kp-up]
 [kp6]>[kp-right]
+
+** remove kp layer numpad
+[kp7]>[U]
+[kp8]>[I]
+[kp9]>[O]
+[kpmin]>[P]
 [kpplus]>[;]
-[rwin]>[kp-ralt]
-[kp-rwin]>[kp-lalt]
-[pup]>[rwin]
-[kp-pup]>[kp-rwin]
 [kp1]>[M]
 [kp2]>[,]
 [kp3]>[.]
 [kpenter1]>[/]
-{pdown}>{speed9}{-rctrl}{w}{+rctrl}
-{kp-pdown}>{speed9}{-rctrl}{w}{+rctrl}
+[kp.]>[obrack]
+[kpenter2]>[cbrack]
+[kp0]>[space]
+
+** hyper key
+[intl-\]>[hyper]

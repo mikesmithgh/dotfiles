@@ -7,3 +7,4 @@ status_play_speed=3
 power_user=true
 program_key_lock=OFF
 
+v_drive_open_on_startup=off
