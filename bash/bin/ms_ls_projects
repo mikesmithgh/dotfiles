@@ -7,9 +7,19 @@ if [ -f "$projects_cache" ]; then
   readarray -t project_dirs <"$projects_cache"
 else
   # repo directories
-  repo_proj_dirs=$(fd --color=never --exact-depth 1 --type directory --glob --search-path "${HOME}/repos" --search-path "${HOME}/gitrepos/" --exec realpath "{}")
-  # go directories
-  go_proj_dirs=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type d --exec realpath "{}")
+  search_path=''
+  if [ -d "$HOME/repos" ]; then
+    search_path='--search-path '"$HOME/repos"
+  fi
+  if [ -d "$HOME/gitrepos" ]; then
+    search_path=$search_path' --search-path '"$HOME/gitrepos"
+  fi
+  repo_proj_dirs=$(fd --color=never --exact-depth 1 --type directory --type symlink --glob $search_path --exec realpath "{}")
+
+  if [ -f "${GOPATH}/src" ]; then
+    # go directories
+    go_proj_dirs=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type directory --type symlink --exec realpath "{}")
+  fi
 
   DOTFILES_PROJECT_DIRS=$(printf "%s\n%s" "${repo_proj_dirs}" "${go_proj_dirs}" | sort -uf | tee "$projects_cache")
   project_dirs=("${DOTFILES_PROJECT_DIRS}")
