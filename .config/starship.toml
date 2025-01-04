@@ -17,7 +17,7 @@ $kubernetes\
 $jobs\
 $status\
 $line_break\
-$username [\\$](blue) \
+$username[@](prev_fg)$hostname [\\$](blue) \
 """
 
 palette = 'gruvsquirrel'
@@ -44,9 +44,17 @@ rocky_6 = '#878787'
 [username]
 style_user = 'green'
 style_root = 'red'
-format = '[${user}@local]($style)'
+format = '[$user]($style)'
 disabled = false
 show_always = true
+
+[hostname]
+style = 'green'
+format = '[$hostname]($style)'
+ssh_only = false
+disabled = false
+aliases = { 'Mac.fios-router.home' = 'local' }
+trim_at = ''
 
 [status]
 symbol = '[ $status](red)'
