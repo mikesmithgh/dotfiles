@@ -16,7 +16,7 @@ else
   fi
   repo_proj_dirs=$(fd --color=never --exact-depth 1 --type directory --type symlink --glob $search_path --exec realpath "{}")
 
-  if [ -f "${GOPATH}/src" ]; then
+  if [ -d "${GOPATH}/src" ]; then
     # go directories
     go_proj_dirs=$(fd --color=never --min-depth 2 --max-depth 3 --search-path "${GOPATH}/src" --type directory --type symlink --exec realpath "{}")
   fi
