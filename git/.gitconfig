@@ -50,7 +50,7 @@
   prettylog = %C(cyan nobold)commit %C(blue bold)%H%n%C(cyan nobold)parent %C(blue bold)%P%n%C(brightyellow bold)Author: %C(green nobold)%an %Creset%C(brightblack)<%ae>%Creset%n%C(brightyellow bold)Date:   %C(yellow nobold)%ad%n%n%C(reset)%w(50,4,4)%s%n%n%w(0,4,4)%b
 
 [delta]
-	pager = /opt/homebrew/bin/less -r
+	pager = less -r
 
   navigate = true
   side-by-side = true
