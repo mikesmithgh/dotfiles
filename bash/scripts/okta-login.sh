@@ -74,6 +74,10 @@ if [ "$password" = null ]; then
   # updateConfig '.okta.orgs."'"$org"'".users."'"$username"'".password = "'"$password"'"'
 fi
 
+# TODO: add more generalized escaping here
+password="${password//\\/\\\\}"
+password="${password//\"/\\\"}"
+
 authn_response=$(curl -s -X POST \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
