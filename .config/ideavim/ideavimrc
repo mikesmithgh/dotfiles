@@ -11,7 +11,11 @@
 
 set ideastatusicon=gray
 
+" nerdtree plugin
 set NERDTree
+
+" mini-ai plugin
+set mini-ai
 
 " change leader key from \ to space
 nnoremap <SPACE> <Nop>
