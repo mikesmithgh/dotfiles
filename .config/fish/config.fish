@@ -38,18 +38,10 @@ if status is-interactive
     # eza
     set --export EZA_COLORS 'uu=38;2;167;192;128:gu=38;2;167;192;128:uR=38;2;255;105;97:gR=38;2;255;105;97:un=90:gn=90'
 
-
     # go
     set --export GOPATH $HOME/go
     set --export GOARCH arm64
     set --export GOOS darwin
-
-    # sdkman (https://sdkman.io/)
-    # additional sdkman config in conf.d/config_sdk.fish
-    set --global --export SDKMAN_DIR /opt/homebrew/opt/sdkman-cli/libexec
-
-    # java (managed by sdkman)
-    set --global --export JAVA_HOME "$HOMEBREW_PREFIX/opt/sdkman-cli/libexec/candidates/java/current"
 
     # man
     set --global --export MANPAGER 'nvim +Man!'
@@ -65,7 +57,6 @@ if status is-interactive
 
     # only needed one time, uncomment on new install
     # mkdir -p '/Users/mike/.local/state/fzf/'
-
 
     if test "$TERM" = xterm-kitty
         set --export FZF_DEFAULT_OPTS '--border=thinblock --scrollbar=▊'
@@ -92,7 +83,6 @@ if status is-interactive
         "--bind=ctrl-f:reload(fd --color=always --strip-cwd-prefix --hidden --no-ignore)"
 
     set --export fzf_history_opts --prompt=" " --preview-window=bottom:40%,border-thinblock
-
 
     # dynamic libary lookup fallback currently used by image.nvim
     set --export --global DYLD_FALLBACK_LIBRARY_PATH /opt/homebrew/lib
