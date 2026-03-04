@@ -8,8 +8,6 @@ function favorites
             ~/gitrepos/ \
             ~/Pictures/screenshots/ \
             ~/Pictures/screenshots/starstruck/ \
-            ~/neorg/notes/ectd-data/ \
-            ~/neorg/notes/haq-data/ \
             ~/scripts/
 
         set --local dir (printf '%s\n' $dirs | fzf)
