@@ -136,6 +136,3 @@
 
 [url "ssh://git@gitlab.com"]
   insteadOf = https://gitlab.com/
-
-[includeIf "gitdir:~/repos/accumulus*/"]
-  path = ~/.config/accumulus/.gitconfig

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-cd "$GOPATH/src/github.com/kovidgoyal/kitty" || exit 1
+cd "$HOME/gitrepos/kitty" || exit 1
 git fetch
 printf '\nUpdates: \n'
 git --no-pager log --oneline '...@{u}'
