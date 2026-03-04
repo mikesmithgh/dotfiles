@@ -76,6 +76,8 @@ export PATH='/Users/mike/bin:/opt/homebrew/bin:/Users/mike/go/bin:/Users/mike/.c
 #   # osx and kitty specific
 #   if [[ "$TERM" == 'xterm-kitty' ]]; then
 #     # new instances of kitty will have the correct path
+#     # I deleted macos-launch-services-cmdline.template but left its content on the line below. lets improve this in the future, manually doing it for now
+#     # %s --override env=PYENV_SHELL="bash" --override env=PYENV_ROOT="/Users/mike/.config/pyenv" --single-instance
 #     cat ~/.config/kitty/macos-launch-services-cmdline.template | xargs -I {} printf "{}" "--override env=PATH=\"$PATH\"" >~/.config/kitty/macos-launch-services-cmdline
 #   fi
 # fi

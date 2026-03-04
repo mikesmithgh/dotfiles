@@ -1,3 +1,4 @@
+# provided by smart-splits.nvim
 from kitty.key_encoding import KeyEvent, parse_shortcut
 from kittens.tui.handler import result_handler
 
