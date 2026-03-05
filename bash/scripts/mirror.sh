@@ -49,6 +49,9 @@ for repo_name in "${mirror_repos[@]}"; do
 
     # failures during push may be safe to ignore and we want to continue progressing for other remotes
     # example: remote: Forgejo: The deletion of refs/pull/82/merge is skipped as it's an internal reference.
+    # example: ! [remote rejected] refs/pull/1/head -> refs/pull/1/head (deny updating a hidden ref)
+    #
+    # codeberg does not allhow github specific pull request refs, Gitea marks 'refs/pull/*' as hidden refs
     set +e
 
     if ((${#git_push_args[@]})); then
