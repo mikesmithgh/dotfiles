@@ -19,8 +19,6 @@ mirror_repos=(
   'mikesmithgh.github.io'
   'nvim'
   'pdubs'
-  'render.nvim'
-  'render.nvim.wiki'
   'ugbi'
   'vimpromptu'
   # private
