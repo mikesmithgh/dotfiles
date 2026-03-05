@@ -67,6 +67,7 @@ rm -rf "$mirror_dir"
 
 # suggested setup
 # create a cron and add identify file for each git host
+# this assumes apple keychain has password and is loaded in ssh-agent
 
 # ~/.ssh/config
 # Host github.com
@@ -85,4 +86,4 @@ rm -rf "$mirror_dir"
 #   IdentityFile ~/.ssh/id_ed25519
 
 # crontab
-# 30 2 * * * /.../dotfiles/bash/scripts/github-mirror.sh >> /.../tmp/github-mirror.log 2>&1
+# 30 2 * * * /.../dotfiles/bash/scripts/github-mirror.sh > /.../tmp/github-mirror.log 2>&1
