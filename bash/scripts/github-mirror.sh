@@ -64,3 +64,25 @@ for repo_name in "${mirror_repos[@]}"; do
 done
 
 rm -rf "$mirror_dir"
+
+# suggested setup
+# create a cron and add identify file for each git host
+
+# ~/.ssh/config
+# Host github.com
+#   AddKeysToAgent yes
+#   UseKeychain yes
+#   IdentityFile ~/.ssh/id_ed25519
+#
+# Host gitlab.com
+#   AddKeysToAgent yes
+#   UseKeychain yes
+#   IdentityFile ~/.ssh/id_ed25519
+#
+# Host codeberg.org
+#   AddKeysToAgent yes
+#   UseKeychain yes
+#   IdentityFile ~/.ssh/id_ed25519
+
+# crontab
+# 30 2 * * * /.../dotfiles/bash/scripts/github-mirror.sh >> /.../tmp/github-mirror.log 2>&1
