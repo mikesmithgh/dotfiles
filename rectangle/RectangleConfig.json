@@ -194,10 +194,10 @@
       "int" : 0
     },
     "specifiedHeight" : {
-      "float" : 1050
+      "float" : 800
     },
     "specifiedWidth" : {
-      "float" : 1680
+      "float" : 2000
     },
     "stageSize" : {
       "float" : 190
@@ -263,6 +263,10 @@
     },
     "rightHalf" : {
       "keyCode" : 124,
+      "modifierFlags" : 1048576
+    },
+    "specified" : {
+      "keyCode" : 46,
       "modifierFlags" : 1048576
     },
     "toggleTodo" : {
