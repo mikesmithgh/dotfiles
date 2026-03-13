@@ -48,10 +48,12 @@ if status is-interactive
 
     # ssh
     # check if any identities added to ssh agent, if not then add default identities
-    # run in background in a subshell
     if not ssh-add -l 1>/dev/null
-        ms_comment '%s\n' "Adding identity and storing passphrase in user's keychain"
-        ms_comment '%s\n' (ssh-add --apple-use-keychain 2>&1)
+        # ignore if using 1password as ssh agent
+        if not ssh -G . | string match -q --regex '^identityagent.*1password.*agent.sock$'
+            ms_comment '%s\n' "Adding identity and storing passphrase in user's keychain"
+            ms_comment '%s\n' (ssh-add --apple-use-keychain 2>&1)
+        end
     end
 
     # fzf
