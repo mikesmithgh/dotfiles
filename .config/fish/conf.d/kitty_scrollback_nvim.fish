@@ -1,3 +1,7 @@
+if not status is-interactive
+    return
+end
+
 # add the following function and bindings to your fish config (e.g., ~/.config/fish/config.fish) 
 
 function kitty_scrollback_edit_command_buffer

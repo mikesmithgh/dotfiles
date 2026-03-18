@@ -1,3 +1,7 @@
+if not status is-interactive
+    return
+end
+
 abbr --add vi nvim
 abbr --add vim nvim
 abbr --add vimdiff nvim -d
