@@ -7,7 +7,7 @@
   default = current
 
 [core]
-  excludesfile = /Users/mike/.gitignore
+  excludesfile = ~/.gitignore
   autocrlf = input
   editor = nvim
 	; pager = /opt/homebrew/bin/less
