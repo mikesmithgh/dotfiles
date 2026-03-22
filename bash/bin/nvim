@@ -5,7 +5,7 @@ neovim_repo="$HOME/gitrepos/neovim"
 export VIMRUNTIME="$neovim_repo/runtime"
 nvim_cmd="$neovim_repo/build/bin/nvim"
 
-if [[ -f "$nvim_cmd" ]]; then
+if [[ "$BOBNVIM" != "true" ]] && [[ -f "$nvim_cmd" ]]; then
   exec "$nvim_cmd" "$@"
   exit "$?"
 else
