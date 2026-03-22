@@ -9,3 +9,6 @@ abbr --add k kubectl
 abbr --add kx kubectx
 abbr --add g git
 abbr --add notes "cd $HOME/neorg/notes"
+
+abbr --add sprint "cd $HOME/neorg/notes; nvim (fd --max-depth 1 --type file 'sprint-.*\.norg' | tail -1)"
+abbr --add index "cd $HOME/neorg/notes; nvim +'Neorg index'"
