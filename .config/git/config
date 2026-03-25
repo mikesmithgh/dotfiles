@@ -7,7 +7,7 @@
   default = current
 
 [core]
-  excludesfile = ~/.gitignore
+	excludesFile = ~/.config/git/ignore
   autocrlf = input
   editor = nvim
 	; pager = /opt/homebrew/bin/less
@@ -128,3 +128,6 @@
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
+
+[include]
+    path = ~/.config/git/private/private.gitconfig
