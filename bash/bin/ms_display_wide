@@ -1,2 +1,8 @@
 #!/usr/bin/env bash
-displayplacer "id:F70FC27C-BAE3-452C-B950-C82532E6D27D res:3440x1440 hz:50 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:DD4CEBA0-7383-402C-819F-C433822A82BE res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(3440,360) degree:0"
+# open Displays, select 3440 x 1440 for main monitor, then run: displayplacer list
+# replace the command in this script with the generated command
+if [[ -n "$MIKE_WORK" ]]; then
+  displayplacer "id:BE20A3D1-01E6-4221-8837-46EC39AAE433 res:3440x1440 hz:60 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:37D8832A-2D66-02CA-B9F7-8F30A301B230 res:1728x1117 hz:120 color_depth:8 enabled:true scaling:on origin:(-1728,143) degree:0" "id:1BCE635F-9E1F-4807-852D-CE920E42BCF1 res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(3440,143) degree:0"
+else
+  displayplacer "id:F70FC27C-BAE3-452C-B950-C82532E6D27D res:3440x1440 hz:50 color_depth:8 enabled:true scaling:off origin:(0,0) degree:0" "id:DD4CEBA0-7383-402C-819F-C433822A82BE res:1920x1080 hz:60 color_depth:8 enabled:true scaling:off origin:(3440,360) degree:0"
+fi
