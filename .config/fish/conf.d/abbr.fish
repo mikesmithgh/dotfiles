@@ -4,6 +4,7 @@ end
 
 abbr --add vi nvim
 abbr --add vim nvim
+abbr --add bnvim bobnvim
 abbr --add vimdiff nvim -d
 abbr --add k kubectl
 abbr --add kx kubectx
