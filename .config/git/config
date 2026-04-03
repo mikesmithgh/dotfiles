@@ -84,7 +84,12 @@
   alias = "! git config --get-regexp ^alias\\. | sed -e s_^alias\\._\"$(printf '%b' '\\033[38;5;173m')\"_ -e s_\\ _\"$(printf '%b%s%b' '\\033[0m' '☠' '\\033[38;5;150m')\"_ | grep -v alias | column -n -t -s '☠'"
   br = ! git --no-pager branch -vv
   cbr = symbolic-ref --short HEAD
-  ci = ! GIT_EDITOR='nvim -c \":Git! log -10 | normal! K$\"' git commit -v
+  ci = ! GIT_EDITOR='nvim -c \":Git! log -10 | normal! Kgg$\"' git commit -v
+  cich = ! git ci --template $XDG_CONFIG_HOME/git/template/chore.gitcommit
+  cife = ! git ci --template $XDG_CONFIG_HOME/git/template/feature.gitcommit
+  cill = commit --message 'chore(lazy): update lazy-lock'
+  cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
+  cibr = "! args=$@; shift $#; ms_git_cibr $args"
   cl = ! git --no-pager log
   co = checkout
   dprev = branch -D @{-1}
@@ -111,8 +116,6 @@
   wip = ! git add . && git commit -a -n -m \"work in progress\"
   cinoreply = ! git commit --author='Mike Smith <10135646+mjsmith1028@users.noreply.github.com>'
   cisign = ! git commit --author='Mike Smith <10135646+mikesmithgh@users.noreply.github.com>' -e -m 'Signed-off-by: Mike Smith <10135646+mikesmithgh@users.noreply.github.com>'
-  cipr = ! git commit -e -m \"$(git mlmessage -100 | egrep -m 1 -o '\\[.*[0-9]+]' | tr [:lower:] [:upper:] | xargs -I {} printf '%s:' '' {})\"
-  cibr = "! args=$@; shift $#; ms_git_cibr $args"
   root = rev-parse --show-toplevel
 
 [fetch]
