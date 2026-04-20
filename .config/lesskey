@@ -1,8 +1,8 @@
 #command
-v noaction g|$/Users/mike/gitrepos/neovim/build/bin/nvim +BaleiaLess\r
+v noaction g|$nvim +TermHl\r
 e visual
 ^j noaction jjj
 ^k noaction kkk
-f noaction g|$/opt/homebrew/bin/fzf --ansi\r
+f noaction g|$fzf --ansi\r
 \e quit
 
