@@ -92,6 +92,7 @@
   cibr = "! args=$@; shift $#; ms_git_cibr $args"
   cl = ! git --no-pager log
   co = checkout
+  sw = switch
   dprev = branch -D @{-1}
   d = diff
   ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
