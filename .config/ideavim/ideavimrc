@@ -115,7 +115,6 @@ set showcmd
 
 " Disable bell sounds
 set visualbell
-set noerrorbells
 
 " in progress
 
@@ -171,8 +170,26 @@ nmap ]c <Action>(VcsShowNextChangeMarker)
 
 " sethandler <C-D> a:ide
 
-" :command! Kitty ! kitty --override 'env=PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.' --override 'macos_quit_when_last_window_closed yes' >&/dev/null
+" External Tool configurations:
+
+" Name: Kitty
+" Program: open
+" Arguments: -na kitty --args --single-instance=no --directory $ProjectFileDir$
+" Working directory: $ProjectFileDir$
+
+" Name: Kitty git dt
+" Program: open
+" Arguments: -na kitty --args --single-instance=no --directory $ProjectFileDir$ git dt
+" Working directory: $ProjectFileDir$
+
+" Name: Kitty nvim
+" Program: open
+" Arguments: -na kitty --args --single-instance=no --hold --directory $ProjectFileDir$ nvim
+" Working directory: $ProjectFileDir$
+
 :command! Kitty action Tool_External Tools_Kitty
+:command! GitDt action Tool_External Tools_Kitty git dt
+:command! Nvim action Tool_External Tools_Kitty nvim
 
 " just playing around
 
