@@ -2,7 +2,7 @@
 
 set -e
 
-pinned='4ed597389c33fe22911d1d8bad93173ec24920cb'
+pinned='e572c9c80a6ec6d4eb25410e8aab9b7b2d33d1c1'
 
 cd "$HOME/gitrepos/neovim" || exit 1
 
