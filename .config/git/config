@@ -96,8 +96,8 @@
   sw = switch
   dprev = branch -D @{-1}
   d = diff
-  ; dt = "! args=$@; shift $#; nvim -c \"Gcd\" -c \"Git difftool -y $args\""
-  dt = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
+  diffview = "! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
+  dt = diffview
   f = ! bash -ic 'ms_git_f'
   graph = log --graph --format=prettyoneline
   l = ! git --no-pager lv --max-count=10
