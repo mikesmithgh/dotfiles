@@ -4,8 +4,10 @@
     "command": "bash $XDG_CONFIG_HOME/claude/statusline-command.sh"
   },
   "enabledPlugins": {
-    "gopls-lsp@claude-plugins-official": true
+    "gopls-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
   },
   "extraKnownMarketplaces": {},
   "tui": "default"
 }
+
