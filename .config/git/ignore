@@ -3,3 +3,5 @@
 tmp/
 Session.vim
 .worktrees/
+
+**/.claude/settings.local.json
