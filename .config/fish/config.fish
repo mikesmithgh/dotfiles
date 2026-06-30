@@ -6,7 +6,7 @@ set script_dir (dirname (status current-filename))
 
 # xdg base directories (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 set --global --export XDG_RUNTIME_DIR (mktemp -u -t $USER)
-mkdir -p "$XDG_RUNTIME_DIR" & # this directory is important for neovim vim.fn.serverstart (used by fzf-lua)
+mkdir -m 700 -p "$XDG_RUNTIME_DIR" & # mode 0700 per XDG spec (1Password refuses looser perms); important for neovim vim.fn.serverstart (used by fzf-lua)
 
 set --global --export XDG_CONFIG_HOME "$HOME/.config"
 set --global --export XDG_DATA_HOME "$HOME/.local/share"
