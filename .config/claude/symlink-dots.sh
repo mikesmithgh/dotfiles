@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 on_exit() {
   local rc=$?
@@ -16,6 +17,7 @@ mkdir -p "$config_dir"
 files=(
   "settings.json"
   "statusline-command.sh"
+  "CLAUDE.md"
 )
 
 for f in "${files[@]}"; do
