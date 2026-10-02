@@ -33,6 +33,13 @@ set -q MANPATH; and set MANPATH[1] ":$(string trim --left --chars=":" $MANPATH[1
 ! set -q INFOPATH; and set INFOPATH ''
 set --global --export INFOPATH /opt/homebrew/share/info $INFOPATH
 
+# node
+if type -q fnm
+    # must come after the homebrew fish_add_path above so fnm shadows /opt/homebrew/bin/node.
+    # recursive strategy lets .node-version resolve from repo subdirectories, not just the root.
+    fnm env --use-on-cd --version-file-strategy=recursive --shell fish | source
+end
+
 # eza
 set --global --export EZA_COLORS 'uu=38;2;167;192;128:gu=38;2;167;192;128:uR=38;2;255;105;97:gR=38;2;255;105;97:un=90:gn=90'
 
@@ -45,14 +52,18 @@ set --global --export GOOS darwin
 set --global --export MANPAGER 'nvim +Man!'
 
 # ssh
-if not ssh-add -l 1>/dev/null
+if not ssh-add -l 1>/dev/null 2>&1
     if ssh -G . | string match -q --regex '^identityagent.*1password.*agent.sock$'
         # using 1Password for ssh key management
         ms_warn '%s\n' 'tip: check if 1Password is running'
     else
         # use apple keychain for passphrases
-        ms_comment '%s\n' "Adding identity and storing passphrase in user's keychain"
-        ms_comment '%s\n' (ssh-add --apple-use-keychain 2>&1)
+        # ssh-add with no args only picks up default key names, so add keys by convention: ~/.ssh/id_ed25519*
+        ms_comment '%s\n' "Adding identities and storing passphrases in user's keychain"
+        for key in ~/.ssh/id_ed25519*
+            string match -q '*.pub' $key; and continue
+            ms_comment '%s\n' (ssh-add --apple-use-keychain $key 2>&1)
+        end
     end
 end
 
