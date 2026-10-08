@@ -34,8 +34,18 @@ defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool fa
 # enable auto hiding of the dock
 defaults write com.apple.dock autohide -bool true
 
+# disable Displays have separate Spaces
+defaults write com.apple.spaces spans-displays -bool true
+
+# disable Drag windows to top of screen to enter Mission Control
+defaults write com.apple.dock enter-mission-control-by-top-window-drag -bool false
+
 # disable natural scrolling
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
+
+# iPhone simulator save screenshots to screenshots directory
+defaults write com.apple.iphonesimulator ScreenShotSaveLocation -string ~/Pictures/screenshots
+defaults write com.apple.dt.Devices ScreenShotSaveLocation -string ~/Pictures/screenshots
 
 set login_shell (which fish)
 echo "Setting login shell to $login_shell, current shell $SHELL"
