@@ -45,7 +45,6 @@ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
 # iPhone simulator save screenshots to screenshots directory
 defaults write com.apple.iphonesimulator ScreenShotSaveLocation -string ~/Pictures/screenshots
-defaults write com.apple.dt.Devices ScreenShotSaveLocation -string ~/Pictures/screenshots
 
 set login_shell (which fish)
 echo "Setting login shell to $login_shell, current shell $SHELL"
